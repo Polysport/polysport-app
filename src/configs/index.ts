@@ -4,3 +4,15 @@ export const APP_URL: string =
     : "http://localhost:3000";
 
 export const PAGE_SIZE = 10;
+
+export enum GRADE {
+  BRONZE = 0,
+  SILVER = 1,
+  GOLD = 2,
+}
+
+export const GRADE_PRICE = {
+  [GRADE.BRONZE]: "100",
+  [GRADE.SILVER]: "200",
+  [GRADE.GOLD]: "300",
+};
