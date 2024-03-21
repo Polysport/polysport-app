@@ -1,0 +1,12 @@
+.shadow-btn:hover {
+  box-shadow: 0 2px 12px #931e80;
+}
+
+.text-stroke {
+  margin-top: 16px;
+  font-size: 24px;
+  font-weight: 700;
+  -webkit-text-stroke: 1px #9516e4;
+  /* width and color */
+  color: white;
+}

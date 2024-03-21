@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://dino-farm.vercel.app/
+
+# Sitemaps
+Sitemap: https://dino-farm.vercel.app/sitemap.xml
