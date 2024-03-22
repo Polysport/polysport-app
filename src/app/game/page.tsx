@@ -83,7 +83,7 @@ export default function GamePage() {
         tokenBalance,
         nfts: nft.nfts ?? [],
         clicks: clicks.clicks,
-        earnings,
+        earnings: earnings.earnings,
         board: board?.board ?? [],
       };
     },
@@ -169,6 +169,51 @@ export default function GamePage() {
       );
     }
   }, [chainId, address, signer, openConnectModal, selectedNftBurn]);
+
+  const handleWithdraw = useCallback(async () => {
+    if (!signer) return openConnectModal?.();
+
+    if (!userStats?.earnings) return toast.error("Nothing to withdraw");
+
+    if (
+      !confirm(
+        "There is a 40% withdrawal penalty for withdrawing less than 24 hours before your earnings and a 15% penalty for withdrawing less than 72 hours before your earnings. Please be aware of this before continuing."
+      )
+    ) {
+      return;
+    }
+
+    try {
+      if (submitting) return;
+      if (!signer) return openConnectModal?.();
+      const signature = await signer.signMessage("WITHDRAW");
+
+      const resp = await fetch(`${GAME_API}/withdrawEarnings`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "text/plain",
+        },
+        method: "POST",
+        body: JSON.stringify({
+          address: address,
+          signature: signature,
+          amount: userStats?.earnings,
+        }),
+      });
+      const message = (await resp.json()).message;
+      useRootStore.setState({ txHash: Date.now().toString() });
+      toast.success("Withdrawal successful!");
+    } catch (error: any) {
+      setSubmitting(false);
+      toast.error(
+        error?.error?.data?.message ||
+          error?.reason ||
+          error?.data?.message ||
+          error?.message ||
+          error
+      );
+    }
+  }, [chainId, address, signer, openConnectModal, userStats?.earnings]);
 
   return (
     <div>
@@ -260,7 +305,9 @@ export default function GamePage() {
                   <div className="game-info-item">
                     <label>Reward Winner</label>
                     <div className="frame">
-                      <span id="rewardWinner">{numberWithCommas(0)} PLS</span>
+                      <span id="rewardWinner">
+                        {numberWithCommas(userStats?.earnings ?? 0)} PLS
+                      </span>
                     </div>
                   </div>
                   <div className="game-info-item">
@@ -288,6 +335,7 @@ export default function GamePage() {
                     className="cursor-pointer"
                   />
                   <img
+                    onClick={handleWithdraw}
                     id="iconWithdraw"
                     src="/assets/images/money-withdrawal.png"
                     alt="withdraw"

@@ -18,4 +18,5 @@ export const GRADE_PRICE = {
 };
 
 export const GAME_API =
+  // "http://127.0.0.1:5001/polysport-api/us-central1";
   "https://api-functions.polysport.finance/polysport-f2a9b/us-central1";
