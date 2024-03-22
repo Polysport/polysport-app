@@ -38,7 +38,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-gray-300 max-sm:hidden mt-3 text-[20px] font-medium">
-              2023 Â© Copyright POLYSPORT. All Rights Reserved
+              2023 © Copyright POLYSPORT. All Rights Reserved
             </p>
           </div>
           <div className="max-sm:my-6 flex sm:flex-col max-sm:flex-wrap gap-y-5 gap-x-4 sm:justify-between text-[20px] font-bold">
@@ -110,7 +110,7 @@ export default function Footer() {
             </div>
           </div>
           <p className="text-gray-300 sm:hidden text-[14px] font-medium">
-            {new Date().getFullYear()} Â© Copyright POLYSPORT. All Rights
+            {new Date().getFullYear()} © Copyright POLYSPORT. All Rights
             Reserved
           </p>
         </div>

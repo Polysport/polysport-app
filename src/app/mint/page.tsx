@@ -1,6 +1,6 @@
 "use client";
 
-import { GRADE } from "@/configs";
+import { GAME_API, GRADE } from "@/configs";
 import { mintNft } from "@/services";
 import "@/styles/mint.css";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
@@ -17,10 +17,6 @@ export default function MintPage() {
 
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [gradeSubmitting, setGradeSubmitting] = useState<GRADE | undefined>();
-  console.log(
-    "🚀 ~ file: page.tsx:20 ~ MintPage ~ gradeSubmitting:",
-    gradeSubmitting
-  );
 
   const handleMint = useCallback(
     async (grade: GRADE) => {
@@ -29,7 +25,8 @@ export default function MintPage() {
         if (!signer) return openConnectModal?.();
         setSubmitting(true);
         setGradeSubmitting(grade);
-        let result = await mintNft(chainId, signer!, grade);
+        let tx = await mintNft(chainId, signer!, grade);
+        await fetch(`${GAME_API}/directProcessMintedNft?txHash=${tx.txHash}`);
         setGradeSubmitting(undefined);
         setSubmitting(false);
 

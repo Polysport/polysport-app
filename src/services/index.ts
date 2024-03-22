@@ -5,6 +5,16 @@ import { getNftContract, getTokenContract } from "./getContract";
 import { getProvider } from "@/utils/wagmi/provider";
 import { GRADE, GRADE_PRICE } from "@/configs";
 
+export const getTokenBalance = async (chainId: ChainId, address: Address) => {
+  try {
+    const tokenContract = getTokenContract(chainId!, getProvider(chainId));
+    const balance = await tokenContract.balanceOf(address);
+    return ethers.utils.formatEther(balance);
+  } catch (error) {
+    return "0";
+  }
+};
+
 export const mintNft = async (
   chainId: ChainId,
   signer: ethers.Signer,
@@ -18,11 +28,28 @@ export const mintNft = async (
   let approveTx = await tokenContract.approve(nftContract.address, tokenAmount);
   await approveTx.wait();
 
-  console.log(1, +grade);
   await nftContract.callStatic.mint(1, +grade);
   const tx: ethers.providers.TransactionResponse = await nftContract.mint(
     1,
     +grade
+  );
+  const result: ethers.providers.TransactionReceipt = await tx.wait();
+
+  return {
+    txHash: result.transactionHash,
+  };
+};
+
+export const burnNft = async (
+  chainId: ChainId,
+  signer: ethers.Signer,
+  nftId: number
+) => {
+  const nftContract = getNftContract(chainId!, signer);
+
+  await nftContract.callStatic.burn(nftId);
+  const tx: ethers.providers.TransactionResponse = await nftContract.burn(
+    nftId
   );
   const result: ethers.providers.TransactionReceipt = await tx.wait();
 

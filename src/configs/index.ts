@@ -16,3 +16,6 @@ export const GRADE_PRICE = {
   [GRADE.SILVER]: "200",
   [GRADE.GOLD]: "300",
 };
+
+export const GAME_API =
+  "https://api-functions.polysport.finance/polysport-f2a9b/us-central1";
