@@ -1,19 +1,38 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Russo+One&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 * {
-  font-family: "Poppins" !important;
+  font-family: "Poppins", sans-serif;
   color: white;
 }
 
-body {
-  background: #1a1a1a !important;
+.russo-one-font {
+  font-family: "Russo One", sans-serif !important;
 }
 
-button {
-  color: #000;
+body {
+  background-color: #000 !important;
+  /* background-image: url("/assets/images/background/bg_img.png") !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; */
+}
+
+.bg_img {
+  background-image: url("/assets/images/background/bg_img.png") !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.bg_product_card {
+  background-image: url("/assets/images/home/bg_product_card.svg") !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* background-size: contain; */
 }
 
 button.primary {
@@ -984,4 +1003,39 @@ body::-webkit-scrollbar {
 
 .iekbcc0 {
   color: #000;
+}
+
+.bg_header {
+  background-image: url("/assets/images/bg_header.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg_btn_primary {
+  background-image: url("/assets/images/bg_btn_primary.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  color: #fff;
+  text-align: center;
+  font-family: "Russo One";
+  font-style: normal;
+  font-weight: 400;
+  height: auto;
+  /* line-height: 79px; */
+}
+
+.bg_btn_normal {
+  background-image: url("/assets/images/bg_btn_normal.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  color: #fff;
+  text-align: center;
+  font-family: "Russo One";
+  font-style: normal;
+  font-weight: 400;
+  height: auto;
+  /* line-height: 79px; */
 }

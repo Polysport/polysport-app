@@ -27,7 +27,7 @@ export default function DefaultLayout({
           </div>
         </div> */}
         <Header />
-        <div>{children}</div>
+        <div className="pt-[61px] md:pt[-84px] pb-[78px]">{children}</div>
         <Footer />
       </RainbowKitProvider>
     </WagmiConfig>

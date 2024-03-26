@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Button from "../Button";
 
 function WalletConnectBtn() {
   return (
@@ -24,71 +25,36 @@ function WalletConnectBtn() {
             chain &&
             (!authenticationStatus || authenticationStatus === "authenticated");
           const address = account?.address;
-          const truncatedAddress =
-            address && `${address.slice(0, 6)}...${address.slice(-4)}`;
+          const truncatedAddress = address
+            ? `${address.slice(0, 6)}...${address.slice(-4)}`
+            : "";
 
           if (!connected) {
             return (
-              <div
-                onClick={openConnectModal}
-                id="wrapper-btn-wallet"
-                className="relative shadow-btn rounded-[16px] transition-all cursor-pointer"
-              >
-                <div
-                  id="btnConnectMM"
-                  className="button-connect-wallet border-btn h-full px-5 py-2 flex-1 max-w-[180px] max-md:w-[160px] text-center"
-                >
-                  <p
-                    id="btnConnectSuccess"
-                    className="font-russo-one whitespace-nowrap"
-                  >
-                    Connect Wallet
-                  </p>
-                </div>
-              </div>
+              <Button
+                handler={openConnectModal}
+                text="Connect Wallet"
+                className="text-[12px] md:text-[16px] w-[147px] md:w-[195px]"
+              />
             );
           }
 
           if (chain.unsupported) {
             return (
-              <div
-                onClick={openChainModal}
-                id="wrapper-btn-wallet"
-                className="relative shadow-btn rounded-[16px] transition-all cursor-pointer"
-              >
-                <div
-                  id="btnConnectMM"
-                  className="button-connect-wallet border-btn h-full px-5 py-2 flex-1 max-w-[180px] max-md:w-[160px] text-center"
-                >
-                  <p
-                    id="btnConnectSuccess"
-                    className="font-russo-one whitespace-nowrap"
-                  >
-                    Connect Wallet
-                  </p>
-                </div>
-              </div>
+              <Button
+                handler={openChainModal}
+                text="Unsupported Network"
+                className="text-[12px] md:text-[16px] w-[147px] md:w-[195px]"
+              />
             );
           }
 
           return (
-            <div
-              onClick={openAccountModal}
-              id="wrapper-btn-wallet"
-              className="relative shadow-btn rounded-[16px] transition-all cursor-pointer"
-            >
-              <div
-                id="btnConnectMM"
-                className="button-connect-wallet border-btn h-full px-5 py-2 flex-1 max-w-[180px] max-md:w-[160px] text-center"
-              >
-                <p
-                  id="btnConnectSuccess"
-                  className="font-russo-one whitespace-nowrap"
-                >
-                  {truncatedAddress}
-                </p>
-              </div>
-            </div>
+            <Button
+              handler={openChainModal}
+              text={truncatedAddress}
+              className="text-[12px] md:text-[16px] w-[147px] md:w-[195px]"
+            />
           );
         }}
       </ConnectButton.Custom>

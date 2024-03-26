@@ -1,60 +1,52 @@
 "use client";
 
-import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { useCallback } from "react";
-import { useAccount, useBalance, useChainId, useSigner } from "wagmi";
+import Button from "@/components/Button";
+import Link from "next/link";
 
 export default function Home() {
-  const { address, isConnected } = useAccount();
-  const { data: signer } = useSigner();
-  const chainId = useChainId();
-  const { openConnectModal } = useConnectModal();
-
-  const { data: balance } = useBalance({ address, chainId, watch: true });
-
-  const handleConnect = useCallback(
-    () => openConnectModal && openConnectModal(),
-    [openConnectModal]
-  );
-
   return (
     <div>
       {/* Banner */}
       <div className="mx-auto">
-        <div className="relative z-0">
+        <div className="relative home_banner">
+          {/* <img
+            className="md:hidden w-full z-[-1]"
+            src="/assets/images/background/home_banner_mobile.png"
+          /> */}
           <img
-            id="bg-banner-v2"
-            className="w-full z-[-1]"
-            src="/assets/images/banner_home_v2.png"
+            className="xl:hidden w-full z-[-1]"
+            src="/assets/images/background/home_banner_tablet.png"
           />
-          <div className="flex flex-col justify-between lg:h-[50%] gap-y-5 max-lg:items-center absolute lg:top-1/2 max-lg:bottom-[10%] left-[10%] max-lg:left-[50%] max-lg:-translate-x-1/2 lg:-translate-y-1/2">
+          <img
+            className="hidden xl:block w-full z-[-1]"
+            src="/assets/images/background/home_banner_pc.png"
+          />
+          <div className="flex flex-col justify-between gap-y-5 max-lg:items-center absolute bottom-0 xl:bottom-1/2 left-1/2 xl:left-[10%] -translate-x-1/2 xl:translate-x-0 xl:translate-y-1/2">
             <div>
               <div className="relative">
-                <p className="text-gradient-banner font-russo-one text-[100px] max-lg:text-[70px] leading-[80px] max-lg:leading-[70px] max-lg:text-center">
+                <p className="text-gradient-banner font-russo-one text-[100px] max-lg:text-[70px] leading-[80px] max-lg:leading-[70px] max-xl:text-center">
                   POLY
                   <br />
                   SPORT
                 </p>
-                <p className="absolute text-[#E40FAC] left-0 max-lg:left-1/2 max-lg:-translate-x-1/2 top-[2px] z-[-1] font-russo-one text-[100px] max-lg:text-[70px] leading-[80px] max-lg:leading-[70px] max-lg:text-center">
+                <p className="absolute text-[#E40FAC] left-0 max-lg:left-1/2 max-lg:-translate-x-1/2 top-[2px] z-[-1] font-russo-one text-[100px] max-lg:text-[70px] leading-[80px] max-lg:leading-[70px] max-xl:text-center">
                   POLY
                   <br />
                   SPORT
                 </p>
               </div>
-              <p className="font-russo-one text-[50px] max-lg:text-[35px] leading-[50px] max-lg:text-center">
+              <p className="font-russo-one text-[40px] max-lg:text-[35px] leading-[50px] max-xl:text-center">
                 FOOTBALL
                 <br />
                 CARD GAME
               </p>
             </div>
-            <div
-              // onclick="window.location='./mint'"
-              className="button-connect-wallet shadow-btn cursor-pointer relative flex w-fit max-sm:w-full border border-white/40 rounded-[16px]"
-            >
-              <p className="font-russo-one text-[40px] py-2 px-5 max-sm:text-[20px] max-sm:text-center max-sm:w-full">
-                PLAY GAME
-              </p>
-            </div>
+            <Link href="/game" className="text-center xl:text-start">
+              <Button
+                text="PLAY GAME"
+                className="w-[318px] md:w-[389px] text-[20px]"
+              />
+            </Link>
             <div
               style={{ scrollBehavior: "smooth" }}
               id="scrollContainer"
@@ -118,12 +110,12 @@ export default function Home() {
               className="max-sm:w-[70%]"
               src="/assets/images/avt_about_v2.png"
             />
-            <div className="">
+            <div className="w-full">
               <div className="flex gap-x-[10px]">
                 <div className="h-5 aspect-square">
                   <img src="/assets/diamond.svg" />
                 </div>
-                <p className="text-[#C6C6C6] text-sm max-sm:text-[12px] mb-[10px]">
+                <p className="text-[#C6C6C6] text-[12px] md:text-[18px] xl:text-[16px] mb-[10px]">
                   Polysport is a digital flipping card game that uses blockchain
                   technology. Fusion of Polygon, gaming, and offering economic
                   incentives through play-to-earn models.
@@ -133,19 +125,22 @@ export default function Home() {
                 <div className="h-5 aspect-square">
                   <img src="/assets/diamond.svg" />
                 </div>
-                <p className="text-[#C6C6C6] text-sm max-sm:text-[12px]  mb-[10px]">
+                <p className="text-[#C6C6C6] text-[12px] md:text-[18px] xl:text-[16px] mb-[10px]">
                   Polysport is a game, first and foremost, not an investment
                   vehicle, and a game that is still in development.
                 </p>
               </div>
-              <a
-                href="https://polysport.gitbook.io/polysport"
-                className="shadow-btn button-connect-wallet border-btn cursor-pointer relative flex w-fit mt-10 max-md:mt-5 max-md:mx-auto"
-              >
-                <p className="font-russo-one py-2 px-5 md:text-[20px]">
-                  Doccument
-                </p>
-              </a>
+              <div className="text-center md:text-left">
+                <Link
+                  href="https://polysport.gitbook.io/polysport"
+                  target="_blank"
+                >
+                  <Button
+                    text="Document"
+                    className="w-[231px] md:w[288px] xl:w-[206px] text-[20px] md:text-[40px] xl:text-[16px]"
+                  />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -279,7 +274,7 @@ export default function Home() {
         <div className="">
           <div className="">
             <p className="text-[60px] max-sm:text-[30px] text-center font-russo-one">
-              How to play the game ?
+              How to play?
             </p>
           </div>
           <div className="mt-10 max-sm:mt-5">
@@ -437,14 +432,12 @@ export default function Home() {
                     and requires players to create an account or connect an
                     existing Web3 wallet like Meta Mask to get started.
                   </p>
-                  <a
-                    href="https://polysport.gitbook.io/polysport"
-                    className="shadow-btn button-connect-wallet border-btn cursor-pointer relative flex w-fit mt-10 max-md:mt-5 max-md:mx-auto"
-                  >
-                    <p className="font-russo-one py-2 px-5 md:text-[20px]">
-                      Doccument
-                    </p>
-                  </a>
+                  <Link href="/game" className="text-center xl:text-start">
+                    <Button
+                      text="PLAY GAME"
+                      className="w-[205px] text-[16px]"
+                    />
+                  </Link>
                 </div>
               </div>
             </div>
@@ -591,18 +584,19 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex justify-between w-full gap-x-[48px] max-sm:gap-x-5 mt-[30px] max-sm:mt-5">
-                <a
+                <Link
                   href="https://polysport.gitbook.io/polysport"
-                  className="w-full relative grid place-items-center py-5 border-btn hover:border-white cursor-pointer"
+                  target="_blank"
+                  className="flex-1 text-center xl:text-start"
                 >
-                  <p>See Tutorial</p>
-                </a>
-                <div
-                  // onclick="window.location='./mint'"
-                  className="shadow-btn border-btn button-connect-wallet cursor-pointer w-full relative grid place-items-center py-5"
-                >
-                  <p>Play Now</p>
-                </div>
+                  <Button
+                    text="See Tutorial"
+                    className="bg_btn_normal w-full text-[16px]"
+                  />
+                </Link>
+                <Link href="/game" className="flex-1 text-center xl:text-start">
+                  <Button text="PLAY GAME" className="w-full text-[16px]" />
+                </Link>
               </div>
             </div>
             <div>
@@ -622,14 +616,21 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex justify-between w-full gap-x-[48px] max-sm:gap-x-5 mt-[30px] max-sm:mt-5">
-                <a
+                <Link
                   href="https://polysport.gitbook.io/polysport"
-                  className="w-full relative grid place-items-center py-5 border-btn hover:border-white cursor-pointer"
+                  target="_blank"
+                  className="flex-1 text-center xl:text-start"
                 >
-                  <p>See Tutorial</p>
-                </a>
-                <div className="w-full relative grid place-items-center py-5 brightness-50 border-btn">
-                  <p>Coming Soon</p>
+                  <Button
+                    text="See Tutorial"
+                    className="bg_btn_normal w-full text-[16px]"
+                  />
+                </Link>
+                <div className="flex-1 text-center xl:text-start">
+                  <Button
+                    text="Coming Soon"
+                    className="bg_btn_normal w-full text-[16px]"
+                  />
                 </div>
               </div>
             </div>
