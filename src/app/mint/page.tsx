@@ -1,6 +1,51 @@
+"use client";
+
+import { GAME_API, GRADE } from "@/configs";
+import { mintNft } from "@/services";
 import "@/styles/mint.css";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
+import clsx from "clsx";
+import { useCallback, useState } from "react";
+import { toast } from "react-toastify";
+import { useChainId, useSigner } from "wagmi";
 
 export default function MintPage() {
+  const chainId = useChainId();
+  const { data: signer } = useSigner();
+
+  const { openConnectModal } = useConnectModal();
+
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [gradeSubmitting, setGradeSubmitting] = useState<GRADE | undefined>();
+
+  const handleMint = useCallback(
+    async (grade: GRADE) => {
+      try {
+        if (submitting) return;
+        if (!signer) return openConnectModal?.();
+        setSubmitting(true);
+        setGradeSubmitting(grade);
+        let tx = await mintNft(chainId, signer!, grade);
+        await fetch(`${GAME_API}/directProcessMintedNft?txHash=${tx.txHash}`);
+        setGradeSubmitting(undefined);
+        setSubmitting(false);
+
+        toast.success("Mint success");
+      } catch (error: any) {
+        setGradeSubmitting(undefined);
+        setSubmitting(false);
+        toast.error(
+          error?.error?.data?.message ||
+            error?.reason ||
+            error?.data?.message ||
+            error?.message ||
+            error
+        );
+      }
+    },
+    [chainId, signer, openConnectModal]
+  );
+
   return (
     <div className="flex flex-col  justify-center items-center desktop:px-32 mobile:px-4 mobile:pb-8 desktop:pb-10 relative overflow-hidden desktop:pt-36 mobile:pt-32 gap-8 text-white">
       <div className="absolute top-0 left-0 opacity-10 -z-10">
@@ -34,7 +79,7 @@ export default function MintPage() {
             </div>
             <div>
               <p className="text-[18px] font-semibold text-center text-stroke">
-                Brozen Box
+                Bronze Box
               </p>
               <p className="text-[18px] font-semibold text-center">100 PLS</p>
             </div>
@@ -51,9 +96,20 @@ export default function MintPage() {
           </div> */}
             <div
               id="bronzeMint"
-              className="w-fit mx-auto mt-[16px] shadow-btn py-[12px] px-[50px] border !border-[#B920ED] rounded-[16px] bg-gradient-to-br from-[#2824E6] to-[#E40FAC]"
+              className={clsx(
+                "w-fit mx-auto mt-[16px] shadow-btn py-[12px] px-[50px] border !border-[#B920ED] rounded-[16px] bg-gradient-to-br from-[#2824E6] to-[#E40FAC]",
+                { "cursor-not-allowed": submitting }
+              )}
+              onClick={() => handleMint(GRADE.BRONZE)}
             >
-              <p className="text-[16px] font-semibold">Mint</p>
+              <p
+                className={clsx("text-[16px] font-semibold", {
+                  "loading loading-spinner":
+                    submitting && gradeSubmitting === GRADE.BRONZE,
+                })}
+              >
+                Mint
+              </p>
             </div>
           </div>
         </div>
@@ -82,9 +138,20 @@ export default function MintPage() {
           </div> */}
             <div
               id="silverMint"
-              className="w-fit mx-auto mt-[16px] shadow-btn py-[12px] px-[50px] border !border-[#B920ED] rounded-[16px] bg-gradient-to-br from-[#2824E6] to-[#E40FAC]"
+              className={clsx(
+                "w-fit mx-auto mt-[16px] shadow-btn py-[12px] px-[50px] border !border-[#B920ED] rounded-[16px] bg-gradient-to-br from-[#2824E6] to-[#E40FAC]",
+                { "cursor-not-allowed": submitting }
+              )}
+              onClick={() => handleMint(GRADE.SILVER)}
             >
-              <p className="text-[16px] font-semibold">Mint</p>
+              <p
+                className={clsx("text-[16px] font-semibold", {
+                  "loading loading-spinner":
+                    submitting && gradeSubmitting === GRADE.SILVER,
+                })}
+              >
+                Mint
+              </p>
             </div>
           </div>
         </div>
@@ -113,9 +180,20 @@ export default function MintPage() {
           </div> */}
             <div
               id="goldMint"
-              className="w-fit mx-auto mt-[16px] shadow-btn py-[12px] px-[50px] border !border-[#B920ED] rounded-[16px] bg-gradient-to-br from-[#2824E6] to-[#E40FAC]"
+              className={clsx(
+                "w-fit mx-auto mt-[16px] shadow-btn py-[12px] px-[50px] border !border-[#B920ED] rounded-[16px] bg-gradient-to-br from-[#2824E6] to-[#E40FAC]",
+                { "cursor-not-allowed": submitting }
+              )}
+              onClick={() => handleMint(GRADE.GOLD)}
             >
-              <p className="text-[16px] font-semibold">Mint</p>
+              <p
+                className={clsx("text-[16px] font-semibold", {
+                  "loading loading-spinner":
+                    submitting && gradeSubmitting === GRADE.GOLD,
+                })}
+              >
+                Mint
+              </p>
             </div>
           </div>
         </div>

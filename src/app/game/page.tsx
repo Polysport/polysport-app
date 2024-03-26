@@ -1,4 +1,220 @@
+"use client";
+import { GAME_API, GRADE } from "@/configs";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { useCallback, useState } from "react";
+import { Address, useAccount, useChainId, useSigner } from "wagmi";
+import useSWR from "swr";
+import { useRootStore } from "@/store";
+import { numberWithCommas } from "@/utils/helper/number";
+import { burnNft, getTokenBalance } from "@/services";
+import { ChainId } from "@/configs/type";
+import clsx from "clsx";
+import { toast } from "react-toastify";
+
+export type INft = {
+  id: number;
+  nftId: number;
+  owner: string;
+};
+
+export type ICard = {
+  id: number;
+  card_id: number;
+  account: string;
+  win: number;
+  flipped: boolean;
+};
+
 export default function GamePage() {
+  const chainId = useChainId();
+  const { address } = useAccount();
+  const { data: signer } = useSigner();
+
+  const { openConnectModal } = useConnectModal();
+
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [selectedNftBurn, setSelectedNftBurn] = useState<INft | undefined>();
+
+  const txHash = useRootStore((s) => s.txHash);
+
+  const { data: poolReward } = useSWR<{
+    reward: number;
+  }>(
+    ["pool", txHash],
+    async () => {
+      const res = await fetch(`${GAME_API}/loadPoolReward`);
+      const poolReward = await res.json();
+      return poolReward;
+    },
+    {
+      refreshInterval: 60,
+    }
+  );
+
+  const { data: userStats } = useSWR<{
+    tokenBalance: string;
+    nfts: INft[];
+    clicks: number;
+    earnings: number;
+    board: ICard[];
+  }>(
+    ["game", txHash, chainId, address],
+    async ([_, __, chainId, address, tx]) => {
+      if (!address)
+        return {
+          tokenBalance: "0",
+          nfts: [],
+          clicks: [],
+          earnings: 0,
+          board: [],
+        };
+      const [tokenBalance, ...res] = await Promise.all([
+        getTokenBalance(chainId as ChainId, address as Address),
+        fetch(`${GAME_API}/loadNfts?account=${address}`),
+        fetch(`${GAME_API}/loadClicks?account=${address}`),
+        fetch(`${GAME_API}/loadEarningsForPlayer?account=${address}`),
+        fetch(`${GAME_API}/loadBoard?account=${address}`),
+      ]);
+
+      const [nft, clicks, earnings, board] = await Promise.all(
+        res.map((r) => r.json())
+      );
+      return {
+        tokenBalance,
+        nfts: nft.nfts ?? [],
+        clicks: clicks.clicks,
+        earnings: earnings.earnings,
+        board: board?.board ?? [],
+      };
+    },
+    {
+      refreshInterval: 60,
+    }
+  );
+
+  const handleFlipCard = useCallback(
+    async (idx: number) => {
+      if (!signer) return openConnectModal?.();
+      const cardClicked = userStats?.board.find((b) => b.id === idx);
+      if (cardClicked) return;
+
+      if (!userStats?.clicks) return toast.error("No have clicks");
+
+      try {
+        if (submitting) return;
+        if (!signer) return openConnectModal?.();
+        const signature = await signer.signMessage("FLIP");
+
+        const resp = await fetch(`${GAME_API}/flipCard`, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "text/plain",
+          },
+          method: "POST",
+          body: JSON.stringify({
+            address: address,
+            signature: signature,
+            card: idx,
+          }),
+        });
+        const message = (await resp.json()).message;
+        useRootStore.setState({ txHash: Date.now().toString() });
+        if (message === "Win Jackpot") {
+          toast.success("Jackpot!");
+        } else if (message === "Win Stars") {
+          toast.success("Win!");
+        } else {
+          toast.info("Lose!");
+        }
+      } catch (error: any) {
+        setSubmitting(false);
+        toast.error(
+          error?.error?.data?.message ||
+            error?.reason ||
+            error?.data?.message ||
+            error?.message ||
+            error
+        );
+      }
+    },
+    [
+      chainId,
+      address,
+      signer,
+      openConnectModal,
+      userStats?.board,
+      userStats?.clicks,
+    ]
+  );
+
+  const handleBurnNft = useCallback(async () => {
+    if (!signer) return openConnectModal?.();
+    if (!selectedNftBurn) return;
+
+    try {
+      if (submitting) return;
+      if (!signer) return openConnectModal?.();
+      const tx = await burnNft(chainId, signer, selectedNftBurn.id);
+      await fetch(`${GAME_API}/directProcessBurnedNft?txHash=${tx.txHash}`);
+      useRootStore.setState({ txHash: tx.txHash });
+      toast.success("Burn success");
+    } catch (error: any) {
+      setSubmitting(false);
+      toast.error(
+        error?.error?.data?.message ||
+          error?.reason ||
+          error?.data?.message ||
+          error?.message ||
+          error
+      );
+    }
+  }, [chainId, address, signer, openConnectModal, selectedNftBurn]);
+
+  const handleWithdraw = useCallback(async () => {
+    if (!signer) return openConnectModal?.();
+
+    if (!userStats?.earnings) return toast.error("Nothing to withdraw");
+
+    if (
+      !confirm(
+        "There is a 40% withdrawal penalty for withdrawing less than 24 hours before your earnings and a 15% penalty for withdrawing less than 72 hours before your earnings. Please be aware of this before continuing."
+      )
+    ) {
+      return;
+    }
+
+    try {
+      if (submitting) return;
+      if (!signer) return openConnectModal?.();
+      const signature = await signer.signMessage("WITHDRAW");
+
+      const resp = await fetch(`${GAME_API}/withdrawEarnings`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "text/plain",
+        },
+        method: "POST",
+        body: JSON.stringify({
+          address: address,
+          signature: signature,
+          amount: userStats?.earnings,
+        }),
+      });
+      const message = (await resp.json()).message;
+      useRootStore.setState({ txHash: Date.now().toString() });
+      toast.success("Withdrawal successful!");
+    } catch (error: any) {
+      setSubmitting(false);
+      toast.error(
+        error?.error?.data?.message ||
+          error?.reason ||
+          error?.data?.message ||
+          error?.message ||
+          error
+      );
+    }
+  }, [chainId, address, signer, openConnectModal, userStats?.earnings]);
+
   return (
     <div>
       <section className="desktop:px-32 mobile:px-4 mobile:pb-8 desktop:pb-10 relative overflow-hidden desktop:pt-36 mobile:pt-32">
@@ -79,21 +295,25 @@ export default function GamePage() {
                     <label>Balances</label>
                     <div className="frame">
                       <span className="flex gap-2">
-                        <span id="balancePoly">0.0</span> PLS{" "}
-                        <img src="assets/images/wallet.png" alt="wallet" />
+                        <span id="balancePoly">
+                          {numberWithCommas(userStats?.tokenBalance ?? 0)}
+                        </span>{" "}
+                        PLS <img src="assets/images/wallet.png" alt="wallet" />
                       </span>
                     </div>
                   </div>
                   <div className="game-info-item">
                     <label>Reward Winner</label>
                     <div className="frame">
-                      <span id="rewardWinner">0 PLS</span>
+                      <span id="rewardWinner">
+                        {numberWithCommas(userStats?.earnings ?? 0)} PLS
+                      </span>
                     </div>
                   </div>
                   <div className="game-info-item">
                     <label>Number of click</label>
                     <div className="frame">
-                      <span id="noClick">0</span>
+                      <span id="noClick">{userStats?.clicks ?? 0}</span>
                     </div>
                   </div>
                   <div className="game-info-item">
@@ -115,6 +335,7 @@ export default function GamePage() {
                     className="cursor-pointer"
                   />
                   <img
+                    onClick={handleWithdraw}
                     id="iconWithdraw"
                     src="/assets/images/money-withdrawal.png"
                     alt="withdraw"
@@ -124,26 +345,45 @@ export default function GamePage() {
               </section>
             </div>
             <section className="mt-4 grid grid-cols-10 gap-2 min-w-[800px]">
-              {new Array(50).fill("").map((e, idx) => (
-                <div key={idx} className="card-game" id="card-game">
-                  <div id="card-game-inner">
-                    <div id="card-game-front relative">
-                      {/* <img src="assets/images/card-back.png" /> */}
-                      <img
-                        className="absolute top-0 left-0 w-full h-full"
-                        src="/assets/images/card-game-hover.jpg"
-                      />
-                      <img
-                        className="absolute top-0 left-0 w-full h-full hover:opacity-0 transition-all duration-500"
-                        src="/assets/images/card-game.jpg"
-                      />
-                    </div>
-                    <div id="card-game-back">
-                      <img src="assets/images/card-back.png" />
+              {new Array(50).fill("").map((e, idx) => {
+                const cardClicked = userStats?.board.find((b) => b.id === idx);
+
+                return (
+                  <div
+                    key={idx}
+                    className="card-game"
+                    id="card-game"
+                    onClick={() => handleFlipCard(idx)}
+                  >
+                    <div
+                      id="card-game-inner"
+                      className={clsx({
+                        "[transform:rotateY(180deg)]": !!cardClicked,
+                      })}
+                    >
+                      <div id="card-game-front relative">
+                        <img
+                          className="absolute top-0 left-0 w-full h-full"
+                          src="/assets/images/card-game-hover.jpg"
+                        />
+                        <img
+                          className="absolute top-0 left-0 w-full h-full hover:opacity-0 transition-all duration-500"
+                          src="/assets/images/card-game.jpg"
+                        />
+                      </div>
+                      <div id="card-game-back">
+                        <img
+                          src={
+                            !!cardClicked
+                              ? `/assets/images/player-card/${cardClicked.card_id}.png`
+                              : "/assets/images/card-back.png"
+                          }
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </section>
           </div>
           <div className="grow-[2] my-0 -mx-12">
@@ -155,7 +395,7 @@ export default function GamePage() {
                     id="poolRewards"
                     style={{ color: "yellowgreen", fontWeight: "bold" }}
                   >
-                    0 PLS
+                    {numberWithCommas(poolReward?.reward ?? 0)} PLS
                   </span>
                 </div>
               </div>
@@ -174,12 +414,19 @@ export default function GamePage() {
                 >
                   <img
                     id="mainChar"
-                    src="/assets/images/card-back.png"
+                    src={
+                      selectedNftBurn
+                        ? `/assets/images/player-card/${selectedNftBurn.nftId}.png`
+                        : "/assets/images/card-back.png"
+                    }
                     alt="NFT"
                     className="desktop:w-[182px] desktop:h-[250px] mobile:w-[150px] mobile:h-[200px]"
                   />
                   <div className="text-center text-white flex flex-col items-center mt-3">
-                    <div className="flex justify-center items-center bg-[url('/assets/images/game-info-frame.png')] bg-no-repeat bg-cover bg-center w-[150px] h-[40px] relative">
+                    <div
+                      onClick={handleBurnNft}
+                      className="flex justify-center items-center bg-[url('/assets/images/game-info-frame.png')] bg-no-repeat bg-cover bg-center w-[150px] h-[40px] relative"
+                    >
                       <span
                         id="btnBurnNFT"
                         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
@@ -196,6 +443,16 @@ export default function GamePage() {
                       id="gameBoardListNFT"
                       className="grid grid-cols-4 gap-2"
                     >
+                      {userStats?.nfts.map((nft) => (
+                        <img
+                          key={nft.id}
+                          id="nft-${thisNft[0]}"
+                          onClick={() => setSelectedNftBurn(nft)}
+                          src={`/assets/images/player-card/${nft.nftId}.png`}
+                          alt="NFT"
+                          className="desktop:w-[40px] desktop:h-[50px] mobile:w-[30px] mobile:h-[40px]"
+                        />
+                      ))}
                       {/* <img src="assets/images/player-card/10.png" alt="NFT" class="desktop:w-[20px] desktop:h-[30px] mobile:w-[15px] mobile:h-[25px]" /> */}
                     </div>
                     {/* <div class="nft-pagination mt-2">

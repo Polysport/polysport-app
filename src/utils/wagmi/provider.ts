@@ -7,7 +7,8 @@ const polygonProvider = new JsonRpcProvider(
 );
 
 const polygonMumbaiProvider = new JsonRpcProvider(
-  polygonMumbai.rpcUrls.default.http[0],
+  // polygonMumbai.rpcUrls.default.http[0],
+  "https://polygon-mumbai.blockpi.network/v1/rpc/public",
   polygonMumbai.id
 );
 

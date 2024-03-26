@@ -4,3 +4,19 @@ export const APP_URL: string =
     : "http://localhost:3000";
 
 export const PAGE_SIZE = 10;
+
+export enum GRADE {
+  BRONZE = 0,
+  SILVER = 1,
+  GOLD = 2,
+}
+
+export const GRADE_PRICE = {
+  [GRADE.BRONZE]: "100",
+  [GRADE.SILVER]: "200",
+  [GRADE.GOLD]: "300",
+};
+
+export const GAME_API =
+  // "http://127.0.0.1:5001/polysport-api/us-central1";
+  "https://api-functions.polysport.finance/polysport-f2a9b/us-central1";
