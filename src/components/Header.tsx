@@ -60,12 +60,12 @@ export default function Header() {
                 </Link>
                 <div className="h-[2px] bg-white animation-header-item" />
               </div>
-              <div className="relative overflow-hidden header-item">
+              {/* <div className="relative overflow-hidden header-item">
                 <Link href="/marketplace" className="cursor-pointer">
                   Marketplace
                 </Link>
                 <div className="h-[2px] bg-white animation-header-item" />
-              </div>
+              </div> */}
               <div className="relative overflow-hidden header-item">
                 <Link href="/game" className="cursor-pointer">
                   Game
@@ -87,12 +87,12 @@ export default function Header() {
                 </Link>
                 <div className="h-[2px] bg-white animation-header-item" />
               </div>
-              <div className="relative overflow-hidden header-item">
+              {/* <div className="relative overflow-hidden header-item">
                 <Link href="/ido" className="cursor-pointer">
                   IDO
                 </Link>
                 <div className="h-[2px] bg-white animation-header-item" />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -114,12 +114,12 @@ export default function Header() {
           >
             Mint NFT
           </Link>
-          <Link
+          {/* <Link
             href="/marketplace"
             className="text-end font-medium hover:font-semibold"
           >
             Marketplace
-          </Link>
+          </Link> */}
           <Link
             href="/game"
             className="text-end font-medium hover:font-semibold"
@@ -133,12 +133,12 @@ export default function Header() {
           >
             Document
           </Link>
-          <Link
+          {/* <Link
             href="/ido"
             className="text-end font-medium hover:font-semibold"
           >
             IDO
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>
