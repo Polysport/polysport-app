@@ -1,4 +1,5 @@
 import NftAbi from "@/abis/nft.json";
+import Erc20Abi from "@/abis/erc20.json";
 import { getContractInstance } from "@/utils/constracts/common";
 import { getContract } from "@/utils/constracts/get-contracts";
 import { Provider } from "@ethersproject/providers";
@@ -17,5 +18,5 @@ export const getTokenContract = (
   providerOrSigner: Provider | ethers.Signer
 ) => {
   const address = getContract(chainId, "Token");
-  return getContractInstance(address, NftAbi, providerOrSigner);
+  return getContractInstance(address, Erc20Abi, providerOrSigner);
 };

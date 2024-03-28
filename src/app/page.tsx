@@ -2,6 +2,15 @@
 
 import Button from "@/components/Button";
 import Link from "next/link";
+import Image from "next/image";
+
+const howToPlays = [
+  "Prepare PLS tokens to mint boxes and MATIC to pay gas in your wallet",
+  "Choose 1 of 3 box types and click Mint button to receive NFTs, each box has a different minting rate",
+  "Deposit your NFTs to get number of clicks, the more stars your NFTs have, the more clicks you get",
+  "Flip cards on game interface, if the cards you flip are same to the NFT you deposited, you will win the prize from reward pool",
+  "You can withdraw your PLS tokens to your wallet to keep minting box to play games or take your profit",
+];
 
 export default function Home() {
   return (
@@ -9,12 +18,12 @@ export default function Home() {
       {/* Banner */}
       <div className="mx-auto">
         <div className="relative home_banner">
-          {/* <img
+          <img
             className="md:hidden w-full z-[-1]"
             src="/assets/images/background/home_banner_mobile.png"
-          /> */}
+          />
           <img
-            className="xl:hidden w-full z-[-1]"
+            className="hidden md:block xl:hidden w-full z-[-1]"
             src="/assets/images/background/home_banner_tablet.png"
           />
           <img
@@ -100,14 +109,14 @@ export default function Home() {
       </div>
 
       {/* About */}
-      <div className="max-w-[1280px] mx-auto px-2 max-sm:px-6 mt-20 max-sm:mt-[60px]">
+      <div className="max-w-[1280px] mx-auto px-2 md:px-10 mt-20 max-sm:mt-[60px]">
         <div>
           <p className="font-russo-one text-[60px] max-sm:text-[30px] text-center">
             About Polysport
           </p>
           <div className="flex justify-evenly items-center gap-x-20 gap-y-5 max-md:flex-col mt-10 max-sm:mt-5">
             <img
-              className="max-sm:w-[70%]"
+              className="md:max-w-[50%] xl:max-sm:w-[70%]"
               src="/assets/images/avt_about_v2.png"
             />
             <div className="w-full">
@@ -147,7 +156,7 @@ export default function Home() {
       </div>
 
       {/* Product */}
-      <div className="max-w-[1280px] mx-auto px-2 max-sm:px-6 mt-20 max-sm:mt-[60px]">
+      <div className="max-w-[1280px] mx-auto px-2 md:px-10 mt-20 max-sm:mt-[60px]">
         <div>
           <div>
             <p className="text-[60px] max-sm:text-[30px] text-center font-russo-one">
@@ -270,7 +279,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="max-w-[1280px] mx-auto px-2 max-sm:px-6 mt-20 max-sm:mt-[60px]">
+      <div className="max-w-[1280px] mx-auto px-2 md:px-10 mt-20 max-sm:mt-[60px]">
         <div className="">
           <div className="">
             <p className="text-[60px] max-sm:text-[30px] text-center font-russo-one">
@@ -278,150 +287,49 @@ export default function Home() {
             </p>
           </div>
           <div className="mt-10 max-sm:mt-5">
-            <div className="max-sm:hidden flex lg:justify-between gap-[30px] max-lg:gap-4 overflow-auto">
+            <div className="flex lg:justify-between gap-[30px] max-lg:gap-4 overflow-auto">
               {/* Item */}
-              <div
-                // name="card"
-                className="relative border border-white/40 rounded-[18px] w-[220px] min-w-[220px] h-[330px]"
-              >
-                <div className="absolute w-full h-full z-[-1]">
-                  <img
-                    className="absolute top-0 left-0"
-                    src="/assets/images/cornorTop.svg"
-                  />
-                  <img
-                    className="absolute right-0 bottom-0"
-                    src="/assets/images/cornorBottom.svg"
-                  />
+              {howToPlays.map((s, idx) => (
+                <div
+                  key={idx}
+                  className="relative border border-white/40 rounded-[18px] w-[220px] min-w-[220px] h-[330px]"
+                >
+                  <div className="absolute w-full h-full z-[-1]">
+                    <img
+                      className="absolute top-0 left-0"
+                      src="/assets/images/cornorTop.svg"
+                    />
+                    <img
+                      className="absolute right-0 bottom-0"
+                      src="/assets/images/cornorBottom.svg"
+                    />
+                  </div>
+                  <div className="w-full h-[50%] grid place-items-center mt-5">
+                    <img src={`/assets/images/how_to_play${idx + 1}.png`} />
+                  </div>
+                  <div className="mt-8 px-3">
+                    <p className="text-[20px] font-semibold">Step {idx + 1}</p>
+                    <p className="text-[9px] mt-3">{s}</p>
+                  </div>
                 </div>
-                <div className="w-full h-[50%] grid place-items-center mt-5">
-                  <img src="/assets/images/how_to_play1.png" />
-                </div>
-                <div className="mt-8 px-3">
-                  <p className="text-[20px] font-semibold">Step 1</p>
-                  <p className="text-[9px] mt-3">
-                    Prepare PLS tokens to mint boxes and MATIC to pay gas in
-                    your wallet
-                  </p>
-                </div>
-              </div>
-              {/* End Item */}
-              {/* Item */}
-              <div
-                // name="card"
-                className="relative border border-white/40 rounded-[18px] w-[220px] min-w-[220px] h-[330px]"
-              >
-                <div className="absolute w-full h-full z-[-1]">
-                  <img
-                    className="absolute top-0 left-0"
-                    src="/assets/images/cornorTop.svg"
-                  />
-                  <img
-                    className="absolute right-0 bottom-0"
-                    src="/assets/images/cornorBottom.svg"
-                  />
-                </div>
-                <div className="w-full h-[50%] grid place-items-center mt-5">
-                  <img src="/assets/images/how_to_play2.png" />
-                </div>
-                <div className="mt-8 px-3">
-                  <p className="text-[20px] font-semibold">Step 2</p>
-                  <p className="text-[9px] mt-3">
-                    Choose 1 of 3 box types and click Mint button to receive
-                    NFTs, each box has a different minting rate
-                  </p>
-                </div>
-              </div>
-              {/* End Item */}
-              {/* Item */}
-              <div
-                // name="card"
-                className="relative border border-white/40 rounded-[18px] w-[220px] min-w-[220px] h-[330px]"
-              >
-                <div className="absolute w-full h-full z-[-1]">
-                  <img
-                    className="absolute top-0 left-0"
-                    src="/assets/images/cornorTop.svg"
-                  />
-                  <img
-                    className="absolute right-0 bottom-0"
-                    src="/assets/images/cornorBottom.svg"
-                  />
-                </div>
-                <div className="w-full h-[50%] grid place-items-center mt-5">
-                  <img src="/assets/images/how_to_play3.png" />
-                </div>
-                <div className="mt-8 px-3">
-                  <p className="text-[20px] font-semibold">Step 3</p>
-                  <p className="text-[9px] mt-3">
-                    Deposit your NFTs to get number of clicks, the more stars
-                    your NFTs have, the more clicks you get
-                  </p>
-                </div>
-              </div>
-              {/* End Item */}
-              {/* Item */}
-              <div
-                // name="card"
-                className="relative border border-white/40 rounded-[18px] w-[220px] min-w-[220px] h-[330px]"
-              >
-                <div className="absolute w-full h-full z-[-1]">
-                  <img
-                    className="absolute top-0 left-0"
-                    src="/assets/images/cornorTop.svg"
-                  />
-                  <img
-                    className="absolute right-0 bottom-0"
-                    src="/assets/images/cornorBottom.svg"
-                  />
-                </div>
-                <div className="w-full h-[50%] grid place-items-center mt-5">
-                  <img src="/assets/images/how_to_play4.png" />
-                </div>
-                <div className="mt-8 px-3">
-                  <p className="text-[20px] font-semibold">Step 4</p>
-                  <p className="text-[9px] mt-3">
-                    Flip cards on game interface, if the cards you flip are same
-                    to the NFT you deposited, you will win the prize from reward
-                    poolt
-                  </p>
-                </div>
-              </div>
-              {/* End Item */}
-              {/* Item */}
-              <div
-                // name="card"
-                className="relative border border-white/40 rounded-[18px] w-[220px] min-w-[220px] h-[330px]"
-              >
-                <div className="absolute w-full h-full z-[-1]">
-                  <img
-                    className="absolute top-0 left-0"
-                    src="/assets/images/cornorTop.svg"
-                  />
-                  <img
-                    className="absolute right-0 bottom-0"
-                    src="/assets/images/cornorBottom.svg"
-                  />
-                </div>
-                <div className="w-full h-[50%] grid place-items-center mt-5">
-                  <img src="/assets/images/how_to_play5.png" />
-                </div>
-                <div className="mt-8 px-3">
-                  <p className="text-[20px] font-semibold">Step 5</p>
-                  <p className="text-[9px] mt-3">
-                    You can withdraw your PLS tokens to your wallet to keep
-                    minting box to play games or take your profit
-                  </p>
-                </div>
-              </div>
-              {/* End Item */}
+              ))}
             </div>
-            <div className="relative border-btn mt-10 max-sm:mt-5">
+            <div className="relative border-btn mt-10 max-sm:mt-[115px]">
               <div className="p-10 max-sm:p-5 flex items-center gap-10 lg:gap-x-20 max-md:flex-col max-md:justify-center">
-                <div className="max-sm:max-w-[250px] aspect-square overflow-visible">
-                  <img className="lg:scale-[1.3]" src="./assets/xuc-xac.png" />
+                <div className="absolute left-0 right-0 md:left-[-15%] md:right-[40%] xl:left-[-5%] xl:right-[50%] top-0 md:top-[50%] -translate-y-[30%] md:-translate-y-[60%] xl:-translate-y-[50%]">
+                  <div className="w-full aspect-square  relative ">
+                    <Image
+                      src="/assets/boxes.png"
+                      alt="boxes"
+                      fill
+                      sizes="any"
+                    />
+                  </div>
                 </div>
-                <div className="flex-1">
+                {/* <div className="hidden md:block w-[33%] aspect-square relative ">
+                  <Image src="/assets/boxes.png" alt="boxes" fill sizes="any" />
+                </div> */}
+                <div className="flex-1 pt-[calc(66%)] md:pt-0 md:pl-[50%]">
                   <p>
                     Polysport is a lottery game where you stand a chance to win
                     cash prizes every time you play. You have 50 boxes to choose
@@ -441,61 +349,10 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            {/* <div
-  class="flex items-center lg:flex-col max-sm:flex-col max-lg:flex-row-reverse lg:flex-1"
->
-  <div class="max-lg:flex-1 max-sm:max-w-[250px]">
-    <img src="./assets/xuc-xac.png" />
-  </div>
-  <div class="max-lg:flex-[2]">
-    <p>
-      Polysport is a lottery game where you stand a chance to win cash
-      prizes every time you play. You have 50 boxes to choose from and
-      you WIN the amount in the lucky box. Pick any box from 1-50 to
-      win instantly by using an NFT. Winners can earn real money,
-      making it a lucrative platform for players with the best cards.
-      Polysport works on the Polygon block chain and requires players
-      to create an account or connect an existing Web3 wallet like
-      Meta Mask to get started.
-    </p>
-    <button
-      class="mt-10 max-sm:mt-6 w-full py-4 px-[36px] border border-[#B920ED] rounded-[16px] bg-gradient-to-br from-[#2824E6] to-[#E40FAC] shadow-btn"
-    >
-      <div class="flex items-center gap-x-[14px] justify-center">
-        <p class="text-[24px] font-semibold">Play Game</p>
-        <img src="./assets//arrow-right.svg" />
-      </div>
-    </button>
-  </div>
-</div> */}
-          </div>
-          <div className="max-sm:flex justify-evenly items-center hidden mt-10 max-sm:mt-5">
-            <div
-              // onclick="changeCard(-1)"
-              className="h-6 aspect-square"
-            >
-              <img
-                className="w-full h-full"
-                src="./assets/arrow-violet-left.svg"
-              />
-            </div>
-            <div
-              id="card-show-mobile"
-              className="sm:hidden relative w-[220px] max-w-[220px] h-[330px] items-center"
-            />
-            <div
-              //  onclick="changeCard(1)"
-              className="h-6 aspect-square"
-            >
-              <img
-                className="w-full h-full"
-                src="./assets/arrow-violet-right.svg"
-              />
-            </div>
           </div>
         </div>
       </div>
-      <div className="max-w-[1280px] mx-auto px-2 max-sm:px-6 mt-20 max-sm:mt-[60px]">
+      {/* <div className="max-w-[1280px] mx-auto px-2 md:px-10 mt-20 max-sm:mt-[60px]">
         <div className="flex items-center flex-wrap max-lg:flex-col">
           <div className="flex-1">
             <p className="font-russo-one text-[100px] max-xl:text-[80px] max-sm:text-[30px] max-lg:text-[60px]">
@@ -560,78 +417,76 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
-      <div className="max-w-[1280px] mx-auto px-2 max-sm:px-6 mt-20 max-sm:mt-[60px]">
-        <div className="px-2">
-          <p className="text-[60px] max-sm:text-[30px] font-russo-one text-center">
-            Polysport Games
-          </p>
-          <div className="flex gap-x-20 justify-between mt-10 max-sm:mt-5 max-md:flex-col gap-y-10">
-            <div>
-              <div className="w-full relative rounded-[15px] overflow-hidden">
-                <img
-                  className="w-full aspect-[3/2]"
-                  src="/assets/images/play-now2.png"
-                />
-                <div className="px-5 py-3 sm:pb-8 backdrop-blur-md absolute bottom-0 left-0 w-full">
-                  <p className="text-[24px] font-semibold max-sm:text-[16px]">
-                    Flip Card Game
-                  </p>
-                  <p className="text-sm mt-3 max-sm:text-[10px]">
-                    Burn your NFT minted from Box to receive amount of flipping
-                    cards and have chances to get huge rewards if you are lucky.
-                  </p>
-                </div>
-              </div>
-              <div className="flex justify-between w-full gap-x-[48px] max-sm:gap-x-5 mt-[30px] max-sm:mt-5">
-                <Link
-                  href="https://polysport.gitbook.io/polysport"
-                  target="_blank"
-                  className="flex-1 text-center xl:text-start"
-                >
-                  <Button
-                    text="See Tutorial"
-                    className="bg_btn_normal w-full text-[16px]"
-                  />
-                </Link>
-                <Link href="/game" className="flex-1 text-center xl:text-start">
-                  <Button text="PLAY GAME" className="w-full text-[16px]" />
-                </Link>
+      </div> */}
+      <div className="max-w-[1280px] mx-auto px-2 md:px-10 mt-20 max-sm:mt-[60px]">
+        <p className="text-[60px] max-sm:text-[30px] font-russo-one text-center">
+          Polysport Games
+        </p>
+        <div className="flex gap-x-20 justify-between mt-10 max-sm:mt-5 max-md:flex-col gap-y-10">
+          <div>
+            <div className="w-full relative rounded-[15px] overflow-hidden">
+              <img
+                className="w-full aspect-[3/2]"
+                src="/assets/images/play-now2.png"
+              />
+              <div className="px-4 py-2 sm:pb-8 backdrop-blur-md absolute bottom-0 left-0 w-full">
+                <p className="text-[16px] md:text-[24px] font-semibold">
+                  Flip Card Game
+                </p>
+                <p className="text-sm max-sm:text-[10px]">
+                  Burn your NFT minted from Box to receive amount of flipping
+                  cards and have chances to get huge rewards if you are lucky.
+                </p>
               </div>
             </div>
-            <div>
-              <div className="w-full relative rounded-[15px] overflow-hidden">
-                <img
-                  className="w-full aspect-[3/2]"
-                  src="/assets/images/play-now1.png"
+            <div className="flex justify-between w-full gap-x-[48px] max-sm:gap-x-5 mt-[30px] max-sm:mt-5">
+              <Link
+                href="https://polysport.gitbook.io/polysport"
+                target="_blank"
+                className="flex-1 text-center xl:text-start"
+              >
+                <Button
+                  text="See Tutorial"
+                  className="bg_btn_normal w-full text-[16px]"
                 />
-                <div className="px-5 py-3 sm:pb-8 backdrop-blur-md absolute bottom-0 left-0 w-full">
-                  <p className="text-[24px] font-semibold max-sm:text-[16px]">
-                    Football Manager Game
-                  </p>
-                  <p className="text-sm mt-3 max-sm:text-[10px]">
-                    Collect, manage and upgrade your cards to build a football
-                    team, compete with other players and win the prize.
-                  </p>
-                </div>
+              </Link>
+              <Link href="/game" className="flex-1 text-center xl:text-start">
+                <Button text="PLAY GAME" className="w-full text-[16px]" />
+              </Link>
+            </div>
+          </div>
+          <div>
+            <div className="w-full relative rounded-[15px] overflow-hidden">
+              <img
+                className="w-full aspect-[3/2]"
+                src="/assets/images/play-now1.png"
+              />
+              <div className="px-5 py-3 sm:pb-8 backdrop-blur-md absolute bottom-0 left-0 w-full">
+                <p className="text-[24px] font-semibold max-sm:text-[16px]">
+                  Football Manager Game
+                </p>
+                <p className="text-sm mt-3 max-sm:text-[10px]">
+                  Collect, manage and upgrade your cards to build a football
+                  team, compete with other players and win the prize.
+                </p>
               </div>
-              <div className="flex justify-between w-full gap-x-[48px] max-sm:gap-x-5 mt-[30px] max-sm:mt-5">
-                <Link
-                  href="https://polysport.gitbook.io/polysport"
-                  target="_blank"
-                  className="flex-1 text-center xl:text-start"
-                >
-                  <Button
-                    text="See Tutorial"
-                    className="bg_btn_normal w-full text-[16px]"
-                  />
-                </Link>
-                <div className="flex-1 text-center xl:text-start">
-                  <Button
-                    text="Coming Soon"
-                    className="bg_btn_normal w-full text-[16px]"
-                  />
-                </div>
+            </div>
+            <div className="flex justify-between w-full gap-x-[48px] max-sm:gap-x-5 mt-[30px] max-sm:mt-5">
+              <Link
+                href="https://polysport.gitbook.io/polysport"
+                target="_blank"
+                className="flex-1 text-center xl:text-start"
+              >
+                <Button
+                  text="See Tutorial"
+                  className="bg_btn_normal w-full text-[16px]"
+                />
+              </Link>
+              <div className="flex-1 text-center xl:text-start">
+                <Button
+                  text="Coming Soon"
+                  className="bg_btn_normal w-full text-[16px]"
+                />
               </div>
             </div>
           </div>

@@ -10,19 +10,29 @@ import { burnNft, getTokenBalance } from "@/services";
 import { ChainId } from "@/configs/type";
 import clsx from "clsx";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { getContract } from "@/utils/constracts/get-contracts";
+import { ethers } from "ethers";
 
-export type INft = {
+enum EWin {
+  LOSE,
+  WIN,
+  JACKPOT,
+}
+
+type INft = {
   id: number;
+  image: string;
   nftId: number;
-  owner: string;
 };
 
-export type ICard = {
+type ICard = {
   id: number;
-  card_id: number;
+  cardId: number;
   account: string;
   win: number;
-  flipped: boolean;
+  nftId: boolean;
+  reward: number | string;
 };
 
 export default function GamePage() {
@@ -37,26 +47,27 @@ export default function GamePage() {
 
   const txHash = useRootStore((s) => s.txHash);
 
-  const { data: poolReward } = useSWR<{
-    reward: number;
-  }>(
-    ["pool", txHash],
+  const { data: poolReward, isLoading: isLoadingPool } = useSWR<string>(
+    ["pool", chainId, txHash],
     async () => {
-      const res = await fetch(`${GAME_API}/loadPoolReward`);
-      const poolReward = await res.json();
-      return poolReward;
+      const balance = getTokenBalance(
+        chainId as ChainId,
+        getContract(chainId, "POOL")
+      );
+      return balance;
     },
     {
       refreshInterval: 60,
     }
   );
 
-  const { data: userStats } = useSWR<{
+  const { data: userStats, isLoading: isLoadingUser } = useSWR<{
     tokenBalance: string;
+    burnedNft: INft;
     nfts: INft[];
-    clicks: number;
-    earnings: number;
-    board: ICard[];
+    numOfFlip: number;
+    rewarded: string;
+    cards: ICard[];
   }>(
     ["game", txHash, chainId, address],
     async ([_, __, chainId, address, tx]) => {
@@ -68,60 +79,45 @@ export default function GamePage() {
           earnings: 0,
           board: [],
         };
-      const [tokenBalance, ...res] = await Promise.all([
+      const [tokenBalance, stats] = await Promise.all([
         getTokenBalance(chainId as ChainId, address as Address),
-        fetch(`${GAME_API}/loadNfts?account=${address}`),
-        fetch(`${GAME_API}/loadClicks?account=${address}`),
-        fetch(`${GAME_API}/loadEarningsForPlayer?account=${address}`),
-        fetch(`${GAME_API}/loadBoard?account=${address}`),
+        axios.get(`${GAME_API}/stats?account=${address}`),
       ]);
 
-      const [nft, clicks, earnings, board] = await Promise.all(
-        res.map((r) => r.json())
-      );
       return {
         tokenBalance,
-        nfts: nft.nfts ?? [],
-        clicks: clicks.clicks,
-        earnings: earnings.earnings,
-        board: board?.board ?? [],
+        ...stats.data,
       };
     },
     {
       refreshInterval: 60,
+      revalidateOnMount: true,
     }
   );
 
   const handleFlipCard = useCallback(
     async (idx: number) => {
-      if (!signer) return openConnectModal?.();
-      const cardClicked = userStats?.board.find((b) => b.id === idx);
-      if (cardClicked) return;
-
-      if (!userStats?.clicks) return toast.error("No have clicks");
-
       try {
         if (submitting) return;
-        if (!signer) return openConnectModal?.();
-        const signature = await signer.signMessage("FLIP");
 
-        const resp = await fetch(`${GAME_API}/flipCard`, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "text/plain",
-          },
-          method: "POST",
-          body: JSON.stringify({
-            address: address,
-            signature: signature,
-            card: idx,
-          }),
+        const cardClicked = userStats?.cards.find((c) => c.cardId === idx);
+        if (cardClicked) return;
+
+        if (!userStats?.numOfFlip) return toast.error("No have flip clicks");
+
+        if (!signer) return openConnectModal?.();
+        const signature = await signer.signMessage(`FLIP ${idx}`);
+
+        const res = await axios.post<EWin>(`${GAME_API}/flip`, {
+          account: address,
+          signature: signature,
+          cardId: idx,
         });
-        const message = (await resp.json()).message;
+
         useRootStore.setState({ txHash: Date.now().toString() });
-        if (message === "Win Jackpot") {
+        if (res.data === EWin.JACKPOT) {
           toast.success("Jackpot!");
-        } else if (message === "Win Stars") {
+        } else if (res.data === EWin.WIN) {
           toast.success("Win!");
         } else {
           toast.info("Lose!");
@@ -142,8 +138,8 @@ export default function GamePage() {
       address,
       signer,
       openConnectModal,
-      userStats?.board,
-      userStats?.clicks,
+      userStats?.cards,
+      userStats?.numOfFlip,
     ]
   );
 
@@ -155,7 +151,7 @@ export default function GamePage() {
       if (submitting) return;
       if (!signer) return openConnectModal?.();
       const tx = await burnNft(chainId, signer, selectedNftBurn.id);
-      await fetch(`${GAME_API}/directProcessBurnedNft?txHash=${tx.txHash}`);
+      // await fetch(`${GAME_API}/directProcessBurnedNft?txHash=${tx.txHash}`);
       useRootStore.setState({ txHash: tx.txHash });
       toast.success("Burn success");
     } catch (error: any) {
@@ -173,7 +169,7 @@ export default function GamePage() {
   const handleWithdraw = useCallback(async () => {
     if (!signer) return openConnectModal?.();
 
-    if (!userStats?.earnings) return toast.error("Nothing to withdraw");
+    if (!userStats?.rewarded) return toast.error("Nothing to withdraw");
 
     if (
       !confirm(
@@ -186,21 +182,16 @@ export default function GamePage() {
     try {
       if (submitting) return;
       if (!signer) return openConnectModal?.();
-      const signature = await signer.signMessage("WITHDRAW");
+      const signature = await signer.signMessage(
+        `WITHDRAW ${userStats.rewarded}`
+      );
 
-      const resp = await fetch(`${GAME_API}/withdrawEarnings`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "text/plain",
-        },
-        method: "POST",
-        body: JSON.stringify({
-          address: address,
-          signature: signature,
-          amount: userStats?.earnings,
-        }),
+      const tx = await axios.post<EWin>(`${GAME_API}/withdraw`, {
+        account: address,
+        signature: signature,
+        amount: userStats.rewarded,
       });
-      const message = (await resp.json()).message;
+
       useRootStore.setState({ txHash: Date.now().toString() });
       toast.success("Withdrawal successful!");
     } catch (error: any) {
@@ -213,7 +204,7 @@ export default function GamePage() {
           error
       );
     }
-  }, [chainId, address, signer, openConnectModal, userStats?.earnings]);
+  }, [chainId, address, signer, openConnectModal, userStats?.rewarded]);
 
   return (
     <div>
@@ -286,7 +277,13 @@ export default function GamePage() {
             <span className="text-primary">PLS</span>
           </div>
         </section>
-        <section className="flex desktop:gap-8 mobile:gap-2 mobile:flex-col desktop:flex-row">
+        <section className="flex desktop:gap-8 mobile:gap-2 mobile:flex-col desktop:flex-row relative">
+          {(isLoadingPool || isLoadingUser) && (
+            <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#0006] flex flex-col z-[999]">
+              <span className="m-auto loading loading-spinner loading-lg"></span>
+            </div>
+          )}
+
           <div className="grow-[3] overflow-auto">
             <div className="mobile:hidden desktop:block">
               <section className="flex desktop:gap-4 mobile:gap-2 desktop:items-end mobile:items-center mt-4 mobile:flex-col-reverse desktop:flex-row">
@@ -306,22 +303,27 @@ export default function GamePage() {
                     <label>Reward Winner</label>
                     <div className="frame">
                       <span id="rewardWinner">
-                        {numberWithCommas(userStats?.earnings ?? 0)} PLS
+                        {numberWithCommas(
+                          ethers.utils.formatEther(
+                            userStats?.rewarded || "0"
+                          ) ?? 0
+                        )}{" "}
+                        PLS
                       </span>
                     </div>
                   </div>
                   <div className="game-info-item">
                     <label>Number of click</label>
                     <div className="frame">
-                      <span id="noClick">{userStats?.clicks ?? 0}</span>
+                      <span id="noClick">{userStats?.numOfFlip ?? 0}</span>
                     </div>
                   </div>
-                  <div className="game-info-item">
+                  {/* <div className="game-info-item">
                     <label>Number of users</label>
                     <div className="frame">
                       <span id="noUsed">0</span>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="flex gap-4 pb-2">
                   <img
@@ -346,7 +348,9 @@ export default function GamePage() {
             </div>
             <section className="mt-4 grid grid-cols-10 gap-2 min-w-[800px]">
               {new Array(50).fill("").map((e, idx) => {
-                const cardClicked = userStats?.board.find((b) => b.id === idx);
+                const cardClicked = userStats?.cards?.find(
+                  (c) => c.cardId === idx
+                );
 
                 return (
                   <div
@@ -375,7 +379,7 @@ export default function GamePage() {
                         <img
                           src={
                             !!cardClicked
-                              ? `/assets/images/player-card/${cardClicked.card_id}.png`
+                              ? `/assets/images/player-card/${cardClicked.nftId}.png`
                               : "/assets/images/card-back.png"
                           }
                         />
@@ -395,7 +399,7 @@ export default function GamePage() {
                     id="poolRewards"
                     style={{ color: "yellowgreen", fontWeight: "bold" }}
                   >
-                    {numberWithCommas(poolReward?.reward ?? 0)} PLS
+                    {numberWithCommas(poolReward ?? 0)} PLS
                   </span>
                 </div>
               </div>
@@ -416,7 +420,9 @@ export default function GamePage() {
                     id="mainChar"
                     src={
                       selectedNftBurn
-                        ? `/assets/images/player-card/${selectedNftBurn.nftId}.png`
+                        ? `${selectedNftBurn.image}`
+                        : userStats?.burnedNft
+                        ? `${userStats.burnedNft.image}`
                         : "/assets/images/card-back.png"
                     }
                     alt="NFT"
@@ -443,7 +449,7 @@ export default function GamePage() {
                       id="gameBoardListNFT"
                       className="grid grid-cols-4 gap-2"
                     >
-                      {userStats?.nfts.map((nft) => (
+                      {userStats?.nfts?.map((nft) => (
                         <img
                           key={nft.id}
                           id="nft-${thisNft[0]}"

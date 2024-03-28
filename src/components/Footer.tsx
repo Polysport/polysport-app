@@ -23,20 +23,31 @@ export default function Footer() {
         </div>
 
         <div className="md:hidden flex flex-col text-[20px]">
-          <Link href="/">Home</Link>
-          <Link href="/marketplace">Marketplace</Link>
-          <Link href="/game">Game</Link>
-          <Link href="https://polysport.gitbook.io/polysport/" target="_blank">
+          <Link className="russo-one-font" href="/">
+            Home
+          </Link>
+          <Link className="russo-one-font" href="/marketplace">
+            Marketplace
+          </Link>
+          <Link className="russo-one-font" href="/game">
+            Game
+          </Link>
+          <Link
+            className="russo-one-font"
+            href="https://polysport.gitbook.io/polysport/"
+            target="_blank"
+          >
             Document
           </Link>
           <Link
+            className="russo-one-font"
             href="https://polysport.gitbook.io/polysport/development/branding"
             target="_blank"
           >
             Brand Kit
           </Link>
           <Link
-            className="cursor-pointer"
+            className="russo-one-font"
             href="https://polysport.gitbook.io/polysport/development/contact-us"
             target="_blank"
           >
@@ -46,25 +57,33 @@ export default function Footer() {
 
         <div className="md:col-span-2 xl:col-span-3 grid md:grid-cols-2 xl:grid-cols-3">
           <div className="hidden md:flex flex-col text-[20px]">
-            <Link href="/">Home</Link>
-            <Link href="/marketplace">Marketplace</Link>
-            <Link href="/game">Game</Link>
+            <Link className="russo-one-font" href="/">
+              Home
+            </Link>
+            <Link className="russo-one-font" href="/marketplace">
+              Marketplace
+            </Link>
+            <Link className="russo-one-font" href="/game">
+              Game
+            </Link>
           </div>
           <div className="hidden md:flex flex-col text-[20px]">
             <Link
+              className="russo-one-font"
               href="https://polysport.gitbook.io/polysport/"
               target="_blank"
             >
               Document
             </Link>
             <Link
+              className="russo-one-font"
               href="https://polysport.gitbook.io/polysport/development/branding"
               target="_blank"
             >
               Brand Kit
             </Link>
             <Link
-              className="cursor-pointer"
+              className="russo-one-font"
               href="https://polysport.gitbook.io/polysport/development/contact-us"
               target="_blank"
             >
@@ -73,7 +92,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <div className="text-[20px] mb-[16px]">Community</div>
+            <div className="text-[20px] mb-[16px] russo-one-font">
+              Community
+            </div>
             <div className="flex gap-x-[29px]">
               <Link
                 href="https://t.me/polysportCN"

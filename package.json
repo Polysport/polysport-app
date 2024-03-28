@@ -18,6 +18,7 @@
     "@ark-ui/react": "^2.2.2",
     "@park-ui/tailwind-plugin": "^0.19.1",
     "@rainbow-me/rainbowkit": "^0.12.14",
+    "axios": "^1.6.8",
     "clsx": "^2.1.0",
     "copy-to-clipboard": "^3.3.3",
     "dayjs": "^1.11.10",

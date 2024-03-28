@@ -5,12 +5,14 @@ import { mintNft } from "@/services";
 import "@/styles/mint.css";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import clsx from "clsx";
+import { add } from "lodash";
 import { useCallback, useState } from "react";
 import { toast } from "react-toastify";
-import { useChainId, useSigner } from "wagmi";
+import { useAccount, useChainId, useSigner } from "wagmi";
 
 export default function MintPage() {
   const chainId = useChainId();
+  const { address } = useAccount();
   const { data: signer } = useSigner();
 
   const { openConnectModal } = useConnectModal();
@@ -22,11 +24,11 @@ export default function MintPage() {
     async (grade: GRADE) => {
       try {
         if (submitting) return;
-        if (!signer) return openConnectModal?.();
+        if (!signer || !address) return openConnectModal?.();
         setSubmitting(true);
         setGradeSubmitting(grade);
-        let tx = await mintNft(chainId, signer!, grade);
-        await fetch(`${GAME_API}/directProcessMintedNft?txHash=${tx.txHash}`);
+        let tx = await mintNft(chainId, address, signer!, grade);
+        // await fetch(`${GAME_API}/directProcessMintedNft?txHash=${tx.txHash}`);
         setGradeSubmitting(undefined);
         setSubmitting(false);
 
@@ -43,7 +45,7 @@ export default function MintPage() {
         );
       }
     },
-    [chainId, signer, openConnectModal]
+    [chainId, address, signer, openConnectModal]
   );
 
   return (
