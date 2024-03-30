@@ -26,9 +26,13 @@ export default function DefaultLayout({
             <Footer />
           </div>
         </div> */}
-        <Header />
-        <div className="pt-[61px] md:pt[-84px] pb-[78px]">{children}</div>
-        <Footer />
+        <div className="flex flex-col justify-between min-h-screen">
+          <Header />
+          <div className="flex-1 pt-[61px] md:pt-[94px] pb-[78px] flex">
+            <div className="flex-1 max-w-[1280px] mx-auto">{children}</div>
+          </div>
+          <Footer />
+        </div>
       </RainbowKitProvider>
     </WagmiConfig>
   );

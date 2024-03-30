@@ -20,3 +20,12 @@ export const getTokenContract = (
   const address = getContract(chainId, "Token");
   return getContractInstance(address, Erc20Abi, providerOrSigner);
 };
+
+export const getUSDTContract = (
+  chainId: number,
+  providerOrSigner: Provider | ethers.Signer
+) => {
+  const address = getContract(chainId, "USDT");
+  console.log("🚀 ~ file: getContract.ts:29 ~ address:", address);
+  return getContractInstance(address, Erc20Abi, providerOrSigner);
+};
