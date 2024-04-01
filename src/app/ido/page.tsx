@@ -2,7 +2,7 @@
 import Button from "@/components/Button";
 import clsx from "clsx";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { EPool, POOLS, STATUS, statusToText, timeDiff } from "./utils";
 import CountDown from "./components/CountDown";
 import Status from "./components/Status";
@@ -13,26 +13,51 @@ import { Address, useAccount, useChainId, useSigner } from "wagmi";
 import useSWR from "swr";
 import { getUSDTBalance } from "@/services";
 import { ChainId } from "@/configs/type";
+import { commit, getIdoPoolStats, getUserStats } from "@/services/ido";
+import { BigNumber, Signer, ethers } from "ethers";
+import { toast } from "react-toastify";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 dayjs.extend(utc);
 
 export default function IdoPage() {
   const chainId = useChainId();
   const { address } = useAccount();
-  const account = useSigner();
-
-  const { data: userStats } = useSWR<{
-    usdtBalance: string;
-  }>(["ido", address, chainId], async ([_, address, chainId]) => {
-    const [usdtBalance] = await Promise.all([
-      getUSDTBalance(chainId as ChainId, address as Address),
-    ]);
-
-    return {
-      usdtBalance,
-    };
-  });
+  const { data: signer } = useSigner();
 
   const [selectedPool, setSelectedPool] = useState<EPool>(EPool.OG);
+
+  const { data: poolStats } = useSWR(
+    ["ido-pool", selectedPool, chainId],
+    async ([_, selectedPool, chainId]) => {
+      const poolStats = await getIdoPoolStats(chainId, selectedPool);
+      return poolStats;
+    }
+  );
+
+  const { data: userStats, isLoading: loadingUserStats } = useSWR<{
+    usdtBalance: string;
+    committed: string;
+    claimedCount: number;
+    isWhitelist: boolean;
+  }>(
+    ["ido-user", address, chainId, selectedPool],
+    async ([_, address, chainId, selectedPool]) => {
+      const [usdtBalance, userStats] = await Promise.all([
+        getUSDTBalance(chainId as ChainId, address as Address),
+        getUserStats(
+          chainId as ChainId,
+          selectedPool as EPool,
+          address as Address
+        ),
+      ]);
+
+      return {
+        usdtBalance,
+        ...userStats,
+      };
+    }
+  );
+
   const [timeStartDiff, setTimeStartDiff] = useState<{
     d: number;
     h: number;
@@ -58,7 +83,62 @@ export default function IdoPage() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [POOLS[selectedPool]?.start, POOLS[selectedPool]?.end]);
+  }, [selectedPool]);
+
+  const { openConnectModal } = useConnectModal();
+
+  const [commitAmount, setCommitAmount] = useState("");
+  const [committing, setCommitting] = useState<boolean>(false);
+
+  const handleCommit = useCallback(async () => {
+    if (!signer || !address) return openConnectModal?.();
+    if (!commitAmount || isNaN(+commitAmount))
+      return toast.warn("Invalid commit amount");
+    const parsedAmount = ethers.utils.parseEther(commitAmount);
+    if (
+      parsedAmount
+        .add(
+          BigNumber.from(ethers.utils.parseEther(userStats?.committed ?? "0"))
+        )
+        .gt(
+          BigNumber.from(
+            ethers.utils.parseEther(POOLS[selectedPool].max.toString())
+          )
+        )
+    )
+      return toast.warn(
+        `Over max commit. You committed ${numberWithCommas(
+          userStats?.committed
+        )} USDT`
+      );
+    if (parsedAmount.lt(BigNumber.from(POOLS[selectedPool].max)))
+      return toast.warn("Not enough min commit");
+
+    try {
+      setCommitting(true);
+      await commit(chainId, selectedPool, signer, address, parsedAmount);
+      toast.success("Commit success");
+      setCommitting(false);
+    } catch (error: any) {
+      console.log("🚀 ~ file: page.tsx:108 ~ handleCommit ~ error:", error);
+      setCommitting(false);
+      toast.error(
+        error?.error?.data?.message ||
+          error?.reason ||
+          error?.data?.message ||
+          error?.message ||
+          error
+      );
+    }
+  }, [
+    chainId,
+    signer,
+    address,
+    commitAmount,
+    userStats?.committed,
+    poolStats?.committed,
+    selectedPool,
+  ]);
 
   return (
     <div className="flex px-2 md:px-[32px] ">
@@ -68,7 +148,7 @@ export default function IdoPage() {
             <Button
               key={p.type}
               handler={() => setSelectedPool(p.type)}
-              text={`${p.type} POOL`}
+              text={`${POOLS[p.type].name} POOL`}
               className={clsx(
                 "text-[12px] md:text-[16px] max-w-[147px] md:max-w-[205px] !pt-[51px] hover:brightness-100",
                 {
@@ -104,7 +184,9 @@ export default function IdoPage() {
               />
             </div>
             <div>
-              <div className="text-[24px] font-medium">{100}</div>
+              <div className="text-[24px] font-medium">
+                {numberWithCommas(poolStats?.contributors)}
+              </div>
               <div className="text-[#C6C6C6]">Total Contributor</div>
             </div>
           </div>
@@ -119,7 +201,7 @@ export default function IdoPage() {
             </div>
             <div>
               <div className="text-[24px] font-medium">
-                {POOLS[selectedPool].supply}
+                {numberWithCommas(POOLS[selectedPool].supply)}
               </div>
               <div className="text-[#C6C6C6]">PLS</div>
             </div>
@@ -207,37 +289,58 @@ export default function IdoPage() {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center justify-between">
-                  <div className="text-[12px] text-[#C6C6C6]">
-                    USDT balance:
-                  </div>
-                  <div className="text-[12px]">
-                    {numberWithCommas(userStats?.usdtBalance ?? "0")} USDT
-                  </div>
+              {loadingUserStats ? (
+                <div className="skeleton w-full flex-1 rounded-2xl bg-[#2D313E]" />
+              ) : !userStats?.isWhitelist ? (
+                <div className="flex-1 text-capital flex items-center justify-center bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
+                  <Button
+                    text="YOU ARE NOT ELIGIBLE"
+                    className="bg_btn_normal w-full max-w-[289px] text-[16px]"
+                  />
                 </div>
-                <input
-                  className={clsx(
-                    "border border-[#2D313E] placeholder:opacity-30 appearance-none block w-full bg-[#0D0E12] rounded-2xl p-3 leading-tight focus:outline-none focus:bg-[#0D0E12]"
-                  )}
-                  type="text"
-                  placeholder="Enter amount"
-                />
-              </div>
+              ) : (
+                <>
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center justify-between">
+                      <div className="text-[12px] text-[#C6C6C6]">
+                        USDT balance:
+                      </div>
+                      <div className="text-[12px]">
+                        {numberWithCommas(userStats?.usdtBalance ?? "0")} USDT
+                      </div>
+                    </div>
+                    <input
+                      value={commitAmount}
+                      onChange={(e) => setCommitAmount(e.target.value)}
+                      className={clsx(
+                        "border border-[#2D313E] placeholder:opacity-30 appearance-none block w-full bg-[#0D0E12] rounded-2xl p-3 leading-tight focus:outline-none focus:bg-[#0D0E12]"
+                      )}
+                      type="text"
+                      placeholder="Enter amount"
+                    />
+                  </div>
 
-              <div className="flex items-center justify-between bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
-                You will receiver:
-              </div>
+                  <div className="text-center font-medium bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
+                    You will receiver:{" "}
+                    {numberWithCommas(
+                      +commitAmount / +POOLS[selectedPool].rate
+                    )}{" "}
+                    PLS
+                  </div>
 
-              <div className="flex items-center justify-center">
-                <Button
-                  // handler={() => setSelectedPool(p.type)}
-                  text="Buy"
-                  className={clsx(
-                    "text-[12px] md:text-[16px] w-[206px] !pt-[51px]  "
-                  )}
-                />
-              </div>
+                  <div className="flex items-center justify-center">
+                    <Button
+                      handler={handleCommit}
+                      loading={committing}
+                      enable={true}
+                      text="Buy"
+                      className={clsx(
+                        "text-[12px] md:text-[16px] w-[206px] !pt-[51px]  "
+                      )}
+                    />
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="flex flex-col border border-[#2D313E] bg-[#0D0E12] rounded-3xl p-6">
@@ -292,14 +395,7 @@ export default function IdoPage() {
                     Total committed
                   </div>
                   <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
-                    {numberWithCommas(
-                      // ethers.formatUnits(
-                      //   launchpadStatistics?.committed ?? "0",
-                      //   POOLS[selectedPool].tokenRaise.decimals
-                      // )
-                      0
-                    )}{" "}
-                    USDT
+                    {numberWithCommas(poolStats?.committed)} USDT
                   </div>
                 </div>
 
@@ -308,10 +404,9 @@ export default function IdoPage() {
                   <progress
                     className="progress progress-accent h-[16px] mt-3"
                     value={
-                      // (+(launchpadStatistics?.committed ?? "0") /
-                      //   +POOLS[selectedPool].totalRaise) *
-                      // 100
-                      0
+                      (+(poolStats?.committed ?? "0") /
+                        +POOLS[selectedPool].raise) *
+                      100
                     }
                     max="100"
                   ></progress>
@@ -322,12 +417,12 @@ export default function IdoPage() {
                     </div>
                     {/* {!!launchpad ? ( */}
                     <div className="text-[12px] md:text-[14px] text-[#F1F1F1]">
-                      {/* {numberWithCommas(
-                          (+(launchpadStatistics?.committed ?? "0") /
-                            +POOLS[selectedPool].totalRaise) *
-                            100
-                        )} */}
-                      0%
+                      {numberWithCommas(
+                        (+(poolStats?.committed ?? "0") /
+                          +POOLS[selectedPool].raise) *
+                          100
+                      )}
+                      %
                     </div>
                     {/* ) : null} */}
                   </div>
