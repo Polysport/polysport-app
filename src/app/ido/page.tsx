@@ -315,56 +315,60 @@ export default function IdoPage() {
                 </div>
               </div>
 
-              {timeStartDiff.status !== STATUS.END && loadingUserStats ? (
-                <div className="skeleton w-full flex-1 rounded-2xl bg-[#2D313E]" />
-              ) : !userStats?.isWhitelist ? (
-                <div className="flex-1 text-capital flex items-center justify-center bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
-                  <Button
-                    text="YOU ARE NOT ELIGIBLE"
-                    className="bg_btn_normal w-full max-w-[289px] text-[16px]"
-                  />
-                </div>
-              ) : (
+              {timeStartDiff.status !== STATUS.END && (
                 <>
-                  <div className="flex flex-col gap-1">
-                    <div className="flex items-center justify-between">
-                      <div className="text-[12px] text-[#C6C6C6]">
-                        USDT balance:
-                      </div>
-                      <div className="text-[12px]">
-                        {numberWithCommas(userStats?.usdtBalance ?? "0")} USDT
-                      </div>
-                    </div>
-                    <input
-                      value={commitAmount}
-                      onChange={(e) => setCommitAmount(e.target.value)}
-                      className={clsx(
-                        "border border-[#2D313E] placeholder:opacity-30 appearance-none block w-full bg-[#0D0E12] rounded-2xl p-3 leading-tight focus:outline-none focus:bg-[#0D0E12]"
-                      )}
-                      type="text"
-                      placeholder="Enter amount"
-                    />
-                  </div>
-
-                  <div className="text-center font-medium bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
-                    You will receiver:{" "}
-                    {numberWithCommas(
-                      +commitAmount / +POOLS[selectedPool].rate
-                    )}{" "}
-                    PLS
-                  </div>
-
-                  <div className="flex items-center justify-center">
+                  loadingUserStats ? (
+                  <div className="skeleton w-full flex-1 rounded-2xl bg-[#2D313E]" />
+                  ) : !userStats?.isWhitelist ? (
+                  <div className="flex-1 text-capital flex items-center justify-center bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
                     <Button
-                      handler={handleCommit}
-                      loading={submitting}
-                      enable={true}
-                      text="Buy"
-                      className={clsx(
-                        "text-[12px] md:text-[16px] w-[206px] !pt-[51px]  "
-                      )}
+                      text="YOU ARE NOT ELIGIBLE"
+                      className="bg_btn_normal w-full max-w-[289px] text-[16px]"
                     />
                   </div>
+                  ) : (
+                  <>
+                    <div className="flex flex-col gap-1">
+                      <div className="flex items-center justify-between">
+                        <div className="text-[12px] text-[#C6C6C6]">
+                          USDT balance:
+                        </div>
+                        <div className="text-[12px]">
+                          {numberWithCommas(userStats?.usdtBalance ?? "0")} USDT
+                        </div>
+                      </div>
+                      <input
+                        value={commitAmount}
+                        onChange={(e) => setCommitAmount(e.target.value)}
+                        className={clsx(
+                          "border border-[#2D313E] placeholder:opacity-30 appearance-none block w-full bg-[#0D0E12] rounded-2xl p-3 leading-tight focus:outline-none focus:bg-[#0D0E12]"
+                        )}
+                        type="text"
+                        placeholder="Enter amount"
+                      />
+                    </div>
+
+                    <div className="text-center font-medium bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
+                      You will receiver:{" "}
+                      {numberWithCommas(
+                        +commitAmount / +POOLS[selectedPool].rate
+                      )}{" "}
+                      PLS
+                    </div>
+
+                    <div className="flex items-center justify-center">
+                      <Button
+                        handler={handleCommit}
+                        loading={submitting}
+                        enable={true}
+                        text="Buy"
+                        className={clsx(
+                          "text-[12px] md:text-[16px] w-[206px] !pt-[51px]  "
+                        )}
+                      />
+                    </div>
+                  </>
+                  )
                 </>
               )}
 
