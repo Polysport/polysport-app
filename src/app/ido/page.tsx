@@ -352,8 +352,7 @@ export default function IdoPage() {
                       <div className="text-center font-medium bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
                         You will receiver:{" "}
                         {numberWithCommas(
-                          +commitAmount / +POOLS[selectedPool].rate +
-                            +userStats.committed / +POOLS[selectedPool].rate
+                          +commitAmount / +POOLS[selectedPool].rate
                         )}{" "}
                         PLS
                       </div>
@@ -488,6 +487,18 @@ export default function IdoPage() {
                 <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
                   {numberWithCommas(POOLS[selectedPool].min)} /{" "}
                   {numberWithCommas(POOLS[selectedPool].max)} USDT
+                </div>
+              </div>
+
+              <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
+                <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
+                  My Committed
+                </div>
+                <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
+                  {numberWithCommas(
+                    +(userStats?.committed ?? 0) / +POOLS[selectedPool].rate
+                  )}{" "}
+                  PLS
                 </div>
               </div>
               <div className="mt-3">
