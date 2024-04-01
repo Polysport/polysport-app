@@ -352,7 +352,8 @@ export default function IdoPage() {
                       <div className="text-center font-medium bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
                         You will receiver:{" "}
                         {numberWithCommas(
-                          +commitAmount / +POOLS[selectedPool].rate
+                          +commitAmount / +POOLS[selectedPool].rate +
+                            +userStats.committed / +POOLS[selectedPool].rate
                         )}{" "}
                         PLS
                       </div>
