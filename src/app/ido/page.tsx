@@ -315,7 +315,7 @@ export default function IdoPage() {
                 </div>
               </div>
 
-              {/* {timeStartDiff.status !== STATUS.END && loadingUserStats ? (
+              {timeStartDiff.status !== STATUS.END && loadingUserStats ? (
                 <div className="skeleton w-full flex-1 rounded-2xl bg-[#2D313E]" />
               ) : !userStats?.isWhitelist ? (
                 <div className="flex-1 text-capital flex items-center justify-center bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
@@ -366,9 +366,9 @@ export default function IdoPage() {
                     />
                   </div>
                 </>
-              )} */}
+              )}
 
-              {timeStartDiff.status !== STATUS.END && (
+              {timeStartDiff.status === STATUS.END && (
                 <>
                   <div className="grid grid-cols-2  border border-[#2D313E] bg-[#0D0E12] rounded-3xl p-6">
                     <div className="col-span-2 text-[16px] md:text-[20px] xl:text-[24px] pb-3 border-b border-b-[#2D313E] font-bold text-[#F1F1F1]">
