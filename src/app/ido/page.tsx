@@ -292,7 +292,29 @@ export default function IdoPage() {
 
           <div className="grid grid-cols-1 xl:grid-cols-2 mt-6 gap-6">
             <div className="flex flex-col gap-[20px]">
-              <div className="flex items-center justify-between bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
+              <div className="grid md:hidden grid-cols-1 gap-2 bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
+                <div>
+                  <div className="text-[14px] text-[#C6C6C6]">Total raise</div>
+                  <div className="font-medium">
+                    {numberWithCommas(POOLS[selectedPool].raise)} USDT
+                  </div>
+                </div>
+                <div className="min-h-[1px] border-b border-b-[#2D313E]" />
+                <div>
+                  <div className="text-[14px] text-[#C6C6C6]">Total sale</div>
+                  <div className="font-medium">
+                    {numberWithCommas(POOLS[selectedPool].sale)} PLS
+                  </div>
+                </div>
+                <div className="min-h-[1px] border-b border-b-[#2D313E]" />
+                <div>
+                  <div className="text-[14px] text-[#C6C6C6]">Rate</div>
+                  <div className="font-medium">
+                    1 PLS = {numberWithCommas(POOLS[selectedPool].rate)} USDT
+                  </div>
+                </div>
+              </div>
+              <div className="hidden md:flex items-center justify-between bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
                 <div>
                   <div className="text-[14px] text-[#C6C6C6]">Total raise</div>
                   <div className="font-medium">
