@@ -144,15 +144,15 @@ export default function IdoPage() {
     <div className="flex px-2 md:px-[32px] ">
       <div className="flex flex-col mx-auto w-full !max-w-[1080px] gap-6 mt-[50px]">
         <div className="flex justify-end gap-x-2">
-          {Object.values(POOLS).map((p) => (
+          {[EPool.OG, EPool.WL].map((type) => (
             <Button
-              key={p.type}
-              handler={() => setSelectedPool(p.type)}
-              text={`${POOLS[p.type].name} POOL`}
+              key={type}
+              handler={() => setSelectedPool(type)}
+              text={`${POOLS[type].name} POOL`}
               className={clsx(
                 "text-[12px] md:text-[16px] max-w-[147px] md:max-w-[205px] !pt-[51px] hover:brightness-100",
                 {
-                  "brightness-50": p.type != selectedPool,
+                  "brightness-50": type != selectedPool,
                 }
               )}
             />

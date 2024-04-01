@@ -31,19 +31,19 @@ export const POOLS = {
     max: 250,
     whitelisted: true,
   },
-  // [EPool.PUBLIC]: {
-  //   name: "PUBLIC",
-  //   type: EPool.PUBLIC,
-  //   supply: "45000000",
-  //   raise: "300000",
-  //   sale: "45000000",
-  //   rate: "0.0066",
-  //   start: 1711962000,
-  //   end: 1711965600,
-  //   min: 10,
-  //   max: 250,
-  //   whitelisted: false,
-  // },
+  [EPool.PUBLIC]: {
+    name: "PUBLIC",
+    type: EPool.PUBLIC,
+    supply: "45000000",
+    raise: "300000",
+    sale: "45000000",
+    rate: "0.0066",
+    start: 1711962000,
+    end: 1711965600,
+    min: 10,
+    max: 250,
+    whitelisted: false,
+  },
 };
 
 export enum STATUS {
