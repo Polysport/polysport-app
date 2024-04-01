@@ -17,6 +17,8 @@ export const POOLS = {
     min: 10,
     max: 250,
     whitelisted: true,
+    vestingPercent: [20, 80],
+    vestingTime: [0, 600],
   },
   [EPool.WL]: {
     name: "WL",
@@ -30,6 +32,8 @@ export const POOLS = {
     min: 10,
     max: 250,
     whitelisted: true,
+    vestingPercent: [20, 80],
+    vestingTime: [0, 600],
   },
   [EPool.PUBLIC]: {
     name: "PUBLIC",
@@ -43,6 +47,8 @@ export const POOLS = {
     min: 10,
     max: 250,
     whitelisted: false,
+    vestingPercent: [20, 80],
+    vestingTime: [0, 600],
   },
 };
 
@@ -72,7 +78,7 @@ export function timeDiff(current: number, start: number, end: number) {
   msec -= m * 1000 * 60;
   const s = Math.floor(msec / 1000);
 
-  return { d, h, m, s, status };
+  return { current, d, h, m, s, status };
 }
 
 export const statusToColor = (status: STATUS | undefined) => {

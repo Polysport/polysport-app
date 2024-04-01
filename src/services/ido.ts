@@ -39,7 +39,6 @@ export const commit = async (
   address: Address,
   amount: BigNumber
 ) => {
-  console.log("🚀 ~ file: ido.ts:40 ~ amount:", amount.toString());
   const idoContract = getIDOContract(chainId!, signer);
 
   const usdtContract = getUSDTContract(chainId!, signer);
@@ -53,6 +52,17 @@ export const commit = async (
   await idoContract.estimateGas.commit(ePool, amount);
 
   const tx = await idoContract.commit(ePool, amount);
+  await tx.wait();
+
+  return tx;
+};
+
+export const claim = async (chainId: ChainId, ePool: EPool, signer: Signer) => {
+  const idoContract = getIDOContract(chainId!, signer);
+
+  await idoContract.estimateGas.claim(ePool);
+
+  const tx = await idoContract.claim(ePool);
   await tx.wait();
 
   return tx;

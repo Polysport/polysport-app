@@ -13,7 +13,7 @@ import { Address, useAccount, useChainId, useSigner } from "wagmi";
 import useSWR from "swr";
 import { getUSDTBalance } from "@/services";
 import { ChainId } from "@/configs/type";
-import { commit, getIdoPoolStats, getUserStats } from "@/services/ido";
+import { claim, commit, getIdoPoolStats, getUserStats } from "@/services/ido";
 import { BigNumber, Signer, ethers } from "ethers";
 import { toast } from "react-toastify";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
@@ -59,12 +59,14 @@ export default function IdoPage() {
   );
 
   const [timeStartDiff, setTimeStartDiff] = useState<{
+    current: number;
     d: number;
     h: number;
     m: number;
     s: number;
     status: STATUS | undefined;
   }>({
+    current: 0,
     d: 0,
     h: 0,
     m: 0,
@@ -88,7 +90,7 @@ export default function IdoPage() {
   const { openConnectModal } = useConnectModal();
 
   const [commitAmount, setCommitAmount] = useState("");
-  const [committing, setCommitting] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   const handleCommit = useCallback(async () => {
     if (!signer || !address) return openConnectModal?.();
@@ -115,13 +117,13 @@ export default function IdoPage() {
       return toast.warn("Not enough min commit");
 
     try {
-      setCommitting(true);
+      setSubmitting(true);
       await commit(chainId, selectedPool, signer, address, parsedAmount);
       toast.success("Commit success");
-      setCommitting(false);
+      setSubmitting(false);
     } catch (error: any) {
       console.log("🚀 ~ file: page.tsx:108 ~ handleCommit ~ error:", error);
-      setCommitting(false);
+      setSubmitting(false);
       toast.error(
         error?.error?.data?.message ||
           error?.reason ||
@@ -139,6 +141,30 @@ export default function IdoPage() {
     poolStats?.committed,
     selectedPool,
   ]);
+
+  const handleClaim = useCallback(async () => {
+    if (!signer || !address) return openConnectModal?.();
+
+    // if (!!userStats?.claimedCount && userStats?.claimedCount >= POOLS[selectedPool].vestingPercent.length)
+    //   return toast.warn("Claim all");
+
+    try {
+      setSubmitting(true);
+      await claim(chainId, selectedPool, signer);
+      toast.success("Claim success");
+      setSubmitting(false);
+    } catch (error: any) {
+      console.log("🚀 ~ file: page.tsx:108 ~ handleCommit ~ error:", error);
+      setSubmitting(false);
+      toast.error(
+        error?.error?.data?.message ||
+          error?.reason ||
+          error?.data?.message ||
+          error?.message ||
+          error
+      );
+    }
+  }, [chainId, signer, address, userStats?.claimedCount, selectedPool]);
 
   return (
     <div className="flex px-2 md:px-[32px] ">
@@ -289,7 +315,7 @@ export default function IdoPage() {
                 </div>
               </div>
 
-              {loadingUserStats ? (
+              {/* {timeStartDiff.status !== STATUS.END && loadingUserStats ? (
                 <div className="skeleton w-full flex-1 rounded-2xl bg-[#2D313E]" />
               ) : !userStats?.isWhitelist ? (
                 <div className="flex-1 text-capital flex items-center justify-center bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
@@ -331,9 +357,74 @@ export default function IdoPage() {
                   <div className="flex items-center justify-center">
                     <Button
                       handler={handleCommit}
-                      loading={committing}
+                      loading={submitting}
                       enable={true}
                       text="Buy"
+                      className={clsx(
+                        "text-[12px] md:text-[16px] w-[206px] !pt-[51px]  "
+                      )}
+                    />
+                  </div>
+                </>
+              )} */}
+
+              {timeStartDiff.status !== STATUS.END && (
+                <>
+                  <div className="grid grid-cols-2  border border-[#2D313E] bg-[#0D0E12] rounded-3xl p-6">
+                    <div className="col-span-2 text-[16px] md:text-[20px] xl:text-[24px] pb-3 border-b border-b-[#2D313E] font-bold text-[#F1F1F1]">
+                      Vesting schedule
+                    </div>
+                    <div className="py-3 border-b border-b-[#2D313E] ">
+                      Time
+                    </div>
+                    <div className="py-3 text-right border-b border-b-[#2D313E] ">
+                      Amount
+                    </div>
+                    {POOLS[selectedPool].vestingPercent.map((v, idx) => (
+                      <>
+                        <div
+                          className={clsx(
+                            "py-3 border-b border-b-[#2D313E]",
+                            timeStartDiff.current >
+                              (POOLS[selectedPool].end +
+                                POOLS[selectedPool].vestingTime[idx]) *
+                                1000 && +(userStats?.claimedCount ?? 0) > idx
+                              ? "text-[#B920ED]"
+                              : "text-[#f1f1f166]"
+                          )}
+                        >
+                          {dayjs
+                            .utc(
+                              (POOLS[selectedPool].end +
+                                POOLS[selectedPool].vestingTime[idx]) *
+                                1000
+                            )
+                            .format("MMM DD YYYY HH:mm")}{" "}
+                          UTC
+                        </div>
+                        <div
+                          className={clsx(
+                            "text-right py-3 border-b border-b-[#2D313E]",
+                            timeStartDiff.current >
+                              (POOLS[selectedPool].end +
+                                POOLS[selectedPool].vestingTime[idx]) *
+                                1000 && +(userStats?.claimedCount ?? 0) > idx
+                              ? "text-[#B920ED]"
+                              : "text-[#f1f1f166]"
+                          )}
+                        >
+                          {(v * +(userStats?.committed ?? 0)) / 100}
+                        </div>
+                      </>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center justify-center">
+                    <Button
+                      handler={handleClaim}
+                      loading={submitting}
+                      enable={true}
+                      text="Claim"
                       className={clsx(
                         "text-[12px] md:text-[16px] w-[206px] !pt-[51px]  "
                       )}
