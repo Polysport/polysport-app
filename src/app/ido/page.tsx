@@ -418,7 +418,11 @@ export default function IdoPage() {
                               : "text-[#f1f1f166]"
                           )}
                         >
-                          {(v * +(userStats?.committed ?? 0)) / 100}
+                          {numberWithCommas(
+                            (v * +(userStats?.committed ?? 0)) /
+                              (+POOLS[selectedPool].rate * 100)
+                          )}{" "}
+                          PLS
                         </div>
                       </>
                     ))}
