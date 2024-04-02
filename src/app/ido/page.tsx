@@ -471,6 +471,22 @@ export default function IdoPage() {
               </div>
               <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
                 <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
+                  Soft Cap
+                </div>
+                <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
+                  {numberWithCommas(POOLS[selectedPool].soft)} USDT
+                </div>
+              </div>
+              <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
+                <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
+                  Hard Cap
+                </div>
+                <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
+                  {numberWithCommas(POOLS[selectedPool].raise)} USDT
+                </div>
+              </div>
+              <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
+                <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
                   Start time
                 </div>
                 <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
@@ -515,6 +531,17 @@ export default function IdoPage() {
               <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
                 <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
                   My Committed
+                </div>
+                <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
+                  {numberWithCommas(
+                    (userStats?.committed ?? 0)
+                  )}{" "}
+                  USDT
+                </div>
+              </div>
+              <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
+                <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
+                  My Allocation
                 </div>
                 <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
                   {numberWithCommas(
