@@ -170,7 +170,7 @@ export default function IdoPage() {
     <div className="flex px-2 md:px-[32px] ">
       <div className="flex flex-col mx-auto w-full !max-w-[1080px] gap-6 mt-[50px]">
         <div className="flex justify-end gap-x-2">
-          {[EPool.OG, EPool.WL].map((type) => (
+          {[EPool.OG].map((type) => (
             <Button
               key={type}
               handler={() => setSelectedPool(type)}
