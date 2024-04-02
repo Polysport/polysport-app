@@ -5,11 +5,8 @@ export const CONTRACTS: {
   [chainId in ChainId]: { [key: string]: Address };
 } = {
   [ChainId.POLYGON]: {
-    NFT: "",
     Token: "0x860Ca4c7A60dCdc045BA1012c27788860cFa565f",
-    POOL: "",
     USDT: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
-    IDO: "",
   },
   [ChainId.POLYGON_MUMBAI]: {
     NFT: "0x22C71322DDc3c65226E9384401f4e246C0308e9e",

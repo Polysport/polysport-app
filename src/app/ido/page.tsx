@@ -469,7 +469,7 @@ export default function IdoPage() {
               <div className="text-[16px] md:text-[20px] xl:text-[24px] pb-3 border-b border-b-[#2D313E] font-bold text-[#F1F1F1]">
                 Launchpad information
               </div>
-              <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
+              {/* <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
                 <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
                   Soft Cap
                 </div>
@@ -484,7 +484,7 @@ export default function IdoPage() {
                 <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
                   {numberWithCommas(POOLS[selectedPool].raise)} USDT
                 </div>
-              </div>
+              </div> */}
               <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
                 <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
                   Start time
