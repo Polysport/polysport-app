@@ -3,6 +3,7 @@
 import Button from "@/components/Button";
 import Link from "next/link";
 import Image from "next/image";
+import clsx from "clsx";
 
 const howToPlays = [
   "Prepare PLS tokens to mint boxes and MATIC to pay gas in your wallet",
@@ -279,6 +280,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+
       <div className="max-w-[1280px] mx-auto px-2 md:px-10 mt-20 max-sm:mt-[60px]">
         <div className="">
           <div className="">
@@ -287,12 +289,18 @@ export default function Home() {
             </p>
           </div>
           <div className="mt-10 max-sm:mt-5">
-            <div className="flex lg:justify-between gap-[30px] max-lg:gap-4 overflow-auto">
-              {/* Item */}
+            <div className="grid grid-cols-4 md:grid-cols-6  xl:grid-cols-5 gap-[30px] max-lg:gap-4 md:pb-20">
               {howToPlays.map((s, idx) => (
                 <div
                   key={idx}
-                  className="relative border border-white/40 rounded-[18px] w-[220px] min-w-[220px] h-[330px]"
+                  className={clsx(
+                    "col-span-2 xl:col-span-1 relative border border-white/40 rounded-[18px] w-full xl:min-w-[220px] xl:h-[330px]",
+                    {
+                      "max-md:col-start-2": idx == howToPlays.length - 1,
+                      "md:col-start-2 xl:col-start-4":
+                        idx == howToPlays.length - 2,
+                    }
+                  )}
                 >
                   <div className="absolute w-full h-full z-[-1]">
                     <img
@@ -304,12 +312,14 @@ export default function Home() {
                       src="/assets/images/cornorBottom.svg"
                     />
                   </div>
-                  <div className="w-full h-[50%] grid place-items-center mt-5">
+                  <div className="w-full h-[50%] grid place-items-center">
                     <img src={`/assets/images/how_to_play${idx + 1}.png`} />
                   </div>
-                  <div className="mt-8 px-3">
-                    <p className="text-[20px] font-semibold">Step {idx + 1}</p>
-                    <p className="text-[9px] mt-3">{s}</p>
+                  <div className="mt-4 xl:mt-8 px-3">
+                    <p className="text-[16px] xl:text-[20px] font-semibold">
+                      Step {idx + 1}
+                    </p>
+                    <p className="text-[9px] mt-0.5 xl:mt-3">{s}</p>
                   </div>
                 </div>
               ))}
@@ -326,9 +336,6 @@ export default function Home() {
                     />
                   </div>
                 </div>
-                {/* <div className="hidden md:block w-[33%] aspect-square relative ">
-                  <Image src="/assets/boxes.png" alt="boxes" fill sizes="any" />
-                </div> */}
                 <div className="flex-1 pt-[calc(66%)] md:pt-0 md:pl-[50%]">
                   <p>
                     Polysport is a lottery game where you stand a chance to win
@@ -352,6 +359,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+
       {/* <div className="max-w-[1280px] mx-auto px-2 md:px-10 mt-20 max-sm:mt-[60px]">
         <div className="flex items-center flex-wrap max-lg:flex-col">
           <div className="flex-1">
