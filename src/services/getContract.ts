@@ -1,5 +1,6 @@
 import NftAbi from "@/abis/nft.json";
 import Erc20Abi from "@/abis/erc20.json";
+import IdoAbi from "@/abis/ido.json";
 import { getContractInstance } from "@/utils/constracts/common";
 import { getContract } from "@/utils/constracts/get-contracts";
 import { Provider } from "@ethersproject/providers";
@@ -19,4 +20,20 @@ export const getTokenContract = (
 ) => {
   const address = getContract(chainId, "Token");
   return getContractInstance(address, Erc20Abi, providerOrSigner);
+};
+
+export const getUSDTContract = (
+  chainId: number,
+  providerOrSigner: Provider | ethers.Signer
+) => {
+  const address = getContract(chainId, "USDT");
+  return getContractInstance(address, Erc20Abi, providerOrSigner);
+};
+
+export const getIDOContract = (
+  chainId: number,
+  providerOrSigner: Provider | ethers.Signer
+) => {
+  const address = getContract(chainId, "IDO");
+  return getContractInstance(address, IdoAbi, providerOrSigner);
 };

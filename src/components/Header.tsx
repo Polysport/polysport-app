@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { IS_PROD } from "@/configs";
 
 export default function Header() {
   const pathName = usePathname();
@@ -54,24 +55,28 @@ export default function Header() {
                 </Link>
                 <div className="h-[2px] bg-white animation-header-item" />
               </div>
-              <div className="relative overflow-hidden header-item">
-                <Link href="/mint" className="cursor-pointer">
-                  Mint NFT
-                </Link>
-                <div className="h-[2px] bg-white animation-header-item" />
-              </div>
-              {/* <div className="relative overflow-hidden header-item">
+              {!IS_PROD && (
+                <>
+                  <div className="relative overflow-hidden header-item">
+                    <Link href="/mint" className="cursor-pointer">
+                      Mint NFT
+                    </Link>
+                    <div className="h-[2px] bg-white animation-header-item" />
+                  </div>
+                  {/* <div className="relative overflow-hidden header-item">
                 <Link href="/marketplace" className="cursor-pointer">
                   Marketplace
                 </Link>
                 <div className="h-[2px] bg-white animation-header-item" />
               </div> */}
-              <div className="relative overflow-hidden header-item">
-                <Link href="/game" className="cursor-pointer">
-                  Game
-                </Link>
-                <div className="h-[2px] bg-white animation-header-item" />
-              </div>
+                  <div className="relative overflow-hidden header-item">
+                    <Link href="/game" className="cursor-pointer">
+                      Game
+                    </Link>
+                    <div className="h-[2px] bg-white animation-header-item" />
+                  </div>
+                </>
+              )}
               {/* <div class="relative overflow-hidden header-item">
         <p class="cursor-pointer">Betting</p>
         <div class="h-[2px] bg-white animation-header-item"></div>
@@ -87,12 +92,14 @@ export default function Header() {
                 </Link>
                 <div className="h-[2px] bg-white animation-header-item" />
               </div>
-              {/* <div className="relative overflow-hidden header-item">
-                <Link href="/ido" className="cursor-pointer">
-                  IDO
-                </Link>
-                <div className="h-[2px] bg-white animation-header-item" />
-              </div> */}
+              {IS_PROD && (
+                <div className="relative overflow-hidden header-item">
+                  <Link href="/ido" className="cursor-pointer">
+                    IDO
+                  </Link>
+                  <div className="h-[2px] bg-white animation-header-item" />
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -108,24 +115,28 @@ export default function Header() {
           <Link href="/" className="text-end font-medium hover:font-semibold">
             Home
           </Link>
-          <Link
-            href="/mint"
-            className="text-end font-medium hover:font-semibold"
-          >
-            Mint NFT
-          </Link>
-          {/* <Link
+          {!IS_PROD && (
+            <>
+              <Link
+                href="/mint"
+                className="text-end font-medium hover:font-semibold"
+              >
+                Mint NFT
+              </Link>
+              {/* <Link
             href="/marketplace"
             className="text-end font-medium hover:font-semibold"
           >
             Marketplace
           </Link> */}
-          <Link
-            href="/game"
-            className="text-end font-medium hover:font-semibold"
-          >
-            Game
-          </Link>
+              <Link
+                href="/game"
+                className="text-end font-medium hover:font-semibold"
+              >
+                Game
+              </Link>
+            </>
+          )}
           <Link
             href="https://polysport.gitbook.io/polysport/development/contact-us"
             target="_blank"
@@ -133,12 +144,14 @@ export default function Header() {
           >
             Document
           </Link>
-          {/* <Link
-            href="/ido"
-            className="text-end font-medium hover:font-semibold"
-          >
-            IDO
-          </Link> */}
+          {IS_PROD && (
+            <Link
+              href="/ido"
+              className="text-end font-medium hover:font-semibold"
+            >
+              IDO
+            </Link>
+          )}
         </div>
       </div>
     </div>

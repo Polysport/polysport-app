@@ -20,3 +20,5 @@ export const GRADE_PRICE = {
 export const GAME_API =
   // http://localhost:5000/game";
   "https://api.polysport.finance/game";
+
+export const IS_PROD: boolean = process.env.NEXT_PUBLIC_MODE === "production";

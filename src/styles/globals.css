@@ -6,7 +6,7 @@
 
 * {
   font-family: "Poppins", sans-serif;
-  color: white;
+  color: #f1f1f1;
 }
 
 .russo-one-font {
@@ -1039,4 +1039,33 @@ body::-webkit-scrollbar {
   font-weight: 400;
   height: auto;
   /* line-height: 79px; */
+}
+
+.status-upcoming-bg {
+  border: 1px solid #ffe86c;
+  /* background: rgba(241, 241, 241, 0.1); */
+  background: linear-gradient(
+      0deg,
+      rgba(255, 232, 108, 0.15) 0%,
+      rgba(255, 232, 108, 0.15) 100%
+    ),
+    #0d0e12;
+}
+
+.status-inprogress-bg {
+  background: linear-gradient(
+      0deg,
+      rgba(108, 255, 123, 0.15) 0%,
+      rgba(108, 255, 123, 0.15) 100%
+    ),
+    #0d0e12;
+}
+
+.status-end-bg {
+  background: linear-gradient(
+      0deg,
+      rgba(255, 108, 108, 0.15) 0%,
+      rgba(255, 108, 108, 0.15) 100%
+    ),
+    #0d0e12;
 }
