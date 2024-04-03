@@ -28,7 +28,7 @@ export default function DefaultLayout({
         </div> */}
         <div className="flex flex-col justify-between min-h-screen">
           <Header />
-          <div className="flex-1 pt-[61px] md:pt-[94px] pb-[78px] flex">
+          <div className="flex-1 mt-[61px] md:mt-[94px] mb-[78px] flex">
             <div className="flex-1 max-w-[1280px] mx-auto">{children}</div>
           </div>
           <Footer />
