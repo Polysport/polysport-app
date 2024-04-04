@@ -94,8 +94,15 @@ export default function IdoPage() {
 
     const handleCommit = useCallback(async () => {
         if (!signer || !address) return openConnectModal?.();
+        const now = Math.floor(Date.now() / 1000);
+
+        if (now < POOLS[selectedPool].start)
+            return toast.warn("Pool is not started");
+        if (now > POOLS[selectedPool].end) return toast.warn("Pool is ended");
+
         if (!commitAmount || isNaN(+commitAmount))
             return toast.warn("Invalid commit amount");
+
         const parsedAmount = ethers.utils.parseEther(commitAmount);
         if (
             parsedAmount
