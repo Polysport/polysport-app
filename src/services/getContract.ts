@@ -7,33 +7,33 @@ import { Provider } from "@ethersproject/providers";
 import { ethers } from "ethers";
 
 export const getNftContract = (
-  chainId: number,
-  providerOrSigner: Provider | ethers.Signer
+    chainId: number,
+    providerOrSigner: Provider | ethers.Signer
 ) => {
-  const address = getContract(chainId, "NFT");
-  return getContractInstance(address, NftAbi, providerOrSigner);
+    const address = getContract(chainId, "NFT");
+    return getContractInstance(address, NftAbi, providerOrSigner);
 };
 
 export const getTokenContract = (
-  chainId: number,
-  providerOrSigner: Provider | ethers.Signer
+    chainId: number,
+    providerOrSigner: Provider | ethers.Signer
 ) => {
-  const address = getContract(chainId, "Token");
-  return getContractInstance(address, Erc20Abi, providerOrSigner);
+    const address = getContract(chainId, "Token");
+    return getContractInstance(address, Erc20Abi, providerOrSigner);
 };
 
 export const getUSDTContract = (
-  chainId: number,
-  providerOrSigner: Provider | ethers.Signer
+    chainId: number,
+    providerOrSigner: Provider | ethers.Signer
 ) => {
-  const address = getContract(chainId, "USDT");
-  return getContractInstance(address, Erc20Abi, providerOrSigner);
+    const address = getContract(chainId, "USDT");
+    return getContractInstance(address, Erc20Abi, providerOrSigner);
 };
 
 export const getIDOContract = (
-  chainId: number,
-  providerOrSigner: Provider | ethers.Signer
+    chainId: number,
+    providerOrSigner: Provider | ethers.Signer
 ) => {
-  const address = getContract(chainId, "IDO");
-  return getContractInstance(address, IdoAbi, providerOrSigner);
+    const address = getContract(chainId, "IDO");
+    return getContractInstance(address, IdoAbi, providerOrSigner);
 };

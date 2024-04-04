@@ -1,121 +1,121 @@
 .font-russo-one {
-  font-family: "Russo One", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Russo One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 body::-webkit-scrollbar {
-  width: 0;
+    width: 0;
 }
 
 .bg-img {
-  background-image: url("/assets/bg-img.png");
-  filter: brightness(30%);
+    background-image: url("/assets/bg-img.png");
+    filter: brightness(30%);
 }
 
 .shadow-btn:hover {
-  box-shadow: 0 2px 12px #931e80;
+    box-shadow: 0 2px 12px #931e80;
 }
 
 .animation-header-item {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: -100%;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: -100%;
 }
 
 .animate-fate {
-  opacity: 0;
+    opacity: 0;
 }
 
 .header-item:hover .animation-header-item {
-  animation: slide-in 0.5s ease-in-out both;
+    animation: slide-in 0.5s ease-in-out both;
 }
 
 .animate-fade {
-  animation: fade 0.5s ease-in-out both;
+    animation: fade 0.5s ease-in-out both;
 }
 
 .animate-fade-to-left {
-  animation: fade-to-left 0.5s ease-in-out both;
+    animation: fade-to-left 0.5s ease-in-out both;
 }
 
 .animate-fade-to-right {
-  animation: fade-to-right 0.5s ease-in-out both;
+    animation: fade-to-right 0.5s ease-in-out both;
 }
 
 .wrapper-item-the-product:hover .title-item-the-product {
-  color: white;
+    color: white;
 }
 
 .wrapper-item-the-product:hover .subtitle-item-the-product {
-  color: white;
+    color: white;
 }
 
 .subtitle-item-the-product {
-  color: black;
+    color: black;
 }
 
 @keyframes fade {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes fade-to-left {
-  0% {
-    left: 20%;
-    opacity: 0;
-  }
-  100% {
-    left: 0;
-    opacity: 1;
-  }
+    0% {
+        left: 20%;
+        opacity: 0;
+    }
+    100% {
+        left: 0;
+        opacity: 1;
+    }
 }
 @keyframes fade-to-right {
-  0% {
-    left: -20%;
-    opacity: 0;
-  }
-  100% {
-    left: 0;
-    opacity: 1;
-  }
+    0% {
+        left: -20%;
+        opacity: 0;
+    }
+    100% {
+        left: 0;
+        opacity: 1;
+    }
 }
 @keyframes slide-in {
-  0% {
-    left: -100%;
-  }
-  100% {
-    left: 0%;
-  }
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 0%;
+    }
 }
 
 @media only screen and (max-width: 767px) {
-  .bg-img {
-    background-image: url("/assets/bg-img-tablet.png");
-  }
+    .bg-img {
+        background-image: url("/assets/bg-img-tablet.png");
+    }
 }
 
 @media only screen and (max-width: 639px) {
-  .bg-img {
-    background-image: url("/assets/bg-img-mobile.png");
-  }
+    .bg-img {
+        background-image: url("/assets/bg-img-mobile.png");
+    }
 }
 
 *::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+    width: 8px;
+    height: 8px;
 }
 
 *::-webkit-scrollbar-track {
-  background: transparent;
+    background: transparent;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: rgba(147, 30, 128, 0.5);
-  border-radius: 20px;
+    background-color: rgba(147, 30, 128, 0.5);
+    border-radius: 20px;
 }

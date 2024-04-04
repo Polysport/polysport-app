@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 export const useRootStore = create<{
-  txHash: string;
+    txHash: string;
 }>((set) => ({
-  txHash: "",
+    txHash: "",
 }));

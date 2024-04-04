@@ -2,25 +2,25 @@ import { polygon, polygonMumbai } from "wagmi/chains";
 import { JsonRpcProvider } from "@ethersproject/providers";
 import { ChainId } from "@/configs/type";
 const polygonProvider = new JsonRpcProvider(
-  polygon.rpcUrls.default.http[0],
-  polygon.id
+    polygon.rpcUrls.default.http[0],
+    polygon.id
 );
 
 const polygonMumbaiProvider = new JsonRpcProvider(
-  // polygonMumbai.rpcUrls.default.http[0],
-  "https://polygon-mumbai.blockpi.network/v1/rpc/public",
-  polygonMumbai.id
+    // polygonMumbai.rpcUrls.default.http[0],
+    "https://polygon-mumbai.blockpi.network/v1/rpc/public",
+    polygonMumbai.id
 );
 
 export const PROVIDERS: { [chainId in ChainId]: JsonRpcProvider } = {
-  [ChainId.POLYGON]: polygonProvider,
-  [ChainId.POLYGON_MUMBAI]: polygonMumbaiProvider,
+    [ChainId.POLYGON]: polygonProvider,
+    [ChainId.POLYGON_MUMBAI]: polygonMumbaiProvider,
 };
 
 export function getProvider(chainId: ChainId): JsonRpcProvider {
-  if (!PROVIDERS[chainId]) {
-    throw new Error(`Unknown provider for chainId ${chainId}`);
-  }
+    if (!PROVIDERS[chainId]) {
+        throw new Error(`Unknown provider for chainId ${chainId}`);
+    }
 
-  return PROVIDERS[chainId];
+    return PROVIDERS[chainId];
 }
