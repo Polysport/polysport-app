@@ -184,26 +184,26 @@ export default function IdoPage() {
     }, [chainId, signer, address, userStats?.claimedCount, selectedPool]);
 
     return (
-        <div className="flex px-2 md:px-[32px] ">
+        <div className="flex px-2 tablet:px-[32px] pt-[80px] tablet:pt-[120px]">
             <div className="flex flex-col mx-auto w-full !max-w-[1080px] gap-6 mt-[50px]">
-                <div className="flex justify-end gap-x-2">
+                {/* <div className="flex justify-end gap-x-2">
                     {[EPool.OG].map((type) => (
                         <Button
                             key={type}
                             handler={() => setSelectedPool(type)}
                             text={`${POOLS[type].name} POOL`}
                             className={clsx(
-                                "text-[12px] md:text-[16px] max-w-[147px] md:max-w-[205px] !pt-[51px] hover:brightness-100",
+                                "text-[12px] tablet:text-[16px] max-w-[147px] tablet:max-w-[205px] !pt-[51px] hover:brightness-100",
                                 {
                                     "brightness-50": type != selectedPool,
                                 }
                             )}
                         />
                     ))}
-                </div>
+                </div> */}
 
-                <div className="p-2 xl:p-6 border rounded-3xl border-[#ffffff66] grid md:grid-cols-2 xl:grid-cols-3 bg-[#1A1C24] gap-2 xl:gap-6">
-                    <div className="md:col-span-2 xl:col-span-1 flex items-center gap-3 bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-2 xl:p-6">
+                <div className="p-2 desktop:p-6 border rounded-3xl border-[#ffffff66] grid tablet:grid-cols-2 desktop:grid-cols-3 bg-[#1A1C24] gap-2 desktop:gap-6">
+                    <div className="tablet:col-span-2 desktop:col-span-1 flex items-center gap-3 bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-2 desktop:p-6">
                         <div className="w-[60px] h-[60px] relative">
                             <Image
                                 src="/assets/images/ido/ido.svg"
@@ -219,7 +219,7 @@ export default function IdoPage() {
                             <div className="text-[#C6C6C6]">PLS</div>
                         </div>
                     </div>
-                    <div className="flex items-center gap-3 bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-2 xl:p-6">
+                    <div className="flex items-center gap-3 bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-2 desktop:p-6">
                         <div className="w-[60px] h-[60px] relative">
                             <Image
                                 src="/assets/images/ido/user.svg"
@@ -237,7 +237,7 @@ export default function IdoPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="flex items-center gap-3 bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-2 xl:p-6">
+                    <div className="flex items-center gap-3 bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-2 desktop:p-6">
                         <div className="w-[60px] h-[60px] relative">
                             <Image
                                 src="/assets/images/ido/supply.svg"
@@ -256,7 +256,7 @@ export default function IdoPage() {
                 </div>
 
                 <div className="p-6 border rounded-3xl border-[#ffffff66] bg-[#1A1C24] gap-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 tablet:grid-cols-2 gap-2">
                         <div className="flex items-center gap-3">
                             <div className="min-w-[66px] h-[66px] relative">
                                 <Image
@@ -298,18 +298,18 @@ export default function IdoPage() {
 
                         <div className="flex flex-col gap-1">
                             {/* {!!launchpad ? (
-                <div className="font-bold text-[16px] md:text-[20px] xl:text-[24px] text-[#F1F1F1] pb-3 border-b border-b-[#2D313E]">
+                <div className="font-bold text-[16px] tablet:text-[20px] desktop:text-[24px] text-[#F1F1F1] pb-3 border-b border-b-[#2D313E]">
                   Launchpad {statusToText(timeStartDiff.status)}
                 </div>
               ) : (
-                <div className="skeleton w-[80px] h-[19px] md:h-[23px] xl:h-[28px] bg-[#2D313E]" />
+                <div className="skeleton w-[80px] h-[19px] tablet:h-[23px] desktop:h-[28px] bg-[#2D313E]" />
               )} */}
 
                             <div className="text-[14px] text-[#C6C6C6]">
                                 Sale {statusToText(timeStartDiff.status)}
                             </div>
 
-                            <div className="flex justify-between md:justify-start gap-0 md:gap-3 xl:gap-8">
+                            <div className="flex justify-between tablet:justify-start gap-0 tablet:gap-3 desktop:gap-8">
                                 <CountDown
                                     start={POOLS[selectedPool].start}
                                     end={POOLS[selectedPool].end}
@@ -318,9 +318,9 @@ export default function IdoPage() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 xl:grid-cols-2 mt-6 gap-6">
+                    <div className="grid grid-cols-1 desktop:grid-cols-2 mt-6 gap-6">
                         <div className="flex flex-col gap-[20px]">
-                            <div className="grid md:hidden grid-cols-1 gap-2 bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
+                            <div className="grid tablet:hidden grid-cols-1 gap-2 bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
                                 <div>
                                     <div className="text-[14px] text-[#C6C6C6]">
                                         Total raise
@@ -358,7 +358,7 @@ export default function IdoPage() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="hidden md:flex items-center justify-between bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
+                            <div className="hidden tablet:flex items-center justify-between bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
                                 <div>
                                     <div className="text-[14px] text-[#C6C6C6]">
                                         Total raise
@@ -455,7 +455,7 @@ export default function IdoPage() {
                                                     enable={true}
                                                     text="Buy"
                                                     className={clsx(
-                                                        "text-[12px] md:text-[16px] w-[206px] !pt-[51px]  "
+                                                        "text-[12px] tablet:text-[16px] w-[206px] !pt-[51px]  "
                                                     )}
                                                 />
                                             </div>
@@ -467,7 +467,7 @@ export default function IdoPage() {
                             {timeStartDiff.status === STATUS.END && (
                                 <>
                                     <div className="grid grid-cols-2  border border-[#2D313E] bg-[#0D0E12] rounded-3xl p-6">
-                                        <div className="col-span-2 text-[16px] md:text-[20px] xl:text-[24px] pb-3 border-b border-b-[#2D313E] font-bold text-[#F1F1F1]">
+                                        <div className="col-span-2 text-[16px] tablet:text-[20px] desktop:text-[24px] pb-3 border-b border-b-[#2D313E] font-bold text-[#F1F1F1]">
                                             Vesting schedule
                                         </div>
                                         <div className="py-3 border-b border-b-[#2D313E] ">
@@ -566,7 +566,7 @@ export default function IdoPage() {
                                             enable={true}
                                             text="Claim"
                                             className={clsx(
-                                                "text-[12px] md:text-[16px] w-[206px] !pt-[51px]  "
+                                                "text-[12px] tablet:text-[16px] w-[206px] !pt-[51px]  "
                                             )}
                                         />
                                     </div>
@@ -575,30 +575,30 @@ export default function IdoPage() {
                         </div>
 
                         <div className="flex flex-col border border-[#2D313E] bg-[#0D0E12] rounded-3xl p-6">
-                            <div className="text-[16px] md:text-[20px] xl:text-[24px] pb-3 border-b border-b-[#2D313E] font-bold text-[#F1F1F1]">
+                            <div className="text-[16px] tablet:text-[20px] desktop:text-[24px] pb-3 border-b border-b-[#2D313E] font-bold text-[#F1F1F1]">
                                 Launchpad information
                             </div>
                             {/* <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
-                <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
+                <div className="text-[12px] tablet:text-[14px] text-[#C6C6C6]">
                   Soft Cap
                 </div>
-                <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
+                <div className="text-[14px] tablet:text-[16px] font-medium text-[#F1F1F1]">
                   {numberWithCommas(POOLS[selectedPool].soft)} USDT
                 </div>
               </div>
               <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
-                <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
+                <div className="text-[12px] tablet:text-[14px] text-[#C6C6C6]">
                   Hard Cap
                 </div>
-                <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
+                <div className="text-[14px] tablet:text-[16px] font-medium text-[#F1F1F1]">
                   {numberWithCommas(POOLS[selectedPool].raise)} USDT
                 </div>
               </div> */}
                             <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
-                                <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
+                                <div className="text-[12px] tablet:text-[14px] text-[#C6C6C6]">
                                     Start time
                                 </div>
-                                <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
+                                <div className="text-[14px] tablet:text-[16px] font-medium text-[#F1F1F1]">
                                     {dayjs
                                         .utc(POOLS[selectedPool].start * 1000)
                                         .format("MMM DD YYYY HH:mm")}{" "}
@@ -606,10 +606,10 @@ export default function IdoPage() {
                                 </div>
                             </div>
                             <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
-                                <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
+                                <div className="text-[12px] tablet:text-[14px] text-[#C6C6C6]">
                                     End time
                                 </div>
-                                <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
+                                <div className="text-[14px] tablet:text-[16px] font-medium text-[#F1F1F1]">
                                     {dayjs
                                         .utc(POOLS[selectedPool].end * 1000)
                                         .format("MMM DD YYYY HH:mm")}{" "}
@@ -618,20 +618,20 @@ export default function IdoPage() {
                             </div>
 
                             {/* <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
-                <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
+                <div className="text-[12px] tablet:text-[14px] text-[#C6C6C6]">
                   Vesting
                 </div>
                 {!!launchpad ? (
-                  <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
+                  <div className="text-[14px] tablet:text-[16px] font-medium text-[#F1F1F1]">
                     {POOLS[selectedPool].vestingPercent[0] / 1000}% on TGE
                   </div>
                 ) : null}
               </div> */}
                             <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
-                                <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
+                                <div className="text-[12px] tablet:text-[14px] text-[#C6C6C6]">
                                     Min / Max commit
                                 </div>
-                                <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
+                                <div className="text-[14px] tablet:text-[16px] font-medium text-[#F1F1F1]">
                                     {numberWithCommas(POOLS[selectedPool].min)}{" "}
                                     /{" "}
                                     {numberWithCommas(POOLS[selectedPool].max)}{" "}
@@ -640,10 +640,10 @@ export default function IdoPage() {
                             </div>
 
                             <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
-                                <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
+                                <div className="text-[12px] tablet:text-[14px] text-[#C6C6C6]">
                                     My Committed
                                 </div>
-                                <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
+                                <div className="text-[14px] tablet:text-[16px] font-medium text-[#F1F1F1]">
                                     {numberWithCommas(
                                         userStats?.committed ?? 0
                                     )}{" "}
@@ -651,10 +651,10 @@ export default function IdoPage() {
                                 </div>
                             </div>
                             <div className="flex justify-between py-3 border-b border-b-[#2D313E]">
-                                <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
+                                <div className="text-[12px] tablet:text-[14px] text-[#C6C6C6]">
                                     My Allocation
                                 </div>
-                                <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
+                                <div className="text-[14px] tablet:text-[16px] font-medium text-[#F1F1F1]">
                                     {numberWithCommas(
                                         +(userStats?.committed ?? 0) /
                                             +POOLS[selectedPool].rate
@@ -664,10 +664,10 @@ export default function IdoPage() {
                             </div>
                             <div className="mt-3">
                                 <div className="flex justify-between">
-                                    <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
+                                    <div className="text-[12px] tablet:text-[14px] text-[#C6C6C6]">
                                         Total committed
                                     </div>
-                                    <div className="text-[14px] md:text-[16px] font-medium text-[#F1F1F1]">
+                                    <div className="text-[14px] tablet:text-[16px] font-medium text-[#F1F1F1]">
                                         {numberWithCommas(poolStats?.committed)}{" "}
                                         USDT
                                     </div>
@@ -686,11 +686,11 @@ export default function IdoPage() {
                                     ></progress>
                                     {/* ) : null} */}
                                     <div className="flex justify-between">
-                                        <div className="text-[12px] md:text-[14px] text-[#C6C6C6]">
+                                        <div className="text-[12px] tablet:text-[14px] text-[#C6C6C6]">
                                             Process
                                         </div>
                                         {/* {!!launchpad ? ( */}
-                                        <div className="text-[12px] md:text-[14px] text-[#F1F1F1]">
+                                        <div className="text-[12px] tablet:text-[14px] text-[#F1F1F1]">
                                             {numberWithCommas(
                                                 (+(
                                                     poolStats?.committed ?? "0"
