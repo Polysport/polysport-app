@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Footer() {
     return (
         <div className="bg-[#131313]">
-            <div className="max-w-[1280px] mx-auto px-[22px] py-[49px]  grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-y-[24px] md:gap-x-[32px] xl:gap-x-[40px]">
+            <div className="max-w-[1280px] mx-auto px-[22px] py-[49px]  grid grid-cols-1 tablet:grid-cols-3 desktop:grid-cols-4 gap-y-[24px] tablet:gap-x-[32px] desktop:gap-x-[40px]">
                 <div className="flex flex-col gap-y-[24px]">
                     <div className="flex items-center gap-1">
                         <div className="w-[48px] h-[48px] relative">
@@ -28,7 +28,7 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <div className="md:hidden flex flex-col text-[20px]">
+                <div className="tablet:hidden flex flex-col text-[20px]">
                     <Link className="russo-one-font" href="/">
                         Home
                     </Link>
@@ -61,8 +61,8 @@ export default function Footer() {
                     </Link>
                 </div>
 
-                <div className="md:col-span-2 xl:col-span-3 grid md:grid-cols-2 xl:grid-cols-3">
-                    <div className="hidden md:flex flex-col text-[20px]">
+                <div className="tablet:col-span-2 desktop:col-span-3 grid tablet:grid-cols-2 desktop:grid-cols-3">
+                    <div className="hidden tablet:flex flex-col text-[20px]">
                         <Link className="russo-one-font" href="/">
                             Home
                         </Link>
@@ -73,7 +73,7 @@ export default function Footer() {
                             Game
                         </Link>
                     </div>
-                    <div className="hidden md:flex flex-col text-[20px]">
+                    <div className="hidden tablet:flex flex-col text-[20px]">
                         <Link
                             className="russo-one-font"
                             href="https://polysport.gitbook.io/polysport/"
@@ -168,7 +168,7 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <p className="md:col-span-3 xl:col-span-4 text-[12px] md:text-[16px] text-center opacity-70 font-medium">
+                <p className="tablet:col-span-3 desktop:col-span-4 text-[12px] tablet:text-[16px] text-center opacity-70 font-medium">
                     {new Date().getFullYear()} © Copyright POLYSPORT. All Rights
                     Reserved
                 </p>

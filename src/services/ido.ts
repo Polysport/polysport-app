@@ -5,12 +5,13 @@ import { BigNumber, Signer, ethers } from "ethers";
 import { getIDOContract, getUSDTContract } from "./getContract";
 import { Address } from "wagmi";
 import { getContract } from "@/utils/constracts/get-contracts";
+import { IS_PROD } from "@/configs";
 
 export const getIdoPoolStats = async (chainId: ChainId, ePool: EPool) => {
     const idoContract = getIDOContract(chainId!, getProvider(chainId));
     const stats = await idoContract.getPoolStats(ePool);
     return {
-        committed: ethers.utils.formatEther(stats.committed),
+        committed: ethers.utils.formatUnits(stats.committed, IS_PROD ? 6 : 18),
         contributors: stats.contributors.toNumber(),
     };
 };

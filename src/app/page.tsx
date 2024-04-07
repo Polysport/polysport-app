@@ -20,32 +20,32 @@ export default function Home() {
             <div className="mx-auto">
                 <div className="relative home_banner">
                     <img
-                        className="md:hidden w-full z-[-1]"
+                        className="tablet:hidden w-full z-[-1]"
                         src="/assets/images/background/home_banner_mobile.png"
                     />
                     <img
-                        className="hidden md:block xl:hidden w-full z-[-1]"
+                        className="hidden tablet:block desktop:hidden w-full z-[-1]"
                         src="/assets/images/background/home_banner_tablet.png"
                     />
                     <img
-                        className="hidden xl:block w-full z-[-1]"
+                        className="hidden desktop:block w-full z-[-1]"
                         src="/assets/images/background/home_banner_pc.png"
                     />
-                    <div className="flex flex-col justify-between gap-y-5 max-lg:items-center absolute bottom-0 xl:bottom-1/2 left-1/2 xl:left-[10%] -translate-x-1/2 xl:translate-x-0 xl:translate-y-1/2">
+                    <div className="flex flex-col justify-between gap-y-5 max-desktop:items-center absolute bottom-0 desktop:bottom-1/2 left-1/2 desktop:left-[10%] -translate-x-1/2 desktop:translate-x-0 desktop:translate-y-1/2">
                         <div>
                             <div className="relative">
-                                <p className="text-gradient-banner font-russo-one text-[100px] max-lg:text-[70px] leading-[80px] max-lg:leading-[70px] max-xl:text-center">
+                                <p className="text-gradient-banner font-russo-one text-[100px] max-desktop:text-[70px] leading-[80px] max-desktop:leading-[70px] max-desktop:text-center">
                                     POLY
                                     <br />
                                     SPORT
                                 </p>
-                                <p className="absolute text-[#E40FAC] left-0 max-lg:left-1/2 max-lg:-translate-x-1/2 top-[2px] z-[-1] font-russo-one text-[100px] max-lg:text-[70px] leading-[80px] max-lg:leading-[70px] max-xl:text-center">
+                                <p className="absolute text-[#E40FAC] left-0 max-desktop:left-1/2 max-desktop:-translate-x-1/2 top-[2px] z-[-1] font-russo-one text-[100px] max-desktop:text-[70px] leading-[80px] max-desktop:leading-[70px] max-desktop:text-center">
                                     POLY
                                     <br />
                                     SPORT
                                 </p>
                             </div>
-                            <p className="font-russo-one text-[40px] max-lg:text-[35px] leading-[50px] max-xl:text-center">
+                            <p className="font-russo-one text-[40px] max-desktop:text-[35px] leading-[50px] max-desktop:text-center">
                                 FOOTBALL
                                 <br />
                                 CARD GAME
@@ -53,11 +53,11 @@ export default function Home() {
                         </div>
                         <Link
                             href="/game"
-                            className="text-center xl:text-start"
+                            className="text-center desktop:text-start"
                         >
                             <Button
                                 text="PLAY GAME"
-                                className="w-[318px] md:w-[389px] text-[20px]"
+                                className="w-[318px] tablet:w-[389px] text-[20px]"
                             />
                         </Link>
                         <div
@@ -119,14 +119,14 @@ export default function Home() {
             </div>
 
             {/* About */}
-            <div className="max-w-[1280px] mx-auto px-2 md:px-10 mt-20 max-sm:mt-[60px]">
+            <div className="max-w-[1280px] mx-auto px-2 tablet:px-10 mt-20 max-sm:mt-[60px]">
                 <div>
                     <p className="font-russo-one text-[60px] max-sm:text-[30px] text-center">
                         About Polysport
                     </p>
-                    <div className="flex justify-evenly items-center gap-x-20 gap-y-5 max-md:flex-col mt-10 max-sm:mt-5">
+                    <div className="flex justify-evenly items-center gap-x-20 gap-y-5 max-tablet:flex-col mt-10 max-sm:mt-5">
                         <img
-                            className="md:max-w-[50%] xl:max-sm:w-[70%]"
+                            className="tablet:max-w-[50%] desktop:max-sm:w-[70%]"
                             src="/assets/images/avt_about_v2.png"
                         />
                         <div className="w-full">
@@ -134,7 +134,7 @@ export default function Home() {
                                 <div className="h-5 aspect-square">
                                     <img src="/assets/diamond.svg" />
                                 </div>
-                                <p className="text-[#C6C6C6] text-[12px] md:text-[18px] xl:text-[16px] mb-[10px]">
+                                <p className="text-[#C6C6C6] text-[12px] tablet:text-[18px] desktop:text-[16px] mb-[10px]">
                                     Polysport is a digital flipping card game
                                     that uses blockchain technology. Fusion of
                                     Polygon, gaming, and offering economic
@@ -145,20 +145,20 @@ export default function Home() {
                                 <div className="h-5 aspect-square">
                                     <img src="/assets/diamond.svg" />
                                 </div>
-                                <p className="text-[#C6C6C6] text-[12px] md:text-[18px] xl:text-[16px] mb-[10px]">
+                                <p className="text-[#C6C6C6] text-[12px] tablet:text-[18px] desktop:text-[16px] mb-[10px]">
                                     Polysport is a game, first and foremost, not
                                     an investment vehicle, and a game that is
                                     still in development.
                                 </p>
                             </div>
-                            <div className="text-center md:text-left">
+                            <div className="text-center tablet:text-left">
                                 <Link
                                     href="https://polysport.gitbook.io/polysport"
                                     target="_blank"
                                 >
                                     <Button
                                         text="Document"
-                                        className="w-[231px] md:w[288px] xl:w-[206px] text-[20px] md:text-[40px] xl:text-[16px]"
+                                        className="w-[231px] tablet:w[288px] desktop:w-[206px] text-[20px] tablet:text-[40px] desktop:text-[16px]"
                                     />
                                 </Link>
                             </div>
@@ -168,19 +168,19 @@ export default function Home() {
             </div>
 
             {/* Product */}
-            <div className="max-w-[1280px] mx-auto px-2 md:px-10 mt-20 max-sm:mt-[60px]">
+            <div className="max-w-[1280px] mx-auto px-2 tablet:px-10 mt-20 max-sm:mt-[60px]">
                 <div>
                     <div>
                         <p className="text-[60px] max-sm:text-[30px] text-center font-russo-one">
                             The Products
                         </p>
                     </div>
-                    <div className="mt-10 max-sm:mt-5 grid grid-cols-2 gap-10 max-sm:gap-5 max-lg:grid-cols-1 place-items-center overflow-auto">
+                    <div className="mt-10 max-sm:mt-5 grid grid-cols-2 gap-10 max-sm:gap-5 max-desktop:grid-cols-1 place-items-center overflow-auto">
                         <div className="relative grid place-items-center max-w-[650px] min-h-[300px] max-sm:min-h-[250px] border-btn">
                             <div className="flex flex-col p-10 pb-5 max-sm:p-5">
                                 <div className="flex items-center gap-x-[30px] max-sm:gap-x-4">
                                     <img
-                                        className="max-sm:h-[80px] max-md:h-[130px] aspect-square"
+                                        className="max-sm:h-[80px] max-tablet:h-[130px] aspect-square"
                                         src="/assets/images/icon_the_product1.svg"
                                     />
                                     <div>
@@ -213,7 +213,7 @@ export default function Home() {
                             <div className="flex flex-col p-10 pb-5 max-sm:p-5">
                                 <div className="flex items-center gap-x-[30px] max-sm:gap-x-4">
                                     <img
-                                        className="max-sm:h-[80px] max-md:h-[130px] aspect-square"
+                                        className="max-sm:h-[80px] max-tablet:h-[130px] aspect-square"
                                         src="/assets/images/icon_the_product2.svg"
                                     />
                                     <div>
@@ -248,7 +248,7 @@ export default function Home() {
                             <div className="flex flex-col p-10 pb-5 max-sm:p-5">
                                 <div className="flex items-center gap-x-[30px] max-sm:gap-x-4">
                                     <img
-                                        className="max-sm:h-[80px] max-md:h-[130px] aspect-square"
+                                        className="max-sm:h-[80px] max-tablet:h-[130px] aspect-square"
                                         src="/assets/images/icon_the_product3.svg"
                                     />
                                     <div>
@@ -278,7 +278,7 @@ export default function Home() {
                             <div className="flex flex-col p-10 pb-5 max-sm:p-5">
                                 <div className="flex items-center gap-x-[30px] max-sm:gap-x-4">
                                     <img
-                                        className="max-sm:h-[80px] max-md:h-[130px] aspect-square"
+                                        className="max-sm:h-[80px] max-tablet:h-[130px] aspect-square"
                                         src="/assets/images/icon_the_product4.svg"
                                     />
                                     <div>
@@ -308,7 +308,7 @@ export default function Home() {
                 </div>
             </div>
 
-            <div className="max-w-[1280px] mx-auto px-2 md:px-10 mt-20 max-sm:mt-[60px]">
+            <div className="max-w-[1280px] mx-auto px-2 tablet:px-10 mt-20 max-sm:mt-[60px]">
                 <div className="">
                     <div className="">
                         <p className="text-[60px] max-sm:text-[30px] text-center font-russo-one">
@@ -316,16 +316,16 @@ export default function Home() {
                         </p>
                     </div>
                     <div className="mt-10 max-sm:mt-5">
-                        <div className="grid grid-cols-4 md:grid-cols-6  xl:grid-cols-5 gap-[30px] max-lg:gap-4 md:pb-20">
+                        <div className="grid grid-cols-4 tablet:grid-cols-6  desktop:grid-cols-5 gap-[30px] max-desktop:gap-4 tablet:pb-20">
                             {howToPlays.map((s, idx) => (
                                 <div
                                     key={idx}
                                     className={clsx(
-                                        "col-span-2 xl:col-span-1 relative border border-white/40 rounded-[18px] w-full xl:min-w-[220px] xl:h-[330px]",
+                                        "col-span-2 desktop:col-span-1 relative border border-white/40 rounded-[18px] w-full desktop:min-w-[220px] desktop:h-[330px]",
                                         {
-                                            "max-md:col-start-2":
+                                            "max-tablet:col-start-2":
                                                 idx == howToPlays.length - 1,
-                                            "md:col-start-2 xl:col-start-4":
+                                            "tablet:col-start-2 desktop:col-start-4":
                                                 idx == howToPlays.length - 2,
                                         }
                                     )}
@@ -347,11 +347,11 @@ export default function Home() {
                                             }.png`}
                                         />
                                     </div>
-                                    <div className="mt-4 xl:mt-8 px-3">
-                                        <p className="text-[16px] xl:text-[20px] font-semibold">
+                                    <div className="mt-4 desktop:mt-8 px-3">
+                                        <p className="text-[16px] desktop:text-[20px] font-semibold">
                                             Step {idx + 1}
                                         </p>
-                                        <p className="text-[9px] mt-0.5 xl:mt-3">
+                                        <p className="text-[9px] mt-0.5 desktop:mt-3">
                                             {s}
                                         </p>
                                     </div>
@@ -359,8 +359,8 @@ export default function Home() {
                             ))}
                         </div>
                         <div className="relative border-btn mt-10 max-sm:mt-[115px]">
-                            <div className="p-10 max-sm:p-5 flex items-center gap-10 lg:gap-x-20 max-md:flex-col max-md:justify-center">
-                                <div className="absolute left-0 right-0 md:left-[-15%] md:right-[40%] xl:left-[-5%] xl:right-[50%] top-0 md:top-[50%] -translate-y-[30%] md:-translate-y-[60%] xl:-translate-y-[50%]">
+                            <div className="p-10 max-sm:p-5 flex items-center gap-10 desktop:gap-x-20 max-tablet:flex-col max-tablet:justify-center">
+                                <div className="absolute left-0 right-0 tablet:left-[-15%] tablet:right-[40%] desktop:left-[-5%] desktop:right-[50%] top-0 tablet:top-[50%] -translate-y-[30%] tablet:-translate-y-[60%] desktop:-translate-y-[50%]">
                                     <div className="w-full aspect-square  relative ">
                                         <Image
                                             src="/assets/boxes.png"
@@ -370,7 +370,7 @@ export default function Home() {
                                         />
                                     </div>
                                 </div>
-                                <div className="flex-1 pt-[calc(66%)] md:pt-0 md:pl-[50%]">
+                                <div className="flex-1 pt-[calc(66%)] tablet:pt-0 tablet:pl-[50%]">
                                     <p>
                                         Polysport is a lottery game where you
                                         stand a chance to win cash prizes every
@@ -388,7 +388,7 @@ export default function Home() {
                                     </p>
                                     <Link
                                         href="/game"
-                                        className="text-center xl:text-start"
+                                        className="text-center desktop:text-start"
                                     >
                                         <Button
                                             text="PLAY GAME"
@@ -402,10 +402,10 @@ export default function Home() {
                 </div>
             </div>
 
-            {/* <div className="max-w-[1280px] mx-auto px-2 md:px-10 mt-20 max-sm:mt-[60px]">
-        <div className="flex items-center flex-wrap max-lg:flex-col">
+            {/* <div className="max-w-[1280px] mx-auto px-2 tablet:px-10 mt-20 max-sm:mt-[60px]">
+        <div className="flex items-center flex-wrap max-desktop:flex-col">
           <div className="flex-1">
-            <p className="font-russo-one text-[100px] max-xl:text-[80px] max-sm:text-[30px] max-lg:text-[60px]">
+            <p className="font-russo-one text-[100px] max-desktop:text-[80px] max-sm:text-[30px] max-desktop:text-[60px]">
               How to mint NFT
             </p>
           </div>
@@ -468,11 +468,11 @@ export default function Home() {
           </div>
         </div>
       </div> */}
-            <div className="max-w-[1280px] mx-auto px-2 md:px-10 mt-20 max-sm:mt-[60px]">
+            <div className="max-w-[1280px] mx-auto px-2 tablet:px-10 mt-20 max-sm:mt-[60px]">
                 <p className="text-[60px] max-sm:text-[30px] font-russo-one text-center">
                     Polysport Games
                 </p>
-                <div className="flex gap-x-20 justify-between mt-10 max-sm:mt-5 max-md:flex-col gap-y-10">
+                <div className="flex gap-x-20 justify-between mt-10 max-sm:mt-5 max-tablet:flex-col gap-y-10">
                     <div>
                         <div className="w-full relative rounded-[15px] overflow-hidden">
                             <img
@@ -480,7 +480,7 @@ export default function Home() {
                                 src="/assets/images/play-now2.png"
                             />
                             <div className="px-4 py-2 sm:pb-8 backdrop-blur-md absolute bottom-0 left-0 w-full">
-                                <p className="text-[16px] md:text-[24px] font-semibold">
+                                <p className="text-[16px] tablet:text-[24px] font-semibold">
                                     Flip Card Game
                                 </p>
                                 <p className="text-sm max-sm:text-[10px]">
@@ -494,7 +494,7 @@ export default function Home() {
                             <Link
                                 href="https://polysport.gitbook.io/polysport"
                                 target="_blank"
-                                className="flex-1 text-center xl:text-start"
+                                className="flex-1 text-center desktop:text-start"
                             >
                                 <Button
                                     text="See Tutorial"
@@ -503,7 +503,7 @@ export default function Home() {
                             </Link>
                             <Link
                                 href="/game"
-                                className="flex-1 text-center xl:text-start"
+                                className="flex-1 text-center desktop:text-start"
                             >
                                 <Button
                                     text="PLAY GAME"
@@ -533,14 +533,14 @@ export default function Home() {
                             <Link
                                 href="https://polysport.gitbook.io/polysport"
                                 target="_blank"
-                                className="flex-1 text-center xl:text-start"
+                                className="flex-1 text-center desktop:text-start"
                             >
                                 <Button
                                     text="See Tutorial"
                                     className="bg_btn_normal w-full text-[16px]"
                                 />
                             </Link>
-                            <div className="flex-1 text-center xl:text-start">
+                            <div className="flex-1 text-center desktop:text-start">
                                 <Button
                                     text="Coming Soon"
                                     className="bg_btn_normal w-full text-[16px]"

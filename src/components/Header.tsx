@@ -18,15 +18,15 @@ export default function Header() {
         <div className="relative">
             <div className="absolute bg-img bg-cover bg-no-repeat w-screen h-screen -z-[1] overflow-hidden" />
             {/* Header */}
-            <div className="bg_header fixed top-0 left-0 w-screen py-2 md:py-[17px] z-[10] px-2 md:px-[32px] backdrop-blur-md mx-auto">
+            <div className="bg_header fixed top-0 left-0 w-screen py-2 tablet:py-[17px] z-[10] px-2 tablet:px-[32px] backdrop-blur-md mx-auto">
                 <div className="max-w-[1280px] mx-auto">
-                    <div className="absolute flex gap w-[50%] max-w-[800px] max-xl:hidden justify-between h-full top-0 left-1/2 -translate-x-1/2">
+                    <div className="absolute flex gap w-[50%] max-w-[800px] max-desktop:hidden justify-between h-full top-0 left-1/2 -translate-x-1/2">
                         <img src="/assets/images/decor_header1.svg" />
                         <img src="/assets/images/decor_header2.svg" />
                     </div>
                     <div className="w-full flex justify-between items-center max-w-[1440px] mx-auto">
                         <div className="flex gap-1 items-center">
-                            <div className="h-[26px] md:h-[50px] aspect-square relative">
+                            <div className="h-[26px] tablet:h-[50px] aspect-square relative">
                                 <Image
                                     src="/assets/logo.png"
                                     alt="logo"
@@ -35,7 +35,7 @@ export default function Header() {
                                 />
                             </div>
 
-                            <p className="italic font-extrabold text-[14px] md:text-[24px] text-slate-400">
+                            <p className="italic font-extrabold text-[14px] tablet:text-[24px] text-slate-400">
                                 POLYSPORT
                             </p>
                         </div>
@@ -46,7 +46,7 @@ export default function Header() {
                             <WalletConnectBtn />
                             <div
                                 onClick={() => setIsExpand((pre) => !pre)}
-                                className="lg:hidden h-6 aspect-square cursor-pointer"
+                                className="desktop:hidden h-6 aspect-square cursor-pointer"
                             >
                                 <img
                                     className="w-full h-full"
@@ -56,7 +56,7 @@ export default function Header() {
                         </div>
                     </div>
                     <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 mx-auto flex justify-between items-center px-2">
-                        <div className="max-lg:hidden flex gap-10 text-sm font-medium text-white">
+                        <div className="max-desktop:hidden flex gap-10 text-sm font-medium text-white">
                             <div className="relative overflow-hidden header-item">
                                 <Link href="/" className="cursor-pointer">
                                     Home
@@ -142,7 +142,7 @@ export default function Header() {
                 <div
                     id="menu-dropdown"
                     className={clsx(
-                        "lg:hidden animate-fade pt-2 flex flex-col gap-y-4 cursor-pointer",
+                        "desktop:hidden animate-fade pt-2 flex flex-col gap-y-4 cursor-pointer",
                         {
                             hidden: !isExpand,
                         }

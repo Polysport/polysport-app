@@ -7,7 +7,7 @@ import {
     getUSDTContract,
 } from "./getContract";
 import { getProvider } from "@/utils/wagmi/provider";
-import { GRADE, GRADE_PRICE } from "@/configs";
+import { GRADE, GRADE_PRICE, IS_PROD } from "@/configs";
 import { getContract } from "@/utils/constracts/get-contracts";
 
 export const getTokenBalance = async (chainId: ChainId, address: Address) => {
@@ -24,7 +24,7 @@ export const getUSDTBalance = async (chainId: ChainId, address: Address) => {
     try {
         const usdtContract = getUSDTContract(chainId!, getProvider(chainId));
         const balance = await usdtContract.balanceOf(address);
-        return ethers.utils.formatEther(balance);
+        return ethers.utils.formatUnits(balance, IS_PROD ? 6 : 18);
     } catch (error) {
         return "0";
     }

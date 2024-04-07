@@ -35,7 +35,7 @@ function WalletConnectBtn() {
                             <Button
                                 handler={openConnectModal}
                                 text="Connect Wallet"
-                                className="text-[12px] md:text-[16px] w-[147px] md:w-[195px]"
+                                className="text-[12px] tablet:text-[16px] w-[147px] tablet:w-[195px]"
                             />
                         );
                     }
@@ -45,7 +45,7 @@ function WalletConnectBtn() {
                             <Button
                                 handler={openChainModal}
                                 text="Unsupported Network"
-                                className="text-[12px] md:text-[16px] w-[147px] md:w-[195px]"
+                                className="text-[12px] tablet:text-[16px] w-[147px] tablet:w-[195px]"
                             />
                         );
                     }
@@ -54,7 +54,7 @@ function WalletConnectBtn() {
                         <Button
                             handler={openChainModal}
                             text={truncatedAddress}
-                            className="text-[12px] md:text-[16px] w-[147px] md:w-[195px]"
+                            className="text-[12px] tablet:text-[16px] w-[147px] tablet:w-[195px]"
                         />
                     );
                 }}

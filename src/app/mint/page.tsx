@@ -73,7 +73,7 @@ export default function MintPage() {
                     each type of Box.)
                 </p>
             </div>
-            <div className="flex gap-[20px] max-md:gap-[10px] flex-wrap justify-center">
+            <div className="flex gap-[20px] max-tablet:gap-[10px] flex-wrap justify-center">
                 <div className="relative cursor-pointer w-[250px] bg-gradient-to-t from-white/10 to-white/5 rounded-[15px]">
                     {/* <img class="z-[1] absolute top-0 left-0" src="/assets/images/nft-wrapper.png" /> */}
                     <div className="relative z-[2] px-4 py-[10px] ">

@@ -6,7 +6,6 @@ import { WagmiConfig } from "wagmi";
 import { ToastContainer } from "react-toastify";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { ThemeModeScript } from "flowbite-react";
 
 import "@park-ui/tailwind-plugin/preset.css";
 

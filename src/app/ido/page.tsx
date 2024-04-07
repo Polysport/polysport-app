@@ -17,6 +17,7 @@ import { claim, commit, getIdoPoolStats, getUserStats } from "@/services/ido";
 import { BigNumber, Signer, ethers } from "ethers";
 import { toast } from "react-toastify";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { IS_PROD } from "@/configs";
 dayjs.extend(utc);
 
 export default function IdoPage() {
@@ -103,18 +104,25 @@ export default function IdoPage() {
         if (!commitAmount || isNaN(+commitAmount))
             return toast.warn("Invalid commit amount");
 
-        const parsedAmount = ethers.utils.parseEther(commitAmount);
+        const parsedAmount = ethers.utils.parseUnits(
+            commitAmount,
+            IS_PROD ? 6 : 18
+        );
         if (
             parsedAmount
                 .add(
                     BigNumber.from(
-                        ethers.utils.parseEther(userStats?.committed ?? "0")
+                        ethers.utils.parseUnits(
+                            userStats?.committed ?? "0",
+                            IS_PROD ? 6 : 18
+                        )
                     )
                 )
                 .gt(
                     BigNumber.from(
-                        ethers.utils.parseEther(
-                            POOLS[selectedPool].max.toString()
+                        ethers.utils.parseUnits(
+                            POOLS[selectedPool].max.toString(),
+                            IS_PROD ? 6 : 18
                         )
                     )
                 )

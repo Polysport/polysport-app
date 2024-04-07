@@ -23,8 +23,10 @@
         "copy-to-clipboard": "^3.3.3",
         "dayjs": "^1.11.10",
         "ethers": "^5.7.2",
+        "flowbite-react": "^0.8.0",
         "graphql": "^16.8.1",
         "graphql-request": "^6.1.0",
+        "libvips": "^0.0.2",
         "lodash": "^4.17.21",
         "next": "14.0.4",
         "next-seo": "^6.4.0",
@@ -34,7 +36,6 @@
         "react-dom": "18.2.0",
         "react-toastify": "^9.1.2",
         "react-use": "^17.4.3",
-        "sharp": "^0.33.3",
         "swr": "^2.2.4",
         "wagmi": "^0.12.10"
     },
