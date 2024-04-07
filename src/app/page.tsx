@@ -15,7 +15,7 @@ const howToPlays = [
 
 export default function Home() {
     return (
-        <div>
+        <div className="text-[#f1f1f1]!">
             {/* Banner */}
             <div className="mx-auto">
                 <div className="relative home_banner">
@@ -45,7 +45,7 @@ export default function Home() {
                                     SPORT
                                 </p>
                             </div>
-                            <p className="font-russo-one text-[40px] max-desktop:text-[35px] leading-[50px] max-desktop:text-center">
+                            <p className="font-russo-one text-[40px] max-desktop:text-[35px] leading-[50px] max-desktop:text-center text-[#f1f1f1]">
                                 FOOTBALL
                                 <br />
                                 CARD GAME
@@ -121,7 +121,7 @@ export default function Home() {
             {/* About */}
             <div className="max-w-[1280px] mx-auto px-2 tablet:px-10 mt-20 max-sm:mt-[60px]">
                 <div>
-                    <p className="font-russo-one text-[60px] max-sm:text-[30px] text-center">
+                    <p className="font-russo-one text-[60px] max-sm:text-[30px] text-center text-[#f1f1f1]">
                         About Polysport
                     </p>
                     <div className="flex justify-evenly items-center gap-x-20 gap-y-5 max-tablet:flex-col mt-10 max-sm:mt-5">
@@ -171,11 +171,11 @@ export default function Home() {
             <div className="max-w-[1280px] mx-auto px-2 tablet:px-10 mt-20 max-sm:mt-[60px]">
                 <div>
                     <div>
-                        <p className="text-[60px] max-sm:text-[30px] text-center font-russo-one">
+                        <p className="text-[60px] max-sm:text-[30px] text-center font-russo-one text-[#f1f1f1]">
                             The Products
                         </p>
                     </div>
-                    <div className="mt-10 max-sm:mt-5 grid grid-cols-2 gap-10 max-sm:gap-5 max-desktop:grid-cols-1 place-items-center overflow-auto">
+                    <div className="text-[#f1f1f1] mt-10 max-sm:mt-5 grid grid-cols-2 gap-10 max-sm:gap-5 max-desktop:grid-cols-1 place-items-center overflow-auto">
                         <div className="relative grid place-items-center max-w-[650px] min-h-[300px] max-sm:min-h-[250px] border-btn">
                             <div className="flex flex-col p-10 pb-5 max-sm:p-5">
                                 <div className="flex items-center gap-x-[30px] max-sm:gap-x-4">
@@ -311,11 +311,11 @@ export default function Home() {
             <div className="max-w-[1280px] mx-auto px-2 tablet:px-10 mt-20 max-sm:mt-[60px]">
                 <div className="">
                     <div className="">
-                        <p className="text-[60px] max-sm:text-[30px] text-center font-russo-one">
+                        <p className="text-[60px] max-sm:text-[30px] text-center font-russo-one text-[#f1f1f1]">
                             How to play?
                         </p>
                     </div>
-                    <div className="mt-10 max-sm:mt-5">
+                    <div className="mt-10 max-sm:mt-5 text-[#f1f1f1]">
                         <div className="grid grid-cols-4 tablet:grid-cols-6  desktop:grid-cols-5 gap-[30px] max-desktop:gap-4 tablet:pb-20">
                             {howToPlays.map((s, idx) => (
                                 <div
@@ -468,8 +468,8 @@ export default function Home() {
           </div>
         </div>
       </div> */}
-            <div className="max-w-[1280px] mx-auto px-2 tablet:px-10 mt-20 max-sm:mt-[60px]">
-                <p className="text-[60px] max-sm:text-[30px] font-russo-one text-center">
+            <div className="max-w-[1280px] mx-auto px-2 tablet:px-10 mt-20 max-sm:mt-[60px] text-[#f1f1f1]">
+                <p className="text-[60px] max-sm:text-[30px] font-russo-one text-center text-[#f1f1f1]">
                     Polysport Games
                 </p>
                 <div className="flex gap-x-20 justify-between mt-10 max-sm:mt-5 max-tablet:flex-col gap-y-10">

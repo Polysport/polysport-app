@@ -192,7 +192,7 @@ export default function IdoPage() {
     }, [chainId, signer, address, userStats?.claimedCount, selectedPool]);
 
     return (
-        <div className="flex px-2 tablet:px-[32px] pt-[80px] tablet:pt-[120px]">
+        <div className="flex px-2 tablet:px-[32px] pt-[80px] tablet:pt-[120px] text-[#f1f1f1]">
             <div className="flex flex-col mx-auto w-full !max-w-[1080px] gap-6 mt-[50px]">
                 {/* <div className="flex justify-end gap-x-2">
                     {[EPool.OG].map((type) => (
