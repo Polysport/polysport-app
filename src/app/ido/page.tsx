@@ -447,7 +447,7 @@ export default function IdoPage() {
                                             </div>
 
                                             <div className="text-center font-medium bg-[#0D0E12] border border-[#2D313E] rounded-3xl p-6">
-                                                You will receiver:{" "}
+                                                You will be received:{" "}
                                                 {numberWithCommas(
                                                     +commitAmount /
                                                         +POOLS[selectedPool]
