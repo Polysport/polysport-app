@@ -27,7 +27,7 @@ export const getUserStats = async (
         idoContract.isWhitelist(ePool, account),
     ]);
     return {
-        committed: ethers.utils.formatEther(stats.committed),
+        committed: ethers.utils.formatUnits(stats.committed, IS_PROD ? 6 : 18),
         claimedCount: stats.claimedCount.toNumber(),
         isWhitelist,
     };
