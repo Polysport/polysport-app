@@ -8,10 +8,10 @@ export const POOLS = {
     [EPool.OG]: {
         name: "OG",
         type: EPool.OG,
-        supply: "45000000",
+        supply: "8333333",
         raise: "50000",
         soft: "15000",
-        sale: "8333333.33",
+        sale: "8333333",
         rate: "0.006",
         start: 1712570400,
         end: 1712743200,
@@ -24,7 +24,7 @@ export const POOLS = {
     [EPool.WL]: {
         name: "WL",
         type: EPool.WL,
-        supply: "45000000",
+        supply: "8333333",
         raise: "50000",
         soft: "15000",
         sale: "45000000",
