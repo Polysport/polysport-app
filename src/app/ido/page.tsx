@@ -478,10 +478,13 @@ export default function IdoPage() {
                                     </div>
                                     {POOLS[selectedPool].vestingPercent.map(
                                         (v, idx) => (
-                                            <div key={idx}>
+                                            <div
+                                                key={idx}
+                                                className="col-span-2 w-full py-3 flex justify-between border-b border-b-[#2D313E]"
+                                            >
                                                 <div
                                                     className={clsx(
-                                                        "py-3 border-b border-b-[#2D313E]",
+                                                        "",
                                                         timeStartDiff.current >
                                                             (POOLS[selectedPool]
                                                                 .end +
@@ -517,7 +520,7 @@ export default function IdoPage() {
                                                 </div>
                                                 <div
                                                     className={clsx(
-                                                        "text-right py-3 border-b border-b-[#2D313E]",
+                                                        "text-right",
                                                         timeStartDiff.current >
                                                             (POOLS[selectedPool]
                                                                 .end +
