@@ -304,20 +304,18 @@ export default function IdoPage() {
                             </div>
                         </div>
 
-                        {/* <div className="flex flex-col gap-1">
-                               
+                        <div className="flex flex-col gap-1">
+                            <div className="text-[14px] text-[#C6C6C6]">
+                                Sale {statusToText(timeStartDiff.status)}
+                            </div>
 
-                                <div className="text-[14px] text-[#C6C6C6]">
-                                    Sale {statusToText(timeStartDiff.status)}
-                                </div>
-
-                                <div className="flex justify-between tablet:justify-start gap-0 tablet:gap-3 desktop:gap-8">
-                                    <CountDown
-                                        start={POOLS[selectedPool].start}
-                                        end={POOLS[selectedPool].end}
-                                    />
-                                </div>
-                            </div> */}
+                            <div className="flex justify-between tablet:justify-start gap-0 tablet:gap-3 desktop:gap-8">
+                                <CountDown
+                                    start={POOLS[selectedPool].start}
+                                    end={POOLS[selectedPool].end}
+                                />
+                            </div>
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-1 desktop:grid-cols-2 mt-6 gap-6">
