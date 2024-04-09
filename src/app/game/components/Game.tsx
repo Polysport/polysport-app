@@ -58,6 +58,7 @@ export default function Game() {
         },
         {
             refreshInterval: 60,
+            revalidateOnMount: true,
         }
     );
 
@@ -100,7 +101,7 @@ export default function Game() {
             try {
                 if (submitting) return;
 
-                const cardClicked = userStats?.cards.find(
+                const cardClicked = userStats?.cards?.find(
                     (c) => c.cardId === idx
                 );
                 if (cardClicked) return;

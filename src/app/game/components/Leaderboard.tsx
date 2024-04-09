@@ -17,7 +17,7 @@ export default function Leaderboard() {
                         key={idx}
                         onClick={() => setActiveTab(idx)}
                         className={clsx(
-                            "px-4 py-2 cursor-pointer hover:border-b hover:text-[#F1F1F1]",
+                            "px-4 py-2 font-bold cursor-pointer hover:border-b hover:text-[#F1F1F1]",
                             {
                                 "text-[#F1F1F1] border-b": idx === activeTab,
                             }
@@ -28,17 +28,12 @@ export default function Leaderboard() {
                 ))}
             </ul>
             {activeTab === 0 && (
-                <div className="block tablet:hidden w-full">
-                    <div className="w-full">
+                <div className="block tablet:hidden w-full bg-gradient-to-t from-white/10 to-white/5">
+                    <div className="w-full border-[0.5px] border-[#777777]">
                         {new Array(10).fill("").map((_, idx) => (
                             <div
                                 key={idx}
-                                className={clsx(
-                                    "grid grid-cols-6 p-4",
-                                    idx % 2 !== 0
-                                        ? "bg-gradient-to-t from-white/10 to-white/5"
-                                        : ""
-                                )}
+                                className="grid grid-cols-6 p-4 border-b-[0.5px] border-b-[#777777]"
                             >
                                 <div>{idx + 1}</div>
                                 <div className="col-span-2">
@@ -54,17 +49,12 @@ export default function Leaderboard() {
             )}
 
             {activeTab === 1 && (
-                <div className="block tablet:hidden w-full">
-                    <div className="w-full">
+                <div className="block tablet:hidden w-full bg-gradient-to-t from-white/10 to-white/5">
+                    <div className="w-full border-[0.5px] border-[#777777]">
                         {new Array(10).fill("").map((_, idx) => (
                             <div
                                 key={idx}
-                                className={clsx(
-                                    "grid grid-cols-6 p-4",
-                                    idx % 2 !== 0
-                                        ? "bg-gradient-to-t from-white/10 to-white/5"
-                                        : ""
-                                )}
+                                className="grid grid-cols-6 p-4 border-b-[0.5px] border-b-[#777777]"
                             >
                                 <div>{idx + 1}</div>
                                 <div className="col-span-2">
@@ -81,19 +71,14 @@ export default function Leaderboard() {
 
             <div className="hidden tablet:flex gap-8 w-full max-w-[800px]">
                 <div className="hidden tablet:block w-full">
-                    <div className="text-[#F1F1F1] font-semibold text-[18px] text-center border-b pb-2">
+                    <div className="text-[#F1F1F1] font-bold text-[18px] text-center pb-2">
                         Ranking NFT
                     </div>
-                    <div className="w-full">
+                    <div className="w-full bg-gradient-to-t from-white/10 to-white/5 border-[0.5px] border-[#777777]">
                         {new Array(10).fill("").map((_, idx) => (
                             <div
                                 key={idx}
-                                className={clsx(
-                                    "grid grid-cols-6 p-4",
-                                    idx % 2 !== 0
-                                        ? "bg-gradient-to-t from-white/10 to-white/5"
-                                        : ""
-                                )}
+                                className="grid grid-cols-6 p-4 border-b-[0.5px] border-b-[#777777]"
                             >
                                 <div>{idx + 1}</div>
                                 <div className="col-span-2">
@@ -108,19 +93,14 @@ export default function Leaderboard() {
                 </div>
 
                 <div className="hidden tablet:block w-full">
-                    <div className="text-[#F1F1F1] font-semibold text-[18px] text-center border-b pb-2">
+                    <div className="text-[#F1F1F1] font-bold text-[18px] text-center pb-2">
                         Ranking Winner
                     </div>
-                    <div className="w-full">
+                    <div className="w-full bg-gradient-to-t from-white/10 to-white/5 border-[0.5px] border-[#777777]">
                         {new Array(10).fill("").map((_, idx) => (
                             <div
                                 key={idx}
-                                className={clsx(
-                                    "grid grid-cols-6 p-4",
-                                    idx % 2 !== 0
-                                        ? "bg-gradient-to-t from-white/10 to-white/5"
-                                        : ""
-                                )}
+                                className="grid grid-cols-6 p-4 border-b-[0.5px] border-b-[#777777]"
                             >
                                 <div>{idx + 1}</div>
                                 <div className="col-span-2">
