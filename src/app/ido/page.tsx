@@ -304,26 +304,20 @@ export default function IdoPage() {
                             </div>
                         </div>
 
-                        <div className="flex flex-col gap-1">
-                            {/* {!!launchpad ? (
-                <div className="font-bold text-[16px] tablet:text-[20px] desktop:text-[24px] text-[#F1F1F1] pb-3 border-b border-b-[#2D313E]">
-                  Launchpad {statusToText(timeStartDiff.status)}
-                </div>
-              ) : (
-                <div className="skeleton w-[80px] h-[19px] tablet:h-[23px] desktop:h-[28px] bg-[#2D313E]" />
-              )} */}
+                        {/* <div className="flex flex-col gap-1">
+                               
 
-                            <div className="text-[14px] text-[#C6C6C6]">
-                                Sale {statusToText(timeStartDiff.status)}
-                            </div>
+                                <div className="text-[14px] text-[#C6C6C6]">
+                                    Sale {statusToText(timeStartDiff.status)}
+                                </div>
 
-                            <div className="flex justify-between tablet:justify-start gap-0 tablet:gap-3 desktop:gap-8">
-                                <CountDown
-                                    start={POOLS[selectedPool].start}
-                                    end={POOLS[selectedPool].end}
-                                />
-                            </div>
-                        </div>
+                                <div className="flex justify-between tablet:justify-start gap-0 tablet:gap-3 desktop:gap-8">
+                                    <CountDown
+                                        start={POOLS[selectedPool].start}
+                                        end={POOLS[selectedPool].end}
+                                    />
+                                </div>
+                            </div> */}
                     </div>
 
                     <div className="grid grid-cols-1 desktop:grid-cols-2 mt-6 gap-6">
@@ -405,7 +399,7 @@ export default function IdoPage() {
                                 </div>
                             </div>
 
-                            {timeStartDiff.status !== STATUS.END && (
+                            {/* {timeStartDiff.status !== STATUS.END && (
                                 <>
                                     {loadingUserStats ? (
                                         <div className="skeleton w-full flex-1 rounded-2xl bg-[#2D313E]" />
@@ -470,116 +464,110 @@ export default function IdoPage() {
                                         </>
                                     )}
                                 </>
-                            )}
+                            )} */}
 
-                            {timeStartDiff.status === STATUS.END && (
-                                <>
-                                    <div className="grid grid-cols-2  border border-[#2D313E] bg-[#0D0E12] rounded-3xl p-6">
-                                        <div className="col-span-2 text-[16px] tablet:text-[20px] desktop:text-[24px] pb-3 border-b border-b-[#2D313E] font-bold text-[#F1F1F1]">
-                                            Vesting schedule
-                                        </div>
-                                        <div className="py-3 border-b border-b-[#2D313E] ">
-                                            Time
-                                        </div>
-                                        <div className="py-3 text-right border-b border-b-[#2D313E] ">
-                                            Amount
-                                        </div>
-                                        {POOLS[selectedPool].vestingPercent.map(
-                                            (v, idx) => (
-                                                <>
-                                                    <div
-                                                        className={clsx(
-                                                            "py-3 border-b border-b-[#2D313E]",
-                                                            timeStartDiff.current >
-                                                                (POOLS[
+                            {/* {timeStartDiff.status === STATUS.END && ( */}
+                            <>
+                                <div className="grid grid-cols-2  border border-[#2D313E] bg-[#0D0E12] rounded-3xl p-6">
+                                    <div className="col-span-2 text-[16px] tablet:text-[20px] desktop:text-[24px] pb-3 border-b border-b-[#2D313E] font-bold text-[#F1F1F1]">
+                                        Vesting schedule
+                                    </div>
+                                    <div className="py-3 border-b border-b-[#2D313E] ">
+                                        Time
+                                    </div>
+                                    <div className="py-3 text-right border-b border-b-[#2D313E] ">
+                                        Amount
+                                    </div>
+                                    {POOLS[selectedPool].vestingPercent.map(
+                                        (v, idx) => (
+                                            <>
+                                                <div
+                                                    className={clsx(
+                                                        "py-3 border-b border-b-[#2D313E]",
+                                                        timeStartDiff.current >
+                                                            (POOLS[selectedPool]
+                                                                .end +
+                                                                POOLS[
                                                                     selectedPool
-                                                                ].end +
-                                                                    POOLS[
-                                                                        selectedPool
-                                                                    ]
-                                                                        .vestingTime[
-                                                                        idx
-                                                                    ]) *
-                                                                    1000 &&
-                                                                +(
-                                                                    userStats?.claimedCount ??
-                                                                    0
-                                                                ) > idx
-                                                                ? "text-[#B920ED]"
-                                                                : "text-[#f1f1f166]"
-                                                        )}
-                                                    >
-                                                        {dayjs
-                                                            .utc(
-                                                                (POOLS[
+                                                                ].vestingTime[
+                                                                    idx
+                                                                ]) *
+                                                                1000 &&
+                                                            +(
+                                                                userStats?.claimedCount ??
+                                                                0
+                                                            ) > idx
+                                                            ? "text-[#B920ED]"
+                                                            : "text-[#f1f1f166]"
+                                                    )}
+                                                >
+                                                    {dayjs
+                                                        .utc(
+                                                            (POOLS[selectedPool]
+                                                                .end +
+                                                                POOLS[
                                                                     selectedPool
-                                                                ].end +
-                                                                    POOLS[
-                                                                        selectedPool
-                                                                    ]
-                                                                        .vestingTime[
-                                                                        idx
-                                                                    ]) *
-                                                                    1000
-                                                            )
-                                                            .format(
-                                                                "MMM DD YYYY HH:mm"
-                                                            )}{" "}
-                                                        UTC
-                                                    </div>
-                                                    <div
-                                                        className={clsx(
-                                                            "text-right py-3 border-b border-b-[#2D313E]",
-                                                            timeStartDiff.current >
-                                                                (POOLS[
-                                                                    selectedPool
-                                                                ].end +
-                                                                    POOLS[
-                                                                        selectedPool
-                                                                    ]
-                                                                        .vestingTime[
-                                                                        idx
-                                                                    ]) *
-                                                                    1000 &&
-                                                                +(
-                                                                    userStats?.claimedCount ??
-                                                                    0
-                                                                ) > idx
-                                                                ? "text-[#B920ED]"
-                                                                : "text-[#f1f1f166]"
-                                                        )}
-                                                    >
-                                                        {numberWithCommas(
-                                                            (v *
-                                                                +(
-                                                                    userStats?.committed ??
-                                                                    0
-                                                                )) /
-                                                                (+POOLS[
-                                                                    selectedPool
-                                                                ].rate *
-                                                                    100)
+                                                                ].vestingTime[
+                                                                    idx
+                                                                ]) *
+                                                                1000
+                                                        )
+                                                        .format(
+                                                            "MMM DD YYYY HH:mm"
                                                         )}{" "}
-                                                        PLS
-                                                    </div>
-                                                </>
-                                            )
-                                        )}
-                                    </div>
+                                                    UTC
+                                                </div>
+                                                <div
+                                                    className={clsx(
+                                                        "text-right py-3 border-b border-b-[#2D313E]",
+                                                        timeStartDiff.current >
+                                                            (POOLS[selectedPool]
+                                                                .end +
+                                                                POOLS[
+                                                                    selectedPool
+                                                                ].vestingTime[
+                                                                    idx
+                                                                ]) *
+                                                                1000 &&
+                                                            +(
+                                                                userStats?.claimedCount ??
+                                                                0
+                                                            ) > idx
+                                                            ? "text-[#B920ED]"
+                                                            : "text-[#f1f1f166]"
+                                                    )}
+                                                >
+                                                    {numberWithCommas(
+                                                        (v *
+                                                            +(
+                                                                userStats?.committed ??
+                                                                0
+                                                            )) /
+                                                            (+POOLS[
+                                                                selectedPool
+                                                            ].rate *
+                                                                100)
+                                                    )}{" "}
+                                                    PLS
+                                                </div>
+                                            </>
+                                        )
+                                    )}
+                                </div>
 
-                                    <div className="flex items-center justify-center">
-                                        <Button
-                                            handler={handleClaim}
-                                            loading={submitting}
-                                            enable={true}
-                                            text="Claim"
-                                            className={clsx(
-                                                "text-[12px] tablet:text-[16px] w-[206px] !pt-[51px]  "
-                                            )}
-                                        />
-                                    </div>
-                                </>
-                            )}
+                                <div className="flex items-center justify-center">
+                                    <Button
+                                        handler={handleClaim}
+                                        loading={submitting}
+                                        enable={true}
+                                        text="Claim"
+                                        className={clsx(
+                                            "text-[12px] tablet:text-[16px] w-[206px] !pt-[51px]  "
+                                        )}
+                                    />
+                                </div>
+                            </>
+                            {/* )} */}
                         </div>
 
                         <div className="flex flex-col border border-[#2D313E] bg-[#0D0E12] rounded-3xl p-6">
