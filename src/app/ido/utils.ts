@@ -19,7 +19,7 @@ export const POOLS = {
         max: 250,
         whitelisted: true,
         vestingPercent: [20, 20, 20, 20, 20],
-        vestingTime: [0, 2592000, 5184000, 7776000, 10368000],
+        vestingTime: [691200, 3283200, 5875200, 8467200, 11059200],
     },
     [EPool.WL]: {
         name: "WL",
