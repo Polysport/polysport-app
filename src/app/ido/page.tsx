@@ -478,7 +478,7 @@ export default function IdoPage() {
                                     </div>
                                     {POOLS[selectedPool].vestingPercent.map(
                                         (v, idx) => (
-                                            <>
+                                            <div key={idx}>
                                                 <div
                                                     className={clsx(
                                                         "py-3 border-b border-b-[#2D313E]",
@@ -548,7 +548,7 @@ export default function IdoPage() {
                                                     )}{" "}
                                                     PLS
                                                 </div>
-                                            </>
+                                            </div>
                                         )
                                     )}
                                 </div>
