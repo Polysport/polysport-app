@@ -13,6 +13,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { getContract } from "@/utils/constracts/get-contracts";
 import { ethers } from "ethers";
+import { getGamePoolReward } from "@/services/game";
+import Button from "@/components/Button";
 
 enum EWin {
     LOSE,
@@ -43,6 +45,7 @@ export default function Game() {
     const { openConnectModal } = useConnectModal();
 
     const [submitting, setSubmitting] = useState<boolean>(false);
+    const [burning, setBurning] = useState<boolean>(false);
     const [selectedNftBurn, setSelectedNftBurn] = useState<INft | undefined>();
 
     const txHash = useRootStore((s) => s.txHash);
@@ -50,10 +53,7 @@ export default function Game() {
     const { data: poolReward, isLoading: isLoadingPool } = useSWR<string>(
         ["pool", chainId, txHash],
         async () => {
-            const balance = getTokenBalance(
-                chainId as ChainId,
-                getContract(chainId, "POOL")
-            );
+            const balance = await getGamePoolReward(chainId);
             return balance;
         },
         {
@@ -152,14 +152,16 @@ export default function Game() {
         if (!selectedNftBurn) return;
 
         try {
-            if (submitting) return;
+            if (burning) return;
+            setBurning(true);
             if (!signer) return openConnectModal?.();
             const tx = await burnNft(chainId, signer, selectedNftBurn.id);
             // await fetch(`${GAME_API}/directProcessBurnedNft?txHash=${tx.txHash}`);
             useRootStore.setState({ txHash: tx.txHash });
+            setBurning(false);
             toast.success("Burn success");
         } catch (error: any) {
-            setSubmitting(false);
+            setBurning(false);
             toast.error(
                 error?.error?.data?.message ||
                     error?.reason ||
@@ -409,17 +411,15 @@ export default function Game() {
                                     className="desktop:w-[182px] desktop:h-[250px] mobile:w-[150px] mobile:h-[200px]"
                                 />
                                 <div className="text-center text-white flex flex-col items-center mt-3">
-                                    <div
-                                        onClick={handleBurnNft}
-                                        className="flex justify-center items-center bg-[url('/assets/images/game-info-frame.png')] bg-no-repeat bg-cover bg-center w-[150px] h-[40px] relative"
-                                    >
-                                        <span
-                                            id="btnBurnNFT"
-                                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
-                                        >
-                                            Burn NFT
-                                        </span>
-                                    </div>
+                                    <Button
+                                        handler={handleBurnNft}
+                                        loading={submitting}
+                                        enable={true}
+                                        text="Burn NFT"
+                                        className={clsx(
+                                            "text-[16px] tablet:text-[16px] w-[160px] !pt-[51px]  "
+                                        )}
+                                    />
                                 </div>
                                 <div className="hidden tablet:block">
                                     <img src="/assets/images/my-nft.png" />
