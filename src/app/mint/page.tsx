@@ -1,8 +1,8 @@
 "use client";
 
 import Button from "@/components/Button";
-import { GAME_API, GRADE } from "@/configs";
-import { mintNft } from "@/services";
+import { GAME_API, GRADE, IS_PROD } from "@/configs";
+import { faucet, mintNft } from "@/services";
 import "@/styles/mint.css";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import clsx from "clsx";
@@ -20,6 +20,7 @@ export default function MintPage() {
 
     const [amount, setAmount] = useState<string>("1");
     const [submitting, setSubmitting] = useState<boolean>(false);
+    const [isFaucet, setIsFaucet] = useState<boolean>(false);
     const [gradeSubmitting, setGradeSubmitting] = useState<GRADE | undefined>();
 
     const handleMint = useCallback(
@@ -58,6 +59,32 @@ export default function MintPage() {
         [chainId, address, amount, signer, openConnectModal]
     );
 
+    const handleFaucet = useCallback(async () => {
+        try {
+            if (isFaucet) return;
+            if (!signer || !address) return openConnectModal?.();
+            setIsFaucet(true);
+            let tx = await faucet(chainId, signer!, address);
+            console.log("🚀 ~ file: page.tsx:68 ~ handleFaucet ~ tx:", tx);
+            // await fetch(`${GAME_API}/directProcessMintedNft?txHash=${tx.txHash}`);
+            setIsFaucet(false);
+            toast.success("Faucet success");
+        } catch (error: any) {
+            console.log(
+                "🚀 ~ file: page.tsx:72 ~ handleFaucet ~ error:",
+                error
+            );
+            setIsFaucet(false);
+            toast.error(
+                error?.error?.data?.message ||
+                    error?.reason ||
+                    error?.data?.message ||
+                    error?.message ||
+                    error
+            );
+        }
+    }, [chainId, address, signer, openConnectModal]);
+
     return (
         <div className="flex flex-col  justify-center items-center desktop:px-32 mobile:px-4 mobile:pb-8 desktop:pb-10 relative overflow-hidden desktop:pt-36 mobile:pt-32 gap-8 text-white">
             <div className="absolute top-0 left-0 opacity-10 -z-10">
@@ -83,6 +110,19 @@ export default function MintPage() {
                     each type of Box.)
                 </p>
             </div>
+            {!IS_PROD && (
+                <div className="flex justify-end">
+                    <Button
+                        handler={handleFaucet}
+                        loading={isFaucet}
+                        enable={true}
+                        text="Faucet"
+                        className={clsx(
+                            "text-[16px] tablet:text-[16px] w-[160px] !pt-[51px]"
+                        )}
+                    />
+                </div>
+            )}
             <div className="flex gap-[20px] max-tablet:gap-[10px] flex-wrap justify-center">
                 <div className="relative cursor-pointer w-[250px] bg-gradient-to-t from-white/10 to-white/5 rounded-[15px]">
                     {/* <img class="z-[1] absolute top-0 left-0" src="/assets/images/nft-wrapper.png" /> */}
