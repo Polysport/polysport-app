@@ -550,6 +550,105 @@ export default function Home() {
                     </div>
                 </div>
             </div>
+
+            <div className="max-w-[1280px] mx-auto px-2 tablet:px-10 mt-20 max-sm:mt-[60px] text-[#f1f1f1]">
+                <p className="text-[60px] max-sm:text-[30px] font-russo-one text-center text-[#f1f1f1]">
+                    Advisors
+                </p>
+
+                <div className="flex items-center justify-center mt-4">
+                    <Link href="https://gotbit.io/" target="_blank">
+                        <img
+                            src="/advisors/gotbit.png"
+                            alt="gotbit"
+                            className="h-[60px] tablet:h-[82px] w-auto"
+                        />
+                    </Link>
+                </div>
+            </div>
+
+            <div className="max-w-[1280px] mx-auto px-2 tablet:px-10 mt-20 max-sm:mt-[60px] text-[#f1f1f1]">
+                <p className="text-[60px] max-sm:text-[30px] font-russo-one text-center text-[#f1f1f1]">
+                    Partners
+                </p>
+
+                <div className="flex items-center justify-center mt-4 gap-x-10 gap-y-4 flex-wrap">
+                    <Link href="https://starkfinance.co/" target="_blank">
+                        <img
+                            src="/partners/starkfinance.png"
+                            alt="starkfinance"
+                            className="h-[60px] tablet:h-[82px] w-auto"
+                        />
+                    </Link>
+                    <Link
+                        href="https://app.galxe.com/Polysport"
+                        target="_blank"
+                    >
+                        <img
+                            src="/partners/galxe.png"
+                            alt="galxe"
+                            className="h-[60px] tablet:h-[82px] w-auto"
+                        />
+                    </Link>
+
+                    <Link
+                        href="https://www.coingecko.com/en/coins/polysport-finance"
+                        target="_blank"
+                    >
+                        <img
+                            src="/partners/coingecko.png"
+                            alt="coingecko"
+                            className="h-[60px] tablet:h-[82px] w-auto"
+                        />
+                    </Link>
+                    <Link href="https://www.pinksale.finance/" target="_blank">
+                        <img
+                            src="/partners/pinksale.png"
+                            alt="pinksale"
+                            className="h-[60px] tablet:h-[82px] w-auto"
+                        />
+                    </Link>
+                    <Link href="https://www.dexview.com/" target="_blank">
+                        <img
+                            src="/partners/dexview.png"
+                            alt="dexview"
+                            className="h-[60px] tablet:h-[82px] w-auto"
+                        />
+                    </Link>
+                </div>
+            </div>
+
+            <div className="max-w-[1280px] mx-auto px-2 tablet:px-10 mt-20 max-sm:mt-[60px] text-[#f1f1f1]">
+                <p className="text-[60px] max-sm:text-[30px] font-russo-one text-center text-[#f1f1f1]">
+                    Audits
+                </p>
+
+                <div className="flex flex-col tablet:flex-row items-center justify-center mt-4 gap-x-10 gap-y-4">
+                    <Link
+                        href="https://coinsult.net/projects/polysport"
+                        target="_blank"
+                    >
+                        <img
+                            src="/audits/coinsult.png"
+                            alt="coinsult"
+                            className="h-[60px] tablet:h-[82px] w-auto"
+                        />
+                    </Link>
+
+                    <Link
+                        href="https://www.verichains.io/?search=polysport"
+                        target="_blank"
+                    >
+                        {/* <div className="w-[400px] h-[82px]  relative "> */}
+                        <img
+                            src="/audits/verichains.png"
+                            alt="verichains"
+                            className="h-[80px] tablet:h-[100px] w-auto"
+                        />
+                        {/* </div> */}
+                    </Link>
+                </div>
+            </div>
         </div>
     );
 }
