@@ -402,9 +402,9 @@ export default function Game() {
                                 <img
                                     src={
                                         selectedNftBurn
-                                            ? `${selectedNftBurn.image}`
+                                            ? `/assets/images/player-card/${selectedNftBurn.nftId}.png`
                                             : userStats?.burnedNft
-                                            ? `${userStats.burnedNft.image}`
+                                            ? `/assets/images/player-card/${userStats.burnedNft.nftId}.png`
                                             : "/assets/images/card-back.png"
                                     }
                                     alt="NFT"
@@ -413,8 +413,8 @@ export default function Game() {
                                 <div className="text-center text-white flex flex-col items-center mt-3">
                                     <Button
                                         handler={handleBurnNft}
-                                        loading={submitting}
-                                        enable={true}
+                                        loading={burning}
+                                        // enable={true}
                                         text="Burn NFT"
                                         className={clsx(
                                             "text-[16px] tablet:text-[16px] w-[160px] !pt-[51px]  "

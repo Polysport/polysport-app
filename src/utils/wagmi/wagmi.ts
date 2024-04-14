@@ -1,5 +1,5 @@
 import { configureChains, createClient } from "wagmi";
-import { Chain, polygon, polygonMumbai } from "wagmi/chains";
+import { Chain, polygon } from "wagmi/chains";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { publicProvider } from "wagmi/providers/public";
@@ -15,11 +15,11 @@ import {
     connectorsForWallets,
     getDefaultWallets,
 } from "@rainbow-me/rainbowkit";
-import { ChainId } from "@/configs/type";
+import { ChainId, polygonAmoy } from "@/configs/type";
 
-export let CHAINS: Chain[] = [polygon, polygonMumbai];
+export let CHAINS: Chain[] = [polygon, polygonAmoy];
 
-let defaultChain: Chain = polygonMumbai;
+let defaultChain: Chain = polygonAmoy;
 if (process.env.NEXT_PUBLIC_MODE === "production") {
     defaultChain = polygon;
 }
