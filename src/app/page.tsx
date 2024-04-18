@@ -4,6 +4,7 @@ import Button from "@/components/Button";
 import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";
+import { truncatedAddress } from "@/utils/helper/address";
 
 const howToPlays = [
     "Prepare PLS tokens to mint boxes and MATIC to pay gas in your wallet",
@@ -112,6 +113,39 @@ export default function Home() {
                                     className="w-full h-full"
                                     src="/assets/images/FTX Token.svg"
                                 />
+                            </div>
+                        </div>
+
+                        <div className="text-[#f1f1f1]">
+                            <div className="flex gap-2 items-center">
+                                <div>$PLS on Polygon: </div>
+                                <Link
+                                    href="https://polygonscan.com/address/0x860Ca4c7A60dCdc045BA1012c27788860cFa565f"
+                                    target="_blank"
+                                >
+                                    <div className="text-[18px] font-extrabold">
+                                        {truncatedAddress(
+                                            "0x860Ca4c7A60dCdc045BA1012c27788860cFa565f",
+                                            6,
+                                            8
+                                        )}
+                                    </div>
+                                </Link>
+                            </div>
+                            <div className="flex gap-2 items-center">
+                                <div>$PLS on Solana: </div>
+                                <Link
+                                    href="https://solscan.io/token/TcbU77CtjBwRYsnRCncLdXGtCbNJ9faYHuM26q4bsvo"
+                                    target="_blank"
+                                >
+                                    <div className="text-[18px] font-extrabold">
+                                        {truncatedAddress(
+                                            "TcbU77CtjBwRYsnRCncLdXGtCbNJ9faYHuM26q4bsvo",
+                                            6,
+                                            8
+                                        )}
+                                    </div>
+                                </Link>
                             </div>
                         </div>
                     </div>
