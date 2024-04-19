@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { useState } from "react";
 import Game from "./components/Game";
 import Leaderboard from "./components/Leaderboard";
-import Withdraw from "./components/Withdraw";
+import Withdraw from "./components/WIthdraw";
 
 export default function GamePage() {
     const [activeTab, setActiveTab] = useState<number>(0);
