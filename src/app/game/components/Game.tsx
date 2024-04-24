@@ -36,6 +36,8 @@ type ICard = {
     win: number;
     nftId: boolean;
     reward: number | string;
+    flipped: boolean;
+    userFlipped: boolean;
 };
 
 export default function Game() {
@@ -65,7 +67,7 @@ export default function Game() {
         },
         {
             // refreshInterval: 60,
-            // revalidateOnMount: true,
+            revalidateOnMount: true,
         }
     );
 
@@ -105,7 +107,7 @@ export default function Game() {
         },
         {
             // refreshInterval: 60,
-            // revalidateOnMount: true,
+            revalidateOnMount: true,
         }
     );
 
@@ -204,6 +206,9 @@ export default function Game() {
 
             mutateStats({
                 ...userStats,
+                nfts: userStats.nfts.filter(
+                    (nft) => nft.id !== selectedNftBurn.id
+                ),
                 numOfFlip: selectedNftBurn.nftId,
                 cards: [],
             });
@@ -338,10 +343,18 @@ export default function Game() {
                             (c) => c.cardId === idx
                         );
 
+                        const userCardClicked = userStats?.cards?.find(
+                            (c) => c.cardId === idx && !!c.userFlipped
+                        );
+
                         return (
                             <div
                                 key={idx}
-                                className="card-game"
+                                className={clsx(
+                                    "card-game",
+                                    userCardClicked?.cardId == idx &&
+                                        "card-game-clicked"
+                                )}
                                 id="card-game"
                                 onClick={() => handleFlipCard(idx)}
                             >

@@ -1,13 +1,54 @@
 "use client";
 
+import { GAME_API } from "@/configs";
+import { ChainId } from "@/configs/type";
+import { getTokenBalance } from "@/services";
 import { truncatedAddress } from "@/utils/helper/address";
+import { numberWithCommas } from "@/utils/helper/number";
+import axios from "axios";
 import clsx from "clsx";
+import { ethers } from "ethers";
 import { useState } from "react";
+import useSWRImmutable from "swr/immutable";
+import { Address } from "wagmi";
 
 const TABS = ["Ranking NFT", "Ranking Winner"];
 
+type IUser = {
+    id: string;
+    accMinted: string;
+    accRewarded: string;
+};
+
 export default function Leaderboard() {
     const [activeTab, setActiveTab] = useState<number>(0);
+
+    const {
+        data,
+        isLoading: isLoadingUser,
+        mutate: mutateStats,
+    } = useSWRImmutable<{
+        topNft: IUser[];
+        topRewarded: IUser[];
+    }>(
+        ["leader"],
+        async () => {
+            const [topNft, topRewarded] = await Promise.all([
+                axios.get(`${GAME_API}/leader-board/nft`),
+                axios.get(`${GAME_API}/leader-board/rewarded`),
+            ]);
+            console.log(topNft.data, topRewarded.data);
+            return {
+                topNft: topNft.data,
+                topRewarded: topRewarded.data,
+            };
+        },
+        {
+            revalidateOnMount: true,
+        }
+    );
+
+    console.log(data);
 
     return (
         <section className="flex flex-col items-center justify-center gap-2">
@@ -37,10 +78,19 @@ export default function Leaderboard() {
                             >
                                 <div>{idx + 1}</div>
                                 <div className="col-span-2">
-                                    {truncatedAddress("0x0000000000000000000")}
+                                    {truncatedAddress(
+                                        data?.topNft[idx]?.id ??
+                                            "0x0000000000000000000"
+                                    )}
                                 </div>
                                 <div className="col-span-3 text-right">
-                                    0 PLS
+                                    {numberWithCommas(
+                                        ethers.utils.formatEther(
+                                            data?.topRewarded[idx]?.accMinted ??
+                                                "0"
+                                        )
+                                    )}{" "}
+                                    PLS
                                 </div>
                             </div>
                         ))}
@@ -58,10 +108,19 @@ export default function Leaderboard() {
                             >
                                 <div>{idx + 1}</div>
                                 <div className="col-span-2">
-                                    {truncatedAddress("0x0000000000000000000")}
+                                    {truncatedAddress(
+                                        data?.topRewarded[idx]?.id ??
+                                            "0x0000000000000000000"
+                                    )}
                                 </div>
                                 <div className="col-span-3 text-right">
-                                    0 PLS
+                                    {numberWithCommas(
+                                        ethers.utils.formatEther(
+                                            data?.topRewarded[idx]
+                                                ?.accRewarded ?? "0"
+                                        )
+                                    )}{" "}
+                                    PLS
                                 </div>
                             </div>
                         ))}
@@ -82,10 +141,19 @@ export default function Leaderboard() {
                             >
                                 <div>{idx + 1}</div>
                                 <div className="col-span-2">
-                                    {truncatedAddress("0x0000000000000000000")}
+                                    {truncatedAddress(
+                                        data?.topNft[idx]?.id ??
+                                            "0x0000000000000000000"
+                                    )}
                                 </div>
                                 <div className="col-span-3 text-right">
-                                    0 PLS
+                                    {numberWithCommas(
+                                        ethers.utils.formatEther(
+                                            data?.topRewarded[idx]?.accMinted ??
+                                                "0"
+                                        )
+                                    )}{" "}
+                                    PLS
                                 </div>
                             </div>
                         ))}
@@ -104,10 +172,19 @@ export default function Leaderboard() {
                             >
                                 <div>{idx + 1}</div>
                                 <div className="col-span-2">
-                                    {truncatedAddress("0x0000000000000000000")}
+                                    {truncatedAddress(
+                                        data?.topRewarded[idx]?.id ??
+                                            "0x0000000000000000000"
+                                    )}
                                 </div>
                                 <div className="col-span-3 text-right">
-                                    0 PLS
+                                    {numberWithCommas(
+                                        ethers.utils.formatEther(
+                                            data?.topRewarded[idx]
+                                                ?.accRewarded ?? "0"
+                                        )
+                                    )}{" "}
+                                    PLS
                                 </div>
                             </div>
                         ))}

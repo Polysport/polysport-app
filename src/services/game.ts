@@ -1,7 +1,7 @@
 import { ChainId } from "@/configs/type";
 import { getGamePoolContract } from "./getContract";
 import { getProvider } from "@/utils/wagmi/provider";
-import { BigNumber, Signer, ethers } from "ethers";
+import { BigNumber, ContractTransaction, Signer, ethers } from "ethers";
 import { getContract } from "@/utils/constracts/get-contracts";
 import { Address } from "wagmi";
 
@@ -46,14 +46,26 @@ export const createWithdraw = async (
         orderType,
         amount
     );
-    const tx = await gamePoolContract.createWithdraw(
+    const tx: ContractTransaction = await gamePoolContract.createWithdraw(
         getContract(chainId, "Token"),
         orderType,
         amount
     );
 
-    await tx.wait();
-    return tx;
+    const res = await tx.wait();
+    return res;
+};
+
+export const decodeWithdrawEvent = (chainId: ChainId, log: any) => {
+    const gamePoolContract = getGamePoolContract(
+        chainId!,
+        getProvider(chainId)
+    );
+    return gamePoolContract.interface.decodeEventLog(
+        "NewWithdrawOrder",
+        log.data,
+        log.topics
+    );
 };
 
 export const claim = async (

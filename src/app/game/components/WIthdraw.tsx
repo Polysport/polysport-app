@@ -7,6 +7,7 @@ import {
     EWithdrawOrder,
     claim,
     createWithdraw,
+    decodeWithdrawEvent,
     getUserRewarded,
 } from "@/services/game";
 import { numberWithCommas } from "@/utils/helper/number";
@@ -22,10 +23,20 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 
+const afterFee = (orderType: number) => {
+    switch (orderType) {
+        case 0:
+            return 65;
+        case 1:
+            return 80;
+        default:
+            return 100;
+    }
+};
+
 type IWithdraw = {
     id: number;
-    amount: number;
-    nftId: number;
+    amount: string;
     claimed: boolean;
     orderType: number;
     withdrawId: number;
@@ -67,6 +78,19 @@ export default function Withdraw() {
         EWithdrawOrder.NOW
     );
     const [submitting, setSubmitting] = useState<boolean>(false);
+    const [claiming, setClaiming] = useState<boolean>(false);
+
+    const getClaimTime = (orderType: number) => {
+        const now = Math.floor(Date.now() / 1000);
+        let time = 0;
+        if (orderType === 1) {
+            time = 86400;
+        } else if (orderType === 2) {
+            time = 259200;
+        }
+
+        return now + time;
+    };
 
     const handleWithdraw = useCallback(async () => {
         if (!signer) return openConnectModal?.();
@@ -76,6 +100,8 @@ export default function Withdraw() {
             if (submitting) return;
             setSubmitting(true);
             if (!signer) return openConnectModal?.();
+            if (!userStats?.rewarded || +userStats.rewarded <= 0)
+                return toast.error("You don't have any reward");
             const parsedAmount = ethers.utils.parseUnits(amount, 18);
             const tx = await createWithdraw(
                 chainId,
@@ -84,14 +110,37 @@ export default function Withdraw() {
                 parsedAmount
             );
 
-            // await fetch(`${GAME_API}/directProcessBurnedNft?txHash=${tx.txHash}`);
-            // useRootStore.setState({ txHash: tx.txHash });
+            const withdrawLog = tx.logs.find(
+                (log: any) =>
+                    log.topics[0] ===
+                    "0x87b7a9691174b1e582a55e4c8632edfdf49abf8120c0abb8a9c69e08f3d3ac82"
+            )!;
+            const event = decodeWithdrawEvent(chainId, withdrawLog);
 
-            // mutateStats({
-            //     ...userStats,
-            //     numOfFlip: selectedNftBurn.nftId,
-            //     cards: [],
-            // });
+            const block = await signer.provider?.getBlock(
+                withdrawLog.blockNumber
+            );
+
+            mutateStats({
+                ...userStats,
+                withdraws: [
+                    {
+                        id: Math.random(),
+                        amount: amount,
+                        claimed: orderType === 0 ? true : false,
+                        orderType: orderType,
+                        withdrawId: event.orderId,
+                        claimTime: block?.timestamp ?? getClaimTime(orderType),
+                    },
+                    ...userStats.withdraws,
+                ],
+                rewarded: ethers.utils.formatUnits(
+                    ethers.utils
+                        .parseUnits(userStats.rewarded, 18)
+                        .sub(parsedAmount)
+                        .toString()
+                ),
+            });
 
             setSubmitting(false);
             toast.success("Create withdraw success");
@@ -113,8 +162,9 @@ export default function Withdraw() {
             // if (!selectedNftBurn || !userStats) return;
 
             try {
-                if (submitting) return;
-                setSubmitting(true);
+                if (claiming) return;
+                setClaiming(true);
+
                 if (!signer) return openConnectModal?.();
 
                 const tx = await claim(chainId, signer, orderId);
@@ -122,16 +172,21 @@ export default function Withdraw() {
                 // await fetch(`${GAME_API}/directProcessBurnedNft?txHash=${tx.txHash}`);
                 // useRootStore.setState({ txHash: tx.txHash });
 
-                // mutateStats({
-                //     ...userStats,
-                //     numOfFlip: selectedNftBurn.nftId,
-                //     cards: [],
-                // });
+                // const idx = userStats?.withdraws.findIndex(
+                //     (w) => w.withdrawId == orderId
+                // );
 
-                setSubmitting(false);
+                // if (typeof idx !== "undefined") {
+                //     mutateStats({
+                //         ...userStats,
+                //         withdraws: [...(userStats?.withdraws ?? []).slice()],
+                //     });
+                // }
+
+                setClaiming(false);
                 toast.success("Create withdraw success");
             } catch (error: any) {
-                setSubmitting(false);
+                setClaiming(false);
                 toast.error(
                     error?.error?.data?.message ||
                         error?.reason ||
@@ -146,68 +201,89 @@ export default function Withdraw() {
 
     return (
         <section className="grid desktop:grid-cols-2 justify-stretch gap-x-2 gap-y-4 bg-[#1A1C24] p-2 border border-[#2D313E] rounded-2xl">
-            <div className="tablet:col-span-">
-                <input
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    className={clsx(
-                        "border border-[#2D313E] placeholder:opacity-30 appearance-none block w-full bg-[#0D0E12] rounded-2xl p-3 leading-tight focus:outline-none focus:bg-[#0D0E12]"
-                    )}
-                    type="text"
-                    placeholder="Enter amount"
-                />
-            </div>
-            <div className="flex flex-col gap-2">
-                <div className="flex justify-between tablet:justify-start gap-1">
-                    <div
-                        className={clsx(
-                            "border border-[#B920ED] rounded-2xl px-2 py-1 cursor-pointer",
-                            {
-                                "button-play-game":
-                                    orderType == EWithdrawOrder.NOW,
-                            }
-                        )}
-                        onClick={() => setOrderType(EWithdrawOrder.NOW)}
-                    >
-                        Now (65%)
+            <div className="grid gap-x-2 gap-y-4">
+                <div className="tablet:row-span-2">
+                    <div className="relative">
+                        <input
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            className={clsx(
+                                "border border-[#2D313E] placeholder:opacity-30 appearance-none block w-full bg-[#0D0E12] rounded-2xl p-3 leading-tight focus:outline-none focus:bg-[#0D0E12]"
+                            )}
+                            type="text"
+                            placeholder="Enter amount"
+                        />
+                        <div
+                            onClick={() => setAmount(userStats?.rewarded ?? "")}
+                            className="cursor-pointer text-[14px] bg-[#F1F1F1] rounded-lg text-[#0D0E12] p-1 font-bold absolute right-2 top-1/2 -translate-y-1/2"
+                        >
+                            MAX
+                        </div>
                     </div>
 
-                    <div
-                        className={clsx(
-                            "border border-[#B920ED] rounded-2xl px-2 py-1 cursor-pointer",
-                            {
-                                "button-play-game":
-                                    orderType == EWithdrawOrder.ONE_DAY,
-                            }
-                        )}
-                        onClick={() => setOrderType(EWithdrawOrder.ONE_DAY)}
-                    >
-                        24h (80%)
-                    </div>
-
-                    <div
-                        className={clsx(
-                            "border border-[#B920ED] rounded-2xl px-2 py-1 cursor-pointer",
-                            {
-                                "button-play-game":
-                                    orderType == EWithdrawOrder.THREE_DAY,
-                            }
-                        )}
-                        onClick={() => setOrderType(EWithdrawOrder.THREE_DAY)}
-                    >
-                        72h (100%)
+                    <div className="pt-2 flex items-center justify-between">
+                        <div className="text-[14px] text-[#C6C6C6]">
+                            PLS reward:
+                        </div>
+                        <div className="font-bold">
+                            {numberWithCommas(userStats?.rewarded)} PLS
+                        </div>
                     </div>
                 </div>
-                <div className="flex justify-center">
-                    <Button
-                        handler={handleWithdraw}
-                        loading={submitting}
-                        // enable={true}
-                        text="Withdraw"
-                        className={clsx(
-                            "text-[16px] tablet:text-[16px] w-[160px] !pt-[51px]  "
-                        )}
-                    />
+                <div className="flex flex-col gap-2">
+                    <div className="flex justify-between tablet:justify-start gap-1">
+                        <div
+                            className={clsx(
+                                "border border-[#B920ED] rounded-2xl px-2 py-1 cursor-pointer",
+                                {
+                                    "button-play-game":
+                                        orderType == EWithdrawOrder.NOW,
+                                }
+                            )}
+                            onClick={() => setOrderType(EWithdrawOrder.NOW)}
+                        >
+                            Now (65%)
+                        </div>
+
+                        <div
+                            className={clsx(
+                                "border border-[#B920ED] rounded-2xl px-2 py-1 cursor-pointer",
+                                {
+                                    "button-play-game":
+                                        orderType == EWithdrawOrder.ONE_DAY,
+                                }
+                            )}
+                            onClick={() => setOrderType(EWithdrawOrder.ONE_DAY)}
+                        >
+                            24h (80%)
+                        </div>
+
+                        <div
+                            className={clsx(
+                                "border border-[#B920ED] rounded-2xl px-2 py-1 cursor-pointer",
+                                {
+                                    "button-play-game":
+                                        orderType == EWithdrawOrder.THREE_DAY,
+                                }
+                            )}
+                            onClick={() =>
+                                setOrderType(EWithdrawOrder.THREE_DAY)
+                            }
+                        >
+                            72h (100%)
+                        </div>
+                    </div>
+                    <div className="flex justify-center">
+                        <Button
+                            handler={handleWithdraw}
+                            loading={submitting}
+                            // enable={true}
+                            text="Withdraw"
+                            className={clsx(
+                                "text-[16px] tablet:text-[16px] w-[160px] !pt-[51px]  "
+                            )}
+                        />
+                    </div>
                 </div>
             </div>
             <div className="p-2 border border-[#2D313E] rounded-2xl">
@@ -221,7 +297,7 @@ export default function Withdraw() {
                 </ul>
             </div>
 
-            <div className="p-2 border border-[#2D313E] rounded-2xl">
+            <div className="p-2 border border-[#2D313E] rounded-2xl desktop:col-span-2">
                 <div className="text-[18px] font-bold border-b border-b-[#2D313E] py-2">
                     Withdraw History:
                 </div>
@@ -243,12 +319,15 @@ export default function Withdraw() {
                             UTC
                         </div>
                         <div className="text-[#F1F1F1] text-right flex flex-col justify-center">
-                            {numberWithCommas(w.amount)} PLS
+                            {numberWithCommas(
+                                (+w.amount * afterFee(w.orderType)) / 100
+                            )}{" "}
+                            PLS
                         </div>
                         <div className="col-span-2 tablet:col-span-1 flex justify-center tablet:justify-end">
                             <Button
                                 handler={() => handleClaim(w.withdrawId)}
-                                loading={submitting}
+                                loading={claiming}
                                 enable={!w.claimed}
                                 text={!w.claimed ? "Claim" : "Claimed"}
                                 className={clsx("text-[16px] !pt-[30px]")}

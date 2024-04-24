@@ -111,9 +111,21 @@
                 "type": "address"
             },
             {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "orderType",
+                "type": "uint256"
+            },
+            {
                 "indexed": false,
                 "internalType": "uint256",
                 "name": "orderId",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amount",
                 "type": "uint256"
             }
         ],
