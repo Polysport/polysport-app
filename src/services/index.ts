@@ -20,6 +20,20 @@ export const getTokenBalance = async (chainId: ChainId, address: Address) => {
     }
 };
 
+export const faucet = async (
+    chainId: ChainId,
+    signer: ethers.Signer,
+    address: Address
+) => {
+    const tokenContract = getTokenContract(chainId!, signer);
+    const tx = await tokenContract.mint(
+        address,
+        ethers.utils.parseEther("1000")
+    );
+    await tx.wait();
+    return tx;
+};
+
 export const getUSDTBalance = async (chainId: ChainId, address: Address) => {
     try {
         const usdtContract = getUSDTContract(chainId!, getProvider(chainId));
@@ -32,14 +46,21 @@ export const getUSDTBalance = async (chainId: ChainId, address: Address) => {
 
 export const mintNft = async (
     chainId: ChainId,
-    account: string,
+    account: Address,
     signer: ethers.Signer,
-    grade: GRADE
+    grade: GRADE,
+    amount: number
 ) => {
     const tokenContract = getTokenContract(chainId!, signer);
     const nftContract = getNftContract(chainId!, signer);
 
-    const tokenAmount = ethers.utils.parseEther(GRADE_PRICE[grade]);
+    const tokenAmount = ethers.utils
+        .parseEther(GRADE_PRICE[grade])
+        .mul(BigNumber.from(amount));
+
+    const balance: BigNumber = await tokenContract.balanceOf(account);
+
+    if (balance.lt(tokenAmount)) throw new Error("Insufficient Funds");
 
     const allowance: BigNumber = await tokenContract.allowance(
         account,
@@ -54,9 +75,9 @@ export const mintNft = async (
         await approveTx.wait();
     }
 
-    await nftContract.callStatic.mint(1, +grade);
+    await nftContract.callStatic.mint(amount, +grade);
     const tx: ethers.providers.TransactionResponse = await nftContract.mint(
-        1,
+        amount,
         +grade
     );
     const result: ethers.providers.TransactionReceipt = await tx.wait();

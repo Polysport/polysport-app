@@ -1,5 +1,5 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-    siteUrl: "https://dino-farm.vercel.app/",
+    siteUrl: "https://www.polysport.finance/",
     generateRobotsTxt: true,
 };

@@ -6,7 +6,9 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { IS_PROD } from "@/configs";
+// import { IS_PROD } from "@/configs";
+
+const IS_PROD = false;
 
 export default function Header() {
     const pathName = usePathname();

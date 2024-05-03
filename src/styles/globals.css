@@ -408,6 +408,44 @@ span.text-primary {
 #card-game {
     background-color: transparent;
     cursor: pointer;
+    position: relative;
+}
+
+.card-game-clicked {
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+}
+
+.card-game-clicked::before,
+.card-game-clicked::after {
+    /* Create pseudo-elements for the glowing border */
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 3px solid transparent; /* Base border */
+    animation: neon 1.5s ease-in-out infinite alternate;
+}
+
+.card-game-clicked::after {
+    /* Offset the second pseudo-element for a glowing effect */
+    animation-delay: 0.5s;
+}
+
+@keyframes neon {
+    from {
+        /* Start with a dark outer glow */
+        box-shadow: 0 0 4px #fff, 0 0 8px #fff, 0 0 12px #fff,
+            0 0 16px rgba(255, 255, 255, 0.2);
+    }
+    to {
+        /* Animate to a brighter inner glow */
+        box-shadow: 0 0 4px #fff, 0 0 8px #fff, 0 0 12px #fff,
+            0 0 16px rgba(255, 255, 255, 0.5);
+    }
 }
 
 #card-game-inner {

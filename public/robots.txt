@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://dino-farm.vercel.app/
+Host: https://www.polysport.finance/
 
 # Sitemaps
-Sitemap: https://dino-farm.vercel.app/sitemap.xml
+Sitemap: https://www.polysport.finance/sitemap.xml
