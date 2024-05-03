@@ -6,12 +6,21 @@ import { faucet, mintNft } from "@/services";
 import "@/styles/mint.css";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import clsx from "clsx";
-import { add } from "lodash";
 import { useCallback, useState } from "react";
 import { toast } from "react-toastify";
 import { useAccount, useChainId, useSigner } from "wagmi";
 
-export default function MintPage() {
+const Box = ({
+    name,
+    icon,
+    pls,
+    grade,
+}: {
+    name: string;
+    icon: string;
+    pls: string | number;
+    grade: GRADE;
+}) => {
     const chainId = useChainId();
     const { address } = useAccount();
     const { data: signer } = useSigner();
@@ -20,44 +29,80 @@ export default function MintPage() {
 
     const [amount, setAmount] = useState<string>("1");
     const [submitting, setSubmitting] = useState<boolean>(false);
-    const [isFaucet, setIsFaucet] = useState<boolean>(false);
-    const [gradeSubmitting, setGradeSubmitting] = useState<GRADE | undefined>();
 
-    const handleMint = useCallback(
-        async (grade: GRADE) => {
-            try {
-                if (submitting) return;
-                if (!signer || !address) return openConnectModal?.();
-                if (!amount || isNaN(+amount))
-                    return toast.warn("Invalid mint amount");
-                setSubmitting(true);
-                setGradeSubmitting(grade);
-                let tx = await mintNft(
-                    chainId,
-                    address,
-                    signer!,
-                    grade,
-                    +amount
-                );
-                // await fetch(`${GAME_API}/directProcessMintedNft?txHash=${tx.txHash}`);
-                setGradeSubmitting(undefined);
-                setSubmitting(false);
+    const handleMint = useCallback(async () => {
+        try {
+            if (submitting) return;
+            if (!signer || !address) return openConnectModal?.();
+            if (!amount || isNaN(+amount))
+                return toast.warn("Invalid mint amount");
+            setSubmitting(true);
+            // setGradeSubmitting(grade);
+            let tx = await mintNft(chainId, address, signer!, grade, +amount);
+            // await fetch(`${GAME_API}/directProcessMintedNft?txHash=${tx.txHash}`);
+            setSubmitting(false);
 
-                toast.success("Mint success");
-            } catch (error: any) {
-                setGradeSubmitting(undefined);
-                setSubmitting(false);
-                toast.error(
-                    error?.error?.data?.message ||
-                        error?.reason ||
-                        error?.data?.message ||
-                        error?.message ||
-                        error
-                );
-            }
-        },
-        [chainId, address, amount, signer, openConnectModal]
+            toast.success("Mint success");
+        } catch (error: any) {
+            setSubmitting(false);
+            toast.error(
+                error?.error?.data?.message ||
+                    error?.reason ||
+                    error?.data?.message ||
+                    error?.message ||
+                    error
+            );
+        }
+    }, [chainId, address, amount, signer, openConnectModal]);
+
+    return (
+        <div className="relative cursor-pointer w-[250px] bg-gradient-to-t from-white/10 to-white/5 rounded-[15px]">
+            {/* <img class="z-[1] absolute top-0 left-0" src="/assets/images/nft-wrapper.png" /> */}
+            <div className="relative z-[2] px-4 py-[10px] flex flex-col items-center justify-center gap-2">
+                <div className="flex justify-center shadow-box-mint rounded-2xl">
+                    <img src={icon} alt="box" />
+                </div>
+                <div>
+                    <p className="text-[18px] font-semibold text-center text-stroke">
+                        {name} Box
+                    </p>
+                    <p className="text-[18px] font-semibold text-center">
+                        {pls} PLS
+                    </p>
+                </div>
+
+                <input
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    className={clsx(
+                        "max-w-[160px] text-center border border-[#2D313E] placeholder:opacity-30 appearance-none block w-full bg-[#0D0E12] rounded-2xl p-2 leading-tight focus:outline-none focus:bg-[#0D0E12]"
+                    )}
+                    type="text"
+                    placeholder="Enter amount"
+                />
+
+                <Button
+                    handler={handleMint}
+                    loading={submitting}
+                    enable={true}
+                    text="Mint"
+                    className={clsx(
+                        "text-[16px] tablet:text-[16px] w-[160px] !pt-[51px]  "
+                    )}
+                />
+            </div>
+        </div>
     );
+};
+
+export default function MintPage() {
+    const chainId = useChainId();
+    const { address } = useAccount();
+    const { data: signer } = useSigner();
+
+    const { openConnectModal } = useConnectModal();
+
+    const [isFaucet, setIsFaucet] = useState<boolean>(false);
 
     const handleFaucet = useCallback(async () => {
         try {
@@ -110,125 +155,38 @@ export default function MintPage() {
                     each type of Box.)
                 </p>
             </div>
-            {!IS_PROD && (
-                <div className="flex justify-end">
-                    <Button
-                        handler={handleFaucet}
-                        loading={isFaucet}
-                        enable={true}
-                        text="Faucet"
-                        className={clsx(
-                            "text-[16px] tablet:text-[16px] w-[160px] !pt-[51px]"
-                        )}
-                    />
-                </div>
-            )}
+            {/* {!IS_PROD && ( */}
+            <div className="flex justify-end">
+                <Button
+                    handler={handleFaucet}
+                    loading={isFaucet}
+                    enable={true}
+                    text="Faucet"
+                    className={clsx(
+                        "text-[16px] tablet:text-[16px] w-[160px] !pt-[51px]"
+                    )}
+                />
+            </div>
+            {/* )} */}
             <div className="flex gap-[20px] max-tablet:gap-[10px] flex-wrap justify-center">
-                <div className="relative cursor-pointer w-[250px] bg-gradient-to-t from-white/10 to-white/5 rounded-[15px]">
-                    {/* <img class="z-[1] absolute top-0 left-0" src="/assets/images/nft-wrapper.png" /> */}
-                    <div className="relative z-[2] px-4 py-[10px] flex flex-col items-center justify-center gap-2">
-                        <div className="flex justify-center shadow-box-mint rounded-2xl">
-                            <img src="/assets/box/3.gif" />
-                        </div>
-                        <div>
-                            <p className="text-[18px] font-semibold text-center text-stroke">
-                                Bronze Box
-                            </p>
-                            <p className="text-[18px] font-semibold text-center">
-                                100 PLS
-                            </p>
-                        </div>
-
-                        <input
-                            value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
-                            className={clsx(
-                                "max-w-[160px] text-center border border-[#2D313E] placeholder:opacity-30 appearance-none block w-full bg-[#0D0E12] rounded-2xl p-2 leading-tight focus:outline-none focus:bg-[#0D0E12]"
-                            )}
-                            type="text"
-                            placeholder="Enter amount"
-                        />
-
-                        <Button
-                            handler={() => handleMint(GRADE.BRONZE)}
-                            loading={submitting}
-                            enable={true}
-                            text="Mint"
-                            className={clsx(
-                                "text-[16px] tablet:text-[16px] w-[160px] !pt-[51px]  "
-                            )}
-                        />
-                    </div>
-                </div>
-                <div className="relative cursor-pointer w-[250px] bg-gradient-to-t from-white/10 to-white/5 rounded-[15px]">
-                    <div className="relative z-[2] px-4 py-[10px] flex flex-col items-center justify-center gap-2">
-                        <div className="flex justify-center shadow-box-mint rounded-2xl">
-                            <img src="/assets/box/2.gif" />
-                        </div>
-                        <div>
-                            <p className="text-[18px] font-semibold text-center text-stroke">
-                                Silver Box
-                            </p>
-                            <p className="text-[18px] font-semibold text-center">
-                                200 PLS
-                            </p>
-                        </div>
-                        <input
-                            value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
-                            className={clsx(
-                                "max-w-[160px] text-center border border-[#2D313E] placeholder:opacity-30 appearance-none block w-full bg-[#0D0E12] rounded-2xl p-2 leading-tight focus:outline-none focus:bg-[#0D0E12]"
-                            )}
-                            type="text"
-                            placeholder="Enter amount"
-                        />
-
-                        <Button
-                            handler={() => handleMint(GRADE.SILVER)}
-                            loading={submitting}
-                            enable={true}
-                            text="Mint"
-                            className={clsx(
-                                "text-[16px] tablet:text-[16px] w-[160px] !pt-[51px]  "
-                            )}
-                        />
-                    </div>
-                </div>
-                <div className="relative cursor-pointer w-[250px] bg-gradient-to-t from-white/10 to-white/5 rounded-[15px]">
-                    {/* <img class="z-[1] absolute top-0 left-0" src="/assets/images/nft-wrapper.png" /> */}
-                    <div className="relative z-[2] px-4 py-[10px] flex flex-col items-center justify-center gap-2">
-                        <div className="flex justify-center shadow-box-mint rounded-2xl">
-                            <img src="/assets/box/1.gif" />
-                        </div>
-                        <div>
-                            <p className="text-[18px] font-semibold text-center text-stroke">
-                                Gold Box
-                            </p>
-                            <p className="text-[18px] font-semibold text-center">
-                                300 PLS
-                            </p>
-                        </div>
-                        <input
-                            value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
-                            className={clsx(
-                                "max-w-[160px] text-center border border-[#2D313E] placeholder:opacity-30 appearance-none block w-full bg-[#0D0E12] rounded-2xl p-2 leading-tight focus:outline-none focus:bg-[#0D0E12]"
-                            )}
-                            type="text"
-                            placeholder="Enter amount"
-                        />
-
-                        <Button
-                            handler={() => handleMint(GRADE.GOLD)}
-                            loading={submitting}
-                            enable={true}
-                            text="Mint"
-                            className={clsx(
-                                "text-[16px] tablet:text-[16px] w-[160px] !pt-[51px]  "
-                            )}
-                        />
-                    </div>
-                </div>
+                <Box
+                    name="Bonze"
+                    icon="/assets/box/3.gif"
+                    pls="100"
+                    grade={GRADE.BRONZE}
+                />
+                <Box
+                    name="Silver"
+                    icon="/assets/box/2.gif"
+                    pls="200"
+                    grade={GRADE.SILVER}
+                />
+                <Box
+                    name="Gold"
+                    icon="/assets/box/1.gif"
+                    pls="300"
+                    grade={GRADE.GOLD}
+                />
             </div>
         </div>
     );

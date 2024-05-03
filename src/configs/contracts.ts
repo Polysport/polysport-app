@@ -5,11 +5,11 @@ export const CONTRACTS: {
     [chainId in ChainId]: { [key: string]: Address };
 } = {
     [ChainId.POLYGON]: {
-        // Token: "0x860Ca4c7A60dCdc045BA1012c27788860cFa565f",
+        Token: "0x860Ca4c7A60dCdc045BA1012c27788860cFa565f",
         USDT: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
         IDO: "0xBf802e7E9777e8C753e4f071F541Ecb8f858d874",
-        NFT: "0x1C8239B5547b3939547f254C17F5568f360E9db5",
-        Token: "0x3B95dD4B8a6F476DBb81a16835d6aE39dD4e34f5", // TEST token
+        NFT: "0xA074aa0032B8352B5c168Caad21F181C703e2C6e",
+        // Token: "0x3B95dD4B8a6F476DBb81a16835d6aE39dD4e34f5", // TEST token
         GAME_POOL: "0xA76395ba5B15118a1522a18b4c70619886a693fB",
     },
     [ChainId.POLYGON_AMOY]: {

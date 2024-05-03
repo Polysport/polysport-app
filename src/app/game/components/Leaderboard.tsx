@@ -37,7 +37,6 @@ export default function Leaderboard() {
                 axios.get(`${GAME_API}/leader-board/nft`),
                 axios.get(`${GAME_API}/leader-board/rewarded`),
             ]);
-            console.log(topNft.data, topRewarded.data);
             return {
                 topNft: topNft.data,
                 topRewarded: topRewarded.data,
@@ -47,8 +46,6 @@ export default function Leaderboard() {
             revalidateOnMount: true,
         }
     );
-
-    console.log(data);
 
     return (
         <section className="flex flex-col items-center justify-center gap-2">
@@ -85,12 +82,9 @@ export default function Leaderboard() {
                                 </div>
                                 <div className="col-span-3 text-right">
                                     {numberWithCommas(
-                                        ethers.utils.formatEther(
-                                            data?.topRewarded[idx]?.accMinted ??
-                                                "0"
-                                        )
+                                        data?.topNft[idx]?.accMinted ?? "0"
                                     )}{" "}
-                                    PLS
+                                    NFT
                                 </div>
                             </div>
                         ))}
@@ -148,12 +142,9 @@ export default function Leaderboard() {
                                 </div>
                                 <div className="col-span-3 text-right">
                                     {numberWithCommas(
-                                        ethers.utils.formatEther(
-                                            data?.topRewarded[idx]?.accMinted ??
-                                                "0"
-                                        )
+                                        data?.topNft[idx]?.accMinted ?? "0"
                                     )}{" "}
-                                    PLS
+                                    NFT
                                 </div>
                             </div>
                         ))}

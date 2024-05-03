@@ -17,7 +17,7 @@ export const GRADE_PRICE = {
     [GRADE.GOLD]: "300",
 };
 
-export const GAME_API = "http://localhost:5000/game";
-// export const GAME_API = "https://api.polysport.finance/game";
+// export const GAME_API = "http://localhost:5000/game";
+export const GAME_API = "https://api.polysport.finance/game";
 
 export const IS_PROD: boolean = process.env.NEXT_PUBLIC_MODE === "production";

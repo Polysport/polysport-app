@@ -41,13 +41,10 @@ export const createWithdraw = async (
     amount: BigNumber
 ) => {
     const gamePoolContract = getGamePoolContract(chainId!, signer);
-    await gamePoolContract.estimateGas.createWithdraw(
-        getContract(chainId, "Token"),
-        orderType,
-        amount
-    );
+    const token = getContract(chainId, "Token");
+    await gamePoolContract.estimateGas.createWithdraw(token, orderType, amount);
     const tx: ContractTransaction = await gamePoolContract.createWithdraw(
-        getContract(chainId, "Token"),
+        token,
         orderType,
         amount
     );
@@ -74,14 +71,9 @@ export const claim = async (
     orderId: BigNumber | number | string
 ) => {
     const gamePoolContract = getGamePoolContract(chainId!, signer);
-    await gamePoolContract.estimateGas.claim(
-        getContract(chainId, "Token"),
-        orderId
-    );
-    const tx = await gamePoolContract.claim(
-        getContract(chainId, "Token"),
-        orderId
-    );
+    const token = getContract(chainId, "Token");
+    await gamePoolContract.estimateGas.claim(token, orderId);
+    const tx = await gamePoolContract.claim(token, orderId);
 
     await tx.wait();
     return tx;

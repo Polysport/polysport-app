@@ -201,7 +201,9 @@ export default function Game() {
             setBurning(true);
             if (!signer) return openConnectModal?.();
             const tx = await burnNft(chainId, signer, selectedNftBurn.id);
-            // await fetch(`${GAME_API}/directProcessBurnedNft?txHash=${tx.txHash}`);
+            await axios.post(`${GAME_API}/burn`, {
+                txHash: tx.txHash,
+            });
             // useRootStore.setState({ txHash: tx.txHash });
 
             mutateStats({
