@@ -422,7 +422,7 @@ export default function Withdraw() {
                         <div className="skeleton h-8 rounded-2xl bg-[#2D313E]" />
                     </div>
                 ) : (
-                    userStats?.withdraws.map((w, idx) => (
+                    userStats?.withdraws?.map((w, idx) => (
                         <WithdrawItem
                             key={idx}
                             idx={idx}
