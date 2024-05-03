@@ -155,19 +155,7 @@ export default function MintPage() {
                     each type of Box.)
                 </p>
             </div>
-            {/* {!IS_PROD && ( */}
-            <div className="flex justify-end">
-                <Button
-                    handler={handleFaucet}
-                    loading={isFaucet}
-                    enable={true}
-                    text="Faucet"
-                    className={clsx(
-                        "text-[16px] tablet:text-[16px] w-[160px] !pt-[51px]"
-                    )}
-                />
-            </div>
-            {/* )} */}
+
             <div className="flex gap-[20px] max-tablet:gap-[10px] flex-wrap justify-center">
                 <Box
                     name="Bonze"
