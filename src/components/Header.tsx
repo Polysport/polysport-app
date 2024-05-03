@@ -6,9 +6,6 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-// import { IS_PROD } from "@/configs";
-
-const IS_PROD = false;
 
 export default function Header() {
     const pathName = usePathname();
@@ -68,19 +65,11 @@ export default function Header() {
                             <>
                                 <div
                                     className={clsx(
-                                        "relative overflow-hidden header-item",
-                                        {
-                                            "brightness-50": IS_PROD,
-                                        }
+                                        "relative overflow-hidden header-item"
                                     )}
                                 >
                                     <Link href="/mint" className="">
                                         Mint NFT
-                                        {IS_PROD && (
-                                            <div className="text-right text-[9px]">
-                                                Soon
-                                            </div>
-                                        )}
                                     </Link>
                                     <div className="h-[2px] bg-white animation-header-item" />
                                 </div>
@@ -92,10 +81,7 @@ export default function Header() {
               </div> */}
                                 <div
                                     className={clsx(
-                                        "relative overflow-hidden header-item",
-                                        {
-                                            "brightness-50": IS_PROD,
-                                        }
+                                        "relative overflow-hidden header-item"
                                     )}
                                 >
                                     <Link
@@ -103,11 +89,6 @@ export default function Header() {
                                         className="cursor-pointer"
                                     >
                                         Game
-                                        {IS_PROD && (
-                                            <div className="text-right text-[9px]">
-                                                Soon
-                                            </div>
-                                        )}
                                     </Link>
                                     <div className="h-[2px] bg-white animation-header-item" />
                                 </div>
@@ -127,17 +108,12 @@ export default function Header() {
                                 </Link>
                                 <div className="h-[2px] bg-white animation-header-item" />
                             </div>
-                            {IS_PROD && (
-                                <div className="relative overflow-hidden header-item">
-                                    <Link
-                                        href="/ido"
-                                        className="cursor-pointer"
-                                    >
-                                        IDO
-                                    </Link>
-                                    <div className="h-[2px] bg-white animation-header-item" />
-                                </div>
-                            )}
+                            <div className="relative overflow-hidden header-item">
+                                <Link href="/ido" className="cursor-pointer">
+                                    IDO
+                                </Link>
+                                <div className="h-[2px] bg-white animation-header-item" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -159,34 +135,18 @@ export default function Header() {
                     <Link
                         href="/mint"
                         className={clsx(
-                            "text-end font-medium hover:font-semibold relative",
-                            {
-                                "brightness-50": IS_PROD,
-                            }
+                            "text-end font-medium hover:font-semibold relative"
                         )}
                     >
                         Mint NFT
-                        {IS_PROD && (
-                            <div className="absolute right-0 top-[90%] text-right text-[9px]">
-                                Soon
-                            </div>
-                        )}
                     </Link>
                     <Link
                         href="/game"
                         className={clsx(
-                            "text-end font-medium hover:font-semibold relative",
-                            {
-                                "brightness-50": IS_PROD,
-                            }
+                            "text-end font-medium hover:font-semibold relative"
                         )}
                     >
                         Game
-                        {IS_PROD && (
-                            <div className="absolute right-0 top-[90%] text-right text-[9px]">
-                                Soon
-                            </div>
-                        )}
                     </Link>
                     <Link
                         href="https://polysport.gitbook.io/polysport/development/contact-us"
@@ -195,14 +155,12 @@ export default function Header() {
                     >
                         Document
                     </Link>
-                    {IS_PROD && (
-                        <Link
-                            href="/ido"
-                            className="text-end font-medium hover:font-semibold"
-                        >
-                            IDO
-                        </Link>
-                    )}
+                    <Link
+                        href="/ido"
+                        className="text-end font-medium hover:font-semibold"
+                    >
+                        IDO
+                    </Link>
                 </div>
             </div>
         </div>
