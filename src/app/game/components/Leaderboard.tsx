@@ -17,7 +17,7 @@ const TABS = ["Ranking NFT", "Ranking Winner"];
 type IUser = {
     id: string;
     accMinted: string;
-    accRewarded: string;
+    rewarded: string;
 };
 
 export default function Leaderboard() {
@@ -110,8 +110,8 @@ export default function Leaderboard() {
                                 <div className="col-span-3 text-right">
                                     {numberWithCommas(
                                         ethers.utils.formatEther(
-                                            data?.topRewarded[idx]
-                                                ?.accRewarded ?? "0"
+                                            data?.topRewarded[idx]?.rewarded ??
+                                                "0"
                                         )
                                     )}{" "}
                                     PLS
@@ -171,8 +171,8 @@ export default function Leaderboard() {
                                 <div className="col-span-3 text-right">
                                     {numberWithCommas(
                                         ethers.utils.formatEther(
-                                            data?.topRewarded[idx]
-                                                ?.accRewarded ?? "0"
+                                            data?.topRewarded[idx]?.rewarded ??
+                                                "0"
                                         )
                                     )}{" "}
                                     PLS
