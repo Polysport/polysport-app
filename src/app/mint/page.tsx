@@ -158,7 +158,7 @@ export default function MintPage() {
 
             <div className="flex gap-[20px] max-tablet:gap-[10px] flex-wrap justify-center">
                 <Box
-                    name="Bonze"
+                    name="Bronze"
                     icon="/assets/box/3.gif"
                     pls="100"
                     grade={GRADE.BRONZE}
